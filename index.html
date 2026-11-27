@@ -9,7 +9,6 @@
     --primary: #0b4628;
     --secondary: #155e9c;
     --gold: #d4af37;
-    --accent: #b91c1c;
     --bg: linear-gradient(135deg, #dcfce7 0%, #fef9c3 50%, #dbeafe 100%);
   }
   * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -17,17 +16,14 @@
     margin: 0; padding: 0; background: var(--bg);
     min-height: 100vh; color: #1e293b; padding-bottom: 65px;
   }
-
-  /* Header */
   header {
     background: linear-gradient(90deg, #062817, #0b4628, #103c66);
     color: #fff; padding: 14px 18px; text-align: center;
     border-bottom: 4px solid var(--gold); cursor: pointer; user-select: none;
   }
-  header h1 { margin: 0; font-size: 1.4rem; color: var(--gold); }
-  header p { margin: 3px 0 0; font-size: 0.88rem; color: #e2e8f0; }
+  header h1 { margin: 0; font-size: 1.38rem; color: var(--gold); }
+  header p { margin: 3px 0 0; font-size: 0.86rem; color: #e2e8f0; }
 
-  /* Top Tabs */
   .top-tabs {
     display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     max-width: 1200px; margin: 12px auto; padding: 0 12px;
@@ -35,20 +31,18 @@
   .tab-btn {
     background: #fff; border: 2px solid var(--primary); color: var(--primary);
     padding: 8px 13px; border-radius: 10px; font-weight: bold; cursor: pointer;
-    font-size: 0.88rem; transition: 0.2s;
+    font-size: 0.88rem;
   }
   .tab-btn.active, .tab-btn:hover { background: var(--primary); color: #fff; }
-  .tab-btn.admin-tab { border-color: #b45309; color: #92400e; background: #fef08a; }
-  .tab-btn.admin-tab.active, .tab-btn.admin-tab:hover { background: #eab308; color: #000; }
+  .tab-btn.admin-btn { border-color: #b45309; color: #92400e; background: #fef08a; }
 
-  /* Admin Sub-Tabs */
   .admin-subtabs {
     display: flex; flex-wrap: wrap; gap: 8px; background: #f1f5f9;
-    padding: 10px; border-radius: 10px; margin-bottom: 16px; border: 1px solid #cbd5e1;
+    padding: 10px; border-radius: 10px; margin-bottom: 14px; border: 1px solid #cbd5e1;
   }
   .subtab-btn {
     background: #fff; border: 1.5px solid var(--secondary); color: var(--secondary);
-    padding: 7px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem;
+    padding: 7px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.84rem;
   }
   .subtab-btn.active, .subtab-btn:hover { background: var(--secondary); color: #fff; }
 
@@ -64,7 +58,7 @@
   h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
   h3 { color: var(--secondary); margin-top: 14px; }
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
 
   label { display: block; font-weight: 600; margin: 8px 0 4px; font-size: 0.88rem; }
   input, select, textarea {
@@ -82,15 +76,13 @@
   .btn-red { background: #dc2626; color: #fff; }
   .btn-gray { background: #64748b; color: #fff; }
 
-  /* Exam Styling */
-  .exam-header-bar {
-    background: #fef9c3; border: 2px solid var(--gold); border-radius: 10px;
-    padding: 12px 15px; display: flex; flex-wrap: wrap; justify-content: space-between;
-    align-items: center; gap: 10px; margin-bottom: 14px;
-  }
-  .q-card {
+  .card-box {
     background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
-    padding: 16px; margin-bottom: 16px;
+    padding: 15px; margin-bottom: 14px;
+  }
+  .high-card {
+    background: #fffbeb; border: 2px solid var(--gold); border-radius: 10px;
+    padding: 12px; margin-bottom: 10px;
   }
   .mcq-choice {
     display: flex; align-items: center; gap: 10px; background: #fff;
@@ -99,22 +91,14 @@
   }
   .mcq-choice input[type="radio"] { width: auto; transform: scale(1.2); }
 
-  .new-page-card {
-    background: #ffffff; border: 2px solid var(--secondary); border-radius: 12px;
-    padding: 20px; min-height: 250px; margin-top: 10px;
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-top: 12px;
   }
+  .gallery-card {
+    position: relative; border-radius: 10px; overflow: hidden; border: 2px solid var(--gold); height: 155px;
+  }
+  .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* High Marks & Results Cards */
-  .result-card {
-    background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px;
-    padding: 12px 14px; margin-bottom: 10px;
-  }
-  .high-mark-card {
-    background: #fffbeb; border: 2px solid var(--gold); border-radius: 10px;
-    padding: 12px 14px; margin-bottom: 10px;
-  }
-
-  /* Doctor Card */
   .doc-box {
     display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
     background: #f0fdf4; padding: 14px; border-radius: 12px; border: 1px solid #bbf7d0;
@@ -124,13 +108,12 @@
     border: 3px solid var(--gold); background: #e5e7eb;
   }
 
-  /* Violation Lock Overlay */
-  #violationModal {
+  #lockScreenModal {
     display: none; position: fixed; inset: 0; background: rgba(127, 29, 29, 0.97);
     z-index: 9999; color: #fff; align-items: center; justify-content: center;
     padding: 20px; text-align: center;
   }
-  .violation-box {
+  .lock-card {
     background: #450a0a; border: 3px solid #fca5a5; padding: 24px;
     border-radius: 16px; max-width: 450px; width: 100%;
   }
@@ -150,267 +133,241 @@
 </head>
 <body>
 
-<!-- Tap Header 10 times to open Admin Panel -->
-<header id="mainHdr" onclick="handleHeaderTap()">
-  <h1 id="hdrCampus">ITMI CAMPUS - CEYLON MASSAGE THERAPY</h1>
-  <p id="hdrDoctor">Director / Senior Lecturer: Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</p>
+<header id="mainHeader" onclick="handleHeaderTap()">
+  <h1 id="dispCampusName">ITMI CAMPUS - CEYLON MASSAGE THERAPY</h1>
+  <p id="dispDoctorSub">Director / Senior Lecturer: Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</p>
 </header>
 
-<!-- Main Tabs -->
-<div class="top-tabs no-print" id="topTabsBar">
-  <button class="tab-btn active" id="btn-tab-register" onclick="openTopTab('tab-register', this)">👥 ශිෂ්‍ය ලියාපදිංචිය (50)</button>
-  <button class="tab-btn" id="btn-tab-exam" onclick="openTopTab('tab-exam', this)">📝 Exam Paper</button>
-  <button class="tab-btn" id="btn-tab-results" onclick="openTopTab('tab-results', this)">🏆 ප්‍රතිඵල & High Marks</button>
-  <button class="tab-btn" id="btn-tab-answers" onclick="openTopTab('tab-answers', this)">✅ පිළිතුරු පත්‍ර</button>
-  <button class="tab-btn" id="btn-tab-doctor" onclick="openTopTab('tab-doctor', this)">🩺 Doctor & විස්තර</button>
-  <button class="tab-btn admin-tab" id="btn-tab-admin" style="display:none;" onclick="openTopTab('tab-admin', this)">⚙️ Admin Panel</button>
+<div class="top-tabs no-print" id="mainTopTabs">
+  <button class="tab-btn active" id="btn-register" onclick="openMainTab('tab-register', this)">📝 විභාග සඳහා Register</button>
+  <button class="tab-btn" id="btn-info" onclick="openMainTab('tab-info', this)">🏛️ ආයතන තොරතුරු</button>
+  <button class="tab-btn" id="btn-gallery" onclick="openMainTab('tab-gallery', this)">🖼️ Gallery</button>
+  <button class="tab-btn" id="btn-exam" onclick="openMainTab('tab-exam', this)">📄 Exam Paper</button>
+  <button class="tab-btn" id="btn-results" onclick="openMainTab('tab-results', this)">🏆 ප්‍රතිඵල & High Marks</button>
+  <button class="tab-btn" id="btn-answers" onclick="openMainTab('tab-answers', this)">✅ පිළිතුරු පත්‍ර</button>
+  <button class="tab-btn admin-btn" id="btn-admin" style="display:none;" onclick="openMainTab('tab-admin', this)">⚙️ Admin Panel</button>
 </div>
 
 <div class="container">
 
-  <!-- TAB 1: STUDENT REGISTRATION (UP TO 50) & WHATSAPP LINK SENDING -->
+  <!-- 1. NORMAL LINK: CAMPUS NAME + STUDENT REGISTRATION (CHOOSES SUBJECT, MCQ, E2, E3 & SUBMITS) -->
   <div id="tab-register" class="view-box active">
-    <h2>👥 සිසුන් ලියාපදිංචිය (Max 50) & WhatsApp Link යැවීම</h2>
-    <div class="grid-2">
-      <div style="background:#eff6ff; padding:15px; border-radius:12px; border:1px solid #bfdbfe;">
-        <h3 style="margin-top:0;">📊 Register වූ ශිෂ්‍යයින් ගණන: <span id="stuTotalBadge">0</span> / 50</h3>
-        <label>ශිෂ්‍යයාගේ නම:</label>
-        <input type="text" id="stuInputName" placeholder="නම ඇතුළත් කරන්න">
-        <label>WhatsApp අංකය (උදා: 94717533483):</label>
-        <input type="tel" id="stuInputPhone" placeholder="947XXXXXXXX">
-        <label>Paper Set අංකය (1 - 50):</label>
-        <input type="number" id="stuInputSet" value="1" min="1" max="50">
-        <button class="btn btn-blue" onclick="addRegisteredStudent()">➕ ශිෂ්‍යයා Register කරන්න</button>
-      </div>
+    <h2>📝 විභාග සඳහා ලියාපදිංචිය (Student Registration)</h2>
+    <p style="font-size:0.9rem; color:#475569;">
+      Register වූ ශිෂ්‍යයින් ගණන: <b id="regCountPublic">0</b> / 50 — ඔබගේ විෂය, MCQ ගණන සහ Essay (ලකුණු 2 / 3) ප්‍රශ්න ගණන තෝරා Submit කරන්න.
+    </p>
 
-      <div style="background:#f0fdf4; padding:15px; border-radius:12px; border:1px solid #bbf7d0;">
-        <h3 style="margin-top:0; color:var(--primary);">📲 WhatsApp හරහා Link යැවීම</h3>
-        <p style="font-size:0.88rem;">Link එක open කළ ගමන් ශිෂ්‍යයා කෙලින්ම <b>Exam Paper</b> එකට යයි. Register වූ සියලු දෙනාට (උදා: 50 දෙනාටම) හෝ එක් අයෙකුට WhatsApp හරහා Link යැවිය හැක.</p>
-        <label>ශිෂ්‍යයා තෝරන්න:</label>
-        <select id="stuLinkSelect" onchange="refreshSingleLinkPreview()"></select>
-        <label>Student Direct Exam Link:</label>
-        <input type="text" id="stuLinkBox" readonly>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-          <button class="btn btn-wa" onclick="sendSingleStudentLinkWa()">📲 තෝරාගත් අයට WhatsApp</button>
-          <button class="btn btn-gold" onclick="sendAllStudentsLinksWa()">📤 Register වූ සැමට WhatsApp</button>
-          <button class="btn" onclick="openDirectStudentExam()">🚀 කෙලින්ම Paper එකට යන්න</button>
+    <div class="card-box">
+      <div class="grid-2">
+        <div>
+          <label>ශිෂ්‍යයාගේ නම:</label>
+          <input type="text" id="regStuName" placeholder="සම්පූර්ණ නම ඇතුළත් කරන්න">
+          <label>WhatsApp අංකය:</label>
+          <input type="tel" id="regStuWa" placeholder="උදා: 94717533483">
+          <label>විෂය (Subject) තෝරන්න:</label>
+          <select id="regSubjectSelect"></select>
+        </div>
+        <div>
+          <label>MCQ ප්‍රශ්න ගණන:</label>
+          <input type="number" id="regMcqCount" value="5" min="0" max="50">
+          <label>ලකුණු 2 Essay ප්‍රශ්න ගණන:</label>
+          <input type="number" id="regE2Count" value="2" min="0" max="10">
+          <label>ලකුණු 3 Essay ප්‍රශ්න ගණන:</label>
+          <input type="number" id="regE3Count" value="2" min="0" max="10">
         </div>
       </div>
-    </div>
-
-    <h3>📋 ලියාපදිංචි ශිෂ්‍ය ලැයිස්තුව</h3>
-    <div id="registeredStudentsList"></div>
-  </div>
-
-  <!-- TAB 2: STUDENT EXAM PAPER -->
-  <div id="tab-exam" class="view-box">
-    <div class="exam-header-bar no-print">
-      <div>
-        <b>ශිෂ්‍යයා:</b> <span id="examCurrentStuName">Student</span> |
-        <b>Set #:</b> <span id="examCurrentSetNo">1</span>
-      </div>
-
-      <!-- Adjustable Exam Timer (Hours & Minutes) -->
-      <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
-        <span>⏳ <b>Exam Time:</b> <b id="mainExamClock" style="color:#b91c1c;">01:00:00</b></span>
-        <input type="number" id="adjExamHrs" value="1" min="0" max="12" style="width:55px; padding:4px;"><span>පැය</span>
-        <input type="number" id="adjExamMins" value="0" min="0" max="59" style="width:55px; padding:4px;"><span>මිනි</span>
-        <button class="btn" style="margin:0; padding:4px 9px;" onclick="setMainExamTimer()">Set</button>
-        <button class="btn btn-gold" style="margin:0; padding:4px 9px;" onclick="startMainExamTimer()">Start</button>
-      </div>
-
-      <!-- MCQ Timer Adjust & Delete -->
-      <div id="mcqTimerSection" style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
-        <span>⏱️ <b>MCQ Time:</b> <b id="mcqClockText" style="color:#1d4ed8;">15:00</b></span>
-        <input type="number" id="adjMcqMins" value="15" min="1" max="180" style="width:58px; padding:4px;">
-        <button class="btn btn-blue" style="margin:0; padding:4px 8px;" onclick="adjustMcqClock()">Adjust</button>
-        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteMcqClock()">Delete</button>
-      </div>
-    </div>
-
-    <div class="no-print" style="margin-bottom:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-      <label style="margin:0;">පිළිතුරු ලියන පිටු ක්‍රමය:</label>
-      <select id="examPageMode" style="width:auto;" onchange="renderExamPaper()">
-        <option value="continuous">සියලු ප්‍රශ්න පිළිවෙලට (MCQ + 2, 3, 5 Essay)</option>
-        <option value="per_question">එක් එක් ප්‍රශ්නයට අලුත් පිටුවක් (New Page per Question)</option>
-      </select>
-      <button class="btn btn-gray" style="margin:0;" onclick="printStudentPaperPDF()">📄 ශිෂ්‍යයාගේ නමට PDF / Print</button>
-    </div>
-
-    <div id="examPaperContainer"></div>
-
-    <div class="no-print" style="margin-top:18px; text-align:right;">
-      <button class="btn btn-wa" style="padding:11px 20px; font-size:0.98rem;" onclick="submitExamAndShowResults()">
-        ✅ Paper Submit කර Web එකේම Results බලන්න & WhatsApp යවන්න
-      </button>
+      <button class="btn btn-wa" onclick="submitStudentRegistration()">✅ Registration Submit කරන්න</button>
     </div>
   </div>
 
-  <!-- TAB 3: SUBMITTED RESULTS & HIGH MARKS (SHOWN RIGHT IN THIS WEB APP) -->
-  <div id="tab-results" class="view-box">
-    <h2>🏆 Submit කළ Papers ප්‍රතිඵල & High Marks</h2>
-    <p style="font-size:0.9rem; color:#475569;">ශිෂ්‍යයා Paper එක Submit කළ වහාම මෙම Web එකේම ප්‍රතිඵල සහ High Marks ලබා ගත් අය වෙන වෙනම පෙන්වයි.</p>
-
-    <div class="grid-2">
-      <div>
-        <h3>🌟 High Marks ගත් ශිෂ්‍යයින් (75% හෝ ඊට වැඩි)</h3>
-        <div id="highMarksList"></div>
-      </div>
-      <div>
-        <h3>📋 සියලු Submit කළ ශිෂ්‍ය ප්‍රතිඵල</h3>
-        <div id="allSubmittedList"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: SEPARATE ANSWER SHEETS (MCQ + 2, 3, 5 MARKS) -->
-  <div id="tab-answers" class="view-box">
-    <h2>✅ පිළිතුරු පත්‍ර (MCQ & ලකුණු 2, 3, 5 වෙන් වෙන් වශයෙන්)</h2>
-    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
-      <button class="btn" onclick="renderAnswerSheet('MCQ')">MCQ පිළිතුරු (1–50)</button>
-      <button class="btn btn-blue" onclick="renderAnswerSheet('ESSAY2')">ලකුණු 2 Essay පිළිතුරු (1–10)</button>
-      <button class="btn btn-gold" onclick="renderAnswerSheet('ESSAY3')">ලකුණු 3 Essay පිළිතුරු (1–10)</button>
-      <button class="btn btn-wa" onclick="renderAnswerSheet('ESSAY5')">ලකුණු 5 Essay පිළිතුරු (1–10)</button>
-    </div>
-    <div id="answerSheetContainer"></div>
-  </div>
-
-  <!-- TAB 5: DOCTOR & COURSE INFO -->
-  <div id="tab-doctor" class="view-box">
-    <h2>🩺 Doctor Profile & පාඨමාලා විස්තර</h2>
+  <!-- 2. INSTITUTION INFO & DOCTOR -->
+  <div id="tab-info" class="view-box">
+    <h2>🏛️ ආයතන තොරතුරු & Doctor Profile</h2>
     <div class="doc-box">
-      <img id="docProfileImg" class="doc-avatar" src="https://via.placeholder.com/150?text=Doctor" alt="Doctor">
+      <img id="docImgView" class="doc-avatar" src="https://via.placeholder.com/150?text=Doctor" alt="Doctor">
       <div style="flex:1; min-width:220px;">
-        <h3 id="docProfileName" style="margin:0; color:var(--primary);">Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</h3>
-        <p style="margin:4px 0;"><b>Director / Senior Lecturer - ITMI Campus & CTMC</b></p>
-        <p style="margin:4px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - 100th Batch</p>
-        <label class="no-print" style="display:inline-block; background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.85rem;">
+        <h3 id="docNameView" style="margin:0; color:var(--primary);">Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</h3>
+        <p id="docDescView" style="margin:6px 0; font-size:0.92rem;">
+          Director / Senior Lecturer - ITMI Campus & Ceylon Traditional Medical Council (CTMC). Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).
+        </p>
+        <label class="no-print" style="display:inline-block; background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.84rem;">
           📷 Doctor Photo වෙනස් කරන්න
-          <input type="file" accept="image/*" style="display:none;" onchange="updateDoctorImage(event)">
+          <input type="file" accept="image/*" style="display:none;" onchange="changeDoctorPhoto(event)">
         </label>
       </div>
     </div>
   </div>
 
-  <!-- TAB 6: ADMIN PANEL WITH SUB-TABS FOR EVERY TOPIC -->
-  <div id="tab-admin" class="view-box">
-    <h2>⚙️ Admin Panel — මාතෘකා Sub-Tabs</h2>
+  <!-- 3. GALLERY -->
+  <div id="tab-gallery" class="view-box">
+    <h2>🖼️ Photo Gallery</h2>
+    <div id="publicGalleryGrid" class="gallery-grid"></div>
+  </div>
 
-    <div class="admin-subtabs no-print">
-      <button class="subtab-btn active" onclick="openAdminSubTab('sub-qbank', this)">📚 ප්‍රශ්න & පිළිතුරු (Add/Edit/Delete)</button>
-      <button class="subtab-btn" onclick="openAdminSubTab('sub-pgen', this)">📄 Paper Generator (Shuffled)</button>
-      <button class="subtab-btn" onclick="openAdminSubTab('sub-students', this)">👥 ශිෂ්‍යයින් (50)</button>
-      <button class="subtab-btn" onclick="openAdminSubTab('sub-results', this)">🏆 Results & High Marks</button>
-      <button class="subtab-btn" onclick="openAdminSubTab('sub-settings', this)">🔧 Profile & WhatsApp</button>
+  <!-- 4. EXAM PAPER (ONLY ASSIGNED SHUFFLED QUESTIONS, MCQ -> AUTO ESSAY, ESSAY TIMER LOCKS TYPING ONLY) -->
+  <div id="tab-exam" class="view-box">
+    <div class="card-box no-print" style="background:#fef9c3; border-color:var(--gold);">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; align-items:center;">
+        <div>
+          <b>ශිෂ්‍යයා:</b> <span id="examStuLabel">Student</span> |
+          <b>විෂය:</b> <span id="examSubLabel">Ceylon Massage Therapy</span>
+        </div>
+
+        <!-- MCQ Timer (Configurable from Admin Panel, Auto-Opens Essay when finished) -->
+        <div id="mcqTimerBox">
+          <span>⏱️ <b>MCQ Time:</b> <b id="mcqCountdownText" style="color:#1d4ed8;">10:00</b></span>
+          <button class="btn btn-blue" style="margin:0; padding:4px 9px;" onclick="startMcqPhaseTimer()">Start MCQ Timer</button>
+          <button class="btn btn-gray" style="margin:0; padding:4px 9px;" onclick="switchToEssayPhase()">Skip to Essay</button>
+        </div>
+
+        <!-- Essay Timer (Locks typing/selection when time ends; Submit remains open) -->
+        <div id="essayTimerBox" style="display:none;">
+          <span>⏳ <b>Essay Time:</b> <b id="essayCountdownText" style="color:#b91c1c;">20:00</b></span>
+          <button class="btn btn-gold" style="margin:0; padding:4px 9px;" onclick="startEssayPhaseTimer()">Start Essay Timer</button>
+        </div>
+      </div>
+      <div id="warningBanner" style="margin-top:8px; font-weight:bold; color:#b91c1c;"></div>
     </div>
 
-    <!-- Admin Sub-Tab 1: Question & Answer Bank -->
-    <div id="sub-qbank" class="subview-box active">
-      <h3>➕ / ✏️ ප්‍රශ්න හා පිළිතුරු එකතු කිරීම, වෙනස් කිරීම හා මැකීම</h3>
+    <!-- Phase A: MCQ -->
+    <div id="mcqPhaseArea"></div>
+
+    <!-- Phase B: Essay (Auto-opens after MCQ time ends) -->
+    <div id="essayPhaseArea" style="display:none;"></div>
+
+    <div class="no-print" style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+      <button class="btn btn-gray" onclick="printExamPDF()">📄 PDF / Print</button>
+      <button class="btn btn-wa" id="finalSubmitBtn" style="padding:11px 20px;" onclick="submitPaperAndScore()">
+        ✅ Paper Submit කරන්න
+      </button>
+    </div>
+  </div>
+
+  <!-- 5. RESULTS & HIGH MARKS (SHOWN RIGHT IN WEB APP) -->
+  <div id="tab-results" class="view-box">
+    <h2>🏆 ප්‍රතිඵල & High Marks</h2>
+    <div class="grid-2">
+      <div>
+        <h3>🌟 High Marks ගත් ශිෂ්‍යයින් (75%+)</h3>
+        <div id="highMarksContainer"></div>
+      </div>
+      <div>
+        <h3>📋 සියලු Submit කළ ප්‍රතිඵල</h3>
+        <div id="allResultsContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. SEPARATE ANSWER SHEETS -->
+  <div id="tab-answers" class="view-box">
+    <h2>✅ පිළිතුරු පත්‍ර (MCQ & 2, 3, 5 Marks)</h2>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+      <button class="btn" onclick="showAnswersByType('MCQ')">MCQ පිළිතුරු</button>
+      <button class="btn btn-blue" onclick="showAnswersByType('ESSAY2')">ලකුණු 2 පිළිතුරු</button>
+      <button class="btn btn-gold" onclick="showAnswersByType('ESSAY3')">ලකුණු 3 පිළිතුරු</button>
+      <button class="btn btn-wa" onclick="showAnswersByType('ESSAY5')">ලකුණු 5 පිළිතුරු</button>
+    </div>
+    <div id="answersViewBox"></div>
+  </div>
+
+  <!-- 7. ADMIN PANEL (10 TAPS ON HEADER) -->
+  <div id="tab-admin" class="view-box">
+    <h2>⚙️ Admin Panel</h2>
+
+    <div class="admin-subtabs no-print">
+      <button class="subtab-btn active" onclick="openAdminSub('adm-reg-list', this)">👥 Registered ළමයි & Link යැවීම</button>
+      <button class="subtab-btn" onclick="openAdminSub('adm-q-crud', this)">📚 ප්‍රශ්න & පිළිතුරු (Add/Edit/Delete)</button>
+      <button class="subtab-btn" onclick="openAdminSub('adm-timers', this)">⏱️ MCQ & Essay Timers</button>
+      <button class="subtab-btn" onclick="openAdminSub('adm-gallery', this)">🖼️ Gallery Add/Delete</button>
+      <button class="subtab-btn" onclick="openAdminSub('adm-profile', this)">🔧 Profile & Phone/WhatsApp</button>
+    </div>
+
+    <!-- Admin Sub 1: Registered Students + Unique Shuffled Link Per Student -->
+    <div id="adm-reg-list" class="subview-box active">
+      <h3>👥 Register වූ ශිෂ්‍යයින් (<span id="admRegCount">0</span>) — එක් එක් අයට Unique Shuffled Link යැවීම</h3>
+      <p style="font-size:0.88rem; color:#475569;">
+        ශිෂ්‍යයින් 50ක් register වුවද, සෑම Link එකකම එකම ප්‍රශ්න ටික එකිනෙකට වෙනස් order එකට (Shuffled) සැකසෙන අතර, ශිෂ්‍යයාට පෙනෙන්නේ එයාට අදාළ ප්‍රශ්න ටික පමණි.
+      </p>
+      <div id="adminRegisteredStudentsBox"></div>
+    </div>
+
+    <!-- Admin Sub 2: Add / Edit / Delete Questions & Answers -->
+    <div id="adm-q-crud" class="subview-box">
+      <h3>📚 ප්‍රශ්න & පිළිතුරු Add / Edit / Delete</h3>
       <div class="grid-2">
         <div>
+          <label>විෂය:</label>
+          <select id="admQSubject"></select>
           <label>ප්‍රශ්න වර්ගය:</label>
-          <select id="admType" onchange="toggleAdminQuestionInputs()">
+          <select id="admQType" onchange="toggleAdmFields()">
             <option value="MCQ">MCQ</option>
             <option value="ESSAY2">ලකුණු 2 Essay</option>
             <option value="ESSAY3">ලකුණු 3 Essay</option>
             <option value="ESSAY5">ලකුණු 5 Essay</option>
           </select>
           <label>ප්‍රශ්නය:</label>
-          <textarea id="admPrompt" rows="2" placeholder="ප්‍රශ්නය ලියන්න..."></textarea>
+          <textarea id="admQText" rows="2"></textarea>
         </div>
-
-        <div id="admMcqBlock">
+        <div id="admMcqOptsDiv">
           <div class="grid-2" style="gap:6px;">
-            <input type="text" id="admChoice0" placeholder="Option A">
-            <input type="text" id="admChoice1" placeholder="Option B">
-            <input type="text" id="admChoice2" placeholder="Option C">
-            <input type="text" id="admChoice3" placeholder="Option D">
+            <input type="text" id="admOptA" placeholder="Option A">
+            <input type="text" id="admOptB" placeholder="Option B">
+            <input type="text" id="admOptC" placeholder="Option C">
+            <input type="text" id="admOptD" placeholder="Option D">
           </div>
-          <label>නිවැරදි පිළිතුර:</label>
-          <select id="admCorrectIdx">
+          <label>හරි පිළිතුර:</label>
+          <select id="admCorrectAns">
             <option value="0">A</option>
             <option value="1">B</option>
             <option value="2">C</option>
             <option value="3">D</option>
           </select>
         </div>
-
-        <div id="admEssayBlock" style="display:none;">
-          <label>පිළිතුර (Answer):</label>
-          <textarea id="admModelAns" rows="3" placeholder="පිළිතුර ඇතුළත් කරන්න..."></textarea>
+        <div id="admEssayAnsDiv" style="display:none;">
+          <label>පිළිතුර:</label>
+          <textarea id="admEssayModelAns" rows="3"></textarea>
         </div>
       </div>
-
-      <button class="btn btn-gold" onclick="saveQuestionItem()">💾 ප්‍රශ්නය Save කරන්න</button>
-      <button class="btn btn-gray" onclick="clearQuestionEditor()">Clear</button>
-
-      <div style="margin-top:14px;">
-        <label style="display:inline-block; width:auto; margin-right:8px;">Filter:</label>
-        <select id="admListFilter" style="width:auto;" onchange="renderAdminQuestionManager()">
-          <option value="ALL">සියලු ප්‍රශ්න (80)</option>
-          <option value="MCQ">MCQ (50)</option>
-          <option value="ESSAY2">ලකුණු 2 Essay (10)</option>
-          <option value="ESSAY3">ලකුණු 3 Essay (10)</option>
-          <option value="ESSAY5">ලකුණු 5 Essay (10)</option>
-        </select>
-      </div>
-      <div id="adminQuestionManagerList" style="margin-top:10px;"></div>
+      <button class="btn btn-gold" onclick="saveAdminQuestion()">💾 Save Question</button>
+      <button class="btn btn-gray" onclick="resetAdmQuestionForm()">Clear</button>
+      <div id="admQuestionsListBox" style="margin-top:12px;"></div>
     </div>
 
-    <!-- Admin Sub-Tab 2: Paper Generator (Shuffled Order) -->
-    <div id="sub-pgen" class="subview-box">
-      <h3>📄 Shuffled Paper Generator (එකම ප්‍රශ්න, වෙනස් Order)</h3>
-      <div class="grid-4">
-        <div>
-          <label>Papers ගණන:</label>
-          <input type="number" id="genNumPapers" value="5" min="1" max="50">
-        </div>
-        <div>
-          <label>MCQ ගණන:</label>
-          <input type="number" id="genNumMcq" value="10" min="0" max="50">
-        </div>
-        <div>
-          <label>ලකුණු 2 Essay:</label>
-          <input type="number" id="genNumE2" value="2" min="0" max="10">
-        </div>
-        <div>
-          <label>ලකුණු 3 Essay:</label>
-          <input type="number" id="genNumE3" value="2" min="0" max="10">
-        </div>
-        <div>
-          <label>ලකුණු 5 Essay:</label>
-          <input type="number" id="genNumE5" value="1" min="0" max="10">
-        </div>
-      </div>
-      <button class="btn btn-gold" onclick="generateShuffledSet()">⚡ Shuffled Paper Set සකස් කර Exam එකට යොදන්න</button>
-      <div id="genPreviewInfo" style="margin-top:10px; font-weight:bold; color:var(--primary);"></div>
-    </div>
-
-    <!-- Admin Sub-Tab 3: Students Admin View -->
-    <div id="sub-students" class="subview-box">
-      <h3>👥 Register වූ ශිෂ්‍යයින් කළමනාකරණය</h3>
-      <div id="adminStudentsTable"></div>
-    </div>
-
-    <!-- Admin Sub-Tab 4: Results Admin View -->
-    <div id="sub-results" class="subview-box">
-      <h3>🏆 ප්‍රතිඵල & High Marks සාරාංශය</h3>
-      <div id="adminResultsSummary"></div>
-    </div>
-
-    <!-- Admin Sub-Tab 5: Profile & WhatsApp Settings -->
-    <div id="sub-settings" class="subview-box">
-      <h3>🔧 Profile Name, Doctor & WhatsApp Settings</h3>
+    <!-- Admin Sub 3: Configure MCQ Time & Essay Time -->
+    <div id="adm-timers" class="subview-box">
+      <h3>⏱️ MCQ කාලය සහ Essay කාලය සැකසීම</h3>
       <div class="grid-2">
         <div>
-          <label>Profile / Campus Name:</label>
-          <input type="text" id="setCampusName">
+          <label>MCQ කාලය (මිනිත්තු):</label>
+          <input type="number" id="cfgMcqMins" value="10" min="1" max="180">
+        </div>
+        <div>
+          <label>Essay කාලය (මිනිත්තු):</label>
+          <input type="number" id="cfgEssayMins" value="20" min="1" max="300">
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="saveTimerConfigs()">💾 Timers Save කරන්න</button>
+    </div>
+
+    <!-- Admin Sub 4: Gallery Add / Delete -->
+    <div id="adm-gallery" class="subview-box">
+      <h3>🖼️ Gallery පින්තූර Add / Delete</h3>
+      <input type="file" accept="image/*" multiple onchange="adminAddGalleryPhotos(event)">
+      <div id="adminGalleryList" class="gallery-grid"></div>
+    </div>
+
+    <!-- Admin Sub 5: Campus Name, Doctor & Adjustable Phone/WhatsApp -->
+    <div id="adm-profile" class="subview-box">
+      <h3>🔧 Campus Name, Doctor & Phone/WhatsApp Number</h3>
+      <div class="grid-2">
+        <div>
+          <label>Campus / System Name:</label>
+          <input type="text" id="cfgCampusName">
           <label>Doctor Name:</label>
-          <input type="text" id="setDoctorName">
-          <label>Admin WhatsApp Number (Alerts & Answer Sheets):</label>
-          <input type="text" id="setWaNumber">
-          <button class="btn btn-gold" onclick="saveProfileAndWaSettings()">💾 Save Settings</button>
+          <input type="text" id="cfgDoctorName">
+          <label>Admin Phone / WhatsApp Number (ඕනෑම කෙනෙකුගේ අංකයක් දාන්න):</label>
+          <input type="text" id="cfgPhoneWa">
+          <button class="btn btn-gold" onclick="saveProfileConfigs()">💾 Save Profile</button>
         </div>
       </div>
     </div>
@@ -418,17 +375,20 @@
 
 </div>
 
-<!-- ALARM & LOCK OVERLAY WHEN TOUCHING OUTSIDE / SWITCHING TAB -->
-<div id="violationModal">
-  <div class="violation-box">
-    <h2 style="color:#fca5a5; border:none;">🚨 ALERT! EXAM LOCKED</h2>
-    <p style="font-size:1.05rem;"><b>ශිෂ්‍යයාගේ නම:</b> <span id="violatorName">-</span></p>
-    <p id="violatorReason">ශිෂ්‍යයා වෙනත් තැනකට / Tab එකකට ගිය බැවින් Paper එක Lock විය!</p>
-    <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendAlertToAdminWhatsApp()">
-      📲 Admin WhatsApp වෙත Alert Message යවන්න
+<!-- LOCKED AFTER 3RD OUTSIDE TOUCH / TAB SWITCH -->
+<div id="lockScreenModal">
+  <div class="lock-card">
+    <h2 style="color:#fca5a5; border:none;">🔒 EXAM LOCKED (3rd Violation)</h2>
+    <p><b>ශිෂ්‍යයා:</b> <span id="lockedStudentName">-</span></p>
+    <p style="font-size:0.9rem;">3 වතාවක් වෙනත් තැනකට/Tab එකකට මාරු වූ බැවින් Paper එක Lock විය. Admin විසින් Unlock කළ පසු ඉතිරි ප්‍රශ්න කරගෙන යා හැක.</p>
+    <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendLockWhatsAppAlert()">
+      📲 WhatsApp Message යවන්න
     </button>
-    <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="unlockExamWithAdminCode()">
-      🔓 Admin Code යොදා Unlock කරන්න
+    <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="adminUnlockPaper()">
+      🔓 Admin Unlock (තවදුරටත් ප්‍රශ්න කිරීමට)
+    </button>
+    <button class="btn btn-gray" style="width:100%; justify-content:center; margin-top:10px;" onclick="finishWithCurrentMarks()">
+      📊 ලියූ ප්‍රශ්න වල Marks බලන්න
     </button>
   </div>
 </div>
@@ -438,831 +398,641 @@
 </footer>
 
 <script>
-  // --- DEFAULT 80 QUESTIONS & ANSWERS ---
-  const baseMcqQ = [
+  const mcqTexts = [
     "සම්බාහන ප්‍රතිකාරයක (Massage Therapy) මූලික අරමුණ කුමක්ද?",
     "Ceylon Massage Therapy යනු කුමන ක්ෂේත්‍රයට අයත් ප්‍රතිකාර ක්‍රමයක්ද?",
     "සම්බාහනයට පෙර සේවාදායකයාගේ (Client) කුමක් පරීක්ෂා කළ යුතුද?",
     "සම මත තුවාල, කැපුම් හෝ උග්‍ර ආසාදන ඇති විට සම්බාහනය කළ යුත්තේ කෙසේද?",
-    "සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?",
-    "සම්බාහනයෙන් මාංශ පේශි වලට සිදුවන ප්‍රධාන යහපත් බලපෑම කුමක්ද?",
-    "සම්බාහන ශිල්පියෙකුගේ (Therapist) සනීපාරක්ෂාවට අයත් වන්නේ කුමක්ද?",
-    "සම්බාහන කාමරයක තිබිය යුතු සුදුසු පරිසර ලක්ෂණයක් වන්නේ කුමක්ද?",
-    "සේවාදායකයාට සම්බාහනය අතරතුර වේදනාවක් හෝ අපහසුවක් දැනුණහොත් කුමක් කළ යුතුද?",
-    "වසා පද්ධතියට (Lymphatic System) සම්බාහනයෙන් ලැබෙන සහය කුමක්ද?",
-    "සම්බාහනයකදී 'Effleurage' යන්නෙන් සාමාන්‍යයෙන් අදහස් වන්නේ කුමක්ද?",
-    "'Petrissage' යටතේ බහුලව සිදු කෙරෙන්නේ කුමක්ද?",
-    "'Tapotement' / Percussion චලන වලදී සිදු කෙරෙන්නේ කුමක්ද?",
-    "'Friction' චලනයක් ප්‍රධාන වශයෙන් භාවිතා කරන්නේ කුමන අවස්ථාවලදීද?",
-    "සම්බාහනයකදී 'Vibration' චලනය මගින් ඇති කරන්නේ කුමක්ද?",
-    "සම්බාහන ශිල්පියෙකුගේ ශරීර ඉරියව්ව (Ergonomics) නිවැරදිව තබා ගැනීම වැදගත් ඇයි?",
-    "සම්බාහනයකට පෙර සේවාදායකයාගෙන් ලබා ගත යුතු දෙය කුමක්ද?",
-    "උණ (Fever) පවතින අවස්ථාවක සම්බාහනය සම්බන්ධයෙන් නිවැරදි පිළිවෙත කුමක්ද?",
-    "ගර්භනී මවකට සම්බාහනයක් සිදු කිරීමේදී සැලකිලිමත් විය යුත්තේ කුමක්ද?",
-    "සම්බාහනයෙන් පසු සේවාදායකයාට සාමාන්‍යයෙන් නිර්දේශ කරන්නේ කුමක්ද?",
-    "ස්නායු පද්ධතියට (Nervous System) සන්සුන් සම්බාහනයකින් ඇති වන ප්‍රතිඵලය කුමක්ද?",
-    "රුධිර සංසරණය වැඩි වීමෙන් පටක වලට ලැබෙන ප්‍රධාන වාසිය කුමක්ද?",
-    "සම්බාහන මේසයක හෝ ඇඳක සනීපාරක්ෂාව සඳහා කළ යුත්තේ කුමක්ද?",
-    "සම්බාහනයේදී 'Contraindication' (නොකළ යුතු අවස්ථා) යන්නෙන් අදහස් කරන්නේ කුමක්ද?",
-    "Deep Vein Thrombosis (DVT) හෝ රුධිර කැටි ගැසීමේ අවදානමක් ඇති විට කුමක් කළ යුතුද?",
-    "පිට (Back) සම්බාහනයකදී කොඳු ඇට පෙළේ (Spine) අස්ථි මත කෙලින්ම තද පීඩනය යෙදීම සුදුසුද?",
-    "සම්බාහන සැසියකට පෙර ශිල්පියෙකු තම අත් උණුසුම් කර ගැනීම වැදගත් ඇයි?",
-    "මානසික ආතතිය (Stress) අඩු කිරීමට සම්බාහනය උපකාරී වන්නේ කෙසේද?",
-    "සම්බාහන ශිල්පියෙකුගේ වෘත්තීය ආචාර ධර්ම (Professional Ethics) වලට අයත් වන්නේ කුමක්ද?",
-    "සමේ දද (Eczema) හෝ පුස් රෝග (Fungal infection) ඇති විට සැලකිලිමත් විය යුත්තේ ඇයි?",
-    "සම්බාහනයකදී පීඩනයේ තීව්‍රතාව (Pressure level) තීරණය කළ යුත්තේ කෙසේද?",
-    "උරහිස් හා බෙල්ලේ (Neck & Shoulder) තද ගතිය බහුලව ඇතිවීමට හේතුවක් විය හැක්කේ කුමක්ද?",
-    "සම්බාහනයකදී තෙල් අධික ලෙස භාවිතා කළහොත් සිදුවිය හැක්කේ කුමක්ද?",
-    "සම්බාහනයකදී තෙල් ඉතා අඩුවෙන් භාවිතා කළහොත් සිදුවිය හැක්කේ කුමක්ද?",
-    "සේවාදායකයෙකුට ක්ලාන්තය හෝ කරකැවිල්ල ඇති වුවහොත් මුලින්ම කළ යුත්තේ කුමක්ද?",
-    "සම්බාහන ශිල්පියෙකුගේ ඇඳුම (Uniform) කෙසේ විය යුතුද?",
-    "සේවාදායකයාගේ පෞද්ගලිකත්වය (Privacy) ආරක්ෂා කිරීමට සම්බාහනයේදී කරන්නේ කුමක්ද?",
-    "සම්බාහනයකින් පසු මාංශ පේශි වල සුළු වෙහෙසක් හෝ මෘදු බවක් දැනීම සාමාන්‍ය විය හැක්කේ කුමන අවස්ථාවකදීද?",
-    "සම්බාහන ප්‍රතිකාරයක සාර්ථකත්වය මැනීමට උපකාරී වන්නේ කුමක්ද?",
-    "සම්බාහන ශිල්පියෙකුට පිටතට යාමට පෙර අත් සෝදා ගත යුත්තේ ඇයි?",
-    "පාද සම්බාහනයේදී (Foot Massage) සැලකිලිමත් විය යුතු වැදගත් කරුණක් වන්නේ කුමක්ද?",
-    "සම්බාහනයකදී රිද්මයානුකූල (Rhythmic) චලන භාවිතා කිරීමෙන් ලැබෙන වාසිය කුමක්ද?",
-    "අධික රුධිර පීඩනය (High Blood Pressure) ඇති සේවාදායකයෙකු සම්බන්ධයෙන් කළ යුත්තේ කුමක්ද?",
-    "සම්බාහන ශිල්පියෙකුගේ සන්නිවේදන කුසලතා (Communication skills) වැදගත් ඇයි?",
-    "සම්බාහන උපකරණ හා රෙදි (Linens) ගබඩා කළ යුත්තේ කෙසේද?",
-    "සම්බාහන සැසියක් ආරම්භ කිරීමට පෙර කළ යුතු මූලික කාර්යයක් වන්නේ කුමක්ද?",
-    "සම්බාහනයෙන් සන්ධි (Joints) වලට ලැබෙන ප්‍රතිඵලයක් විය හැක්කේ කුමක්ද?",
-    "සේවාදායකයාගේ වාර්තා (Client Records) පවත්වා ගැනීමේදී අවධානය යොමු කළ යුත්තේ කුමක්ද?",
-    "සම්බාහන ප්‍රතිකාරයකදී 'Safety First' (ආරක්ෂාව මුලින්ම) ප්‍රතිපත්තියෙන් අදහස් වන්නේ කුමක්ද?",
-    "වෘත්තීය තෙරපි පුහුණුවක් (Therapy Course) නිසි ලෙස හැදෑරීමෙන් ලැබෙන ප්‍රධාන ප්‍රතිලාභය කුමක්ද?"
+    "සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?"
+  ];
+  const e2Data = [
+    ["සම්බාහන ප්‍රතිකාරයක ප්‍රධාන අරමුණු 2ක් ලියන්න.", "රුධිර සංසරණය වැඩි දියුණු කිරීම සහ මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම."],
+    ["සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", "සෞඛ්‍ය ඉතිහාසය සහ සමේ තුවාල හෝ ආසාදන තිබේද යන්න."]
+  ];
+  const e3Data = [
+    ["Effleurage සහ Petrissage අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", "1) සැහැල්ලු පිරිමැදීම vs ඇනීම/තෙරපීම. 2) සන්සුන් කිරීම vs ගැඹුරු මාංශ පේශි ලිහිල් කිරීම. 3) පුළුල් පෘෂ්ඨය vs නිශ්චිත මාංශ පේශි."],
+    ["සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", "1) මාංශ පේශි ලිහිල් වීම. 2) ස්නායු පද්ධතිය සන්සුන් වීම. 3) රිද්මයානුකූල ස්පර්ශයෙන් සිතට සැහැල්ලුව ලැබීම."]
+  ];
+  const e5Data = [
+    ["සම්බාහන ප්‍රතිකාරයක් මගින් රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", "රුධිර සංසරණය හා ඔක්සිජන් සැපයුම වැඩි දියුණු වේ; ස්නායු පද්ධතිය සන්සුන් වේ; මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය වැඩි වේ."]
   ];
 
-  const defaultChoiceSet = [
-    ["නිවැරදි ප්‍රතිකාර ක්‍රමය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"]
-  ];
-
-  const e2Items = [
-    ["සම්බාහන ප්‍රතිකාරයක (Massage Therapy) ප්‍රධාන අරමුණු 2ක් ලියන්න.", "රුධිර සංසරණය වැඩි දියුණු කිරීම සහ මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම."],
-    ["සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", "සේවාදායකයාගේ වෛද්‍ය/සෞඛ්‍ය ඉතිහාසය සහ සමේ තුවාල හෝ ආසාදන තිබේද යන්න."],
-    ["සම්බාහන ශිල්පියෙකුගේ පුද්ගලික සනීපාරක්ෂාවට අදාළ කරුණු 2ක් ලියන්න.", "අත් පිරිසිදුව සෝදා තබා ගැනීම සහ නියපොතු කොටට කපා පිරිසිදුව තබා ගැනීම."],
-    ["සම්බාහනයකින් රුධිර සංසරණයට සිදුවන ප්‍රතිඵල 2ක් දක්වන්න.", "පටක වලට ඔක්සිජන් හා පෝෂ්‍ය පදාර්ථ වඩා හොඳින් සැපයීම සහ පරිවෘත්තීය අපද්‍රව්‍ය ඉවත් කිරීමට සහාය වීම."],
-    ["සම්බාහනයකදී තෙල් භාවිතා කිරීමේ වැදගත්කම කරුණු 2කින් පැහැදිලි කරන්න.", "සම මත ඝර්ෂණය අඩු කර චලන සුමටව සිදු කිරීම සහ සමේ වියළි බව අවම කිරීම."],
-    ["සම්බාහනයකදී 'Contraindication' (නොකළ යුතු අවස්ථා) සඳහා උදාහරණ 2ක් ලියන්න.", "සම මත විවෘත තුවාල/ආසාදන තිබීම සහ උග්‍ර උණ හෝ රුධිර කැටි ගැසීමේ අවදානම් තත්ත්ව."],
-    ["සම්බාහන කාමරයක තිබිය යුතු සුදුසු ලක්ෂණ 2ක් සඳහන් කරන්න.", "පිරිසිදුකම හා නිස්කලංක පරිසරය සහ සුවපහසු උෂ්ණත්වය හා වාතාශ්‍රය."],
-    ["සම්බාහන ශිල්පියෙකුට නිවැරදි ශරීර ඉරියව්ව (Ergonomics) වැදගත් වන්නේ ඇයි යන්නට හේතු 2ක් ලියන්න.", "ශිල්පියාට කොන්දේ හෝ අත්වල ආබාධ ඇතිවීම වැළැක්වීම සහ දිගුකාලීනව වෙහෙසකින් තොරව සේවය කිරීමට හැකි වීම."],
-    ["සම්බාහනයකින් පසු සේවාදායකයාට ලබා දිය යුතු උපදෙස් 2ක් ලියන්න.", "ප්‍රමාණවත් තරම් ජලය පානය කිරීම සහ සැසියෙන් පසු මඳ විවේකයක් ගැනීම."],
-    ["සම්බාහන සැසියකදී සේවාදායකයාගේ පෞද්ගලිකත්වය (Privacy) රකින ආකාරය 2ක් දක්වන්න.", "සම්බාහනය කරන කොටස පමණක් නිරාවරණය කර සෙසු කොටස් රෙද්දකින් ආවරණය කිරීම සහ පෞද්ගලික තොරතුරු රහසිගතව තබා ගැනීම."]
-  ];
-
-  const e3Items = [
-    ["Effleurage සහ Petrissage යන සම්බාහන චලන වර්ග 2 අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", "1) Effleurage සැහැල්ලු/මධ්‍යස්ථ පිරිමැදීම වන අතර Petrissage ඇනීම/තෙරපීමයි. 2) Effleurage සන්සුන් කිරීමට සහ Petrissage ගැඹුරු මාංශ පේශි ලිහිල් කිරීමට යොදා ගනී. 3) Effleurage පුළුල්වද Petrissage නිශ්චිත මාංශ පේශි මතද කෙරේ."],
-    ["සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", "1) මාංශ පේශි තද ගතිය ලිහිල් වීම. 2) ස්නායු පද්ධතිය සන්සුන් වී විවේකී තත්ත්වයක් ඇති වීම. 3) රිද්මයානුකූල ස්පර්ශයෙන් මනසට සැහැල්ලුව ලැබීම."],
-    ["සේවාදායකයෙකුට සම්බාහනය අතරතුර වේදනාවක් හෝ අපහසුවක් දැනුණහොත් ගත යුතු පියවර 3ක් ලියන්න.", "1) පීඩනය වහාම අඩු කිරීම හෝ නැවැත්වීම. 2) අපහසුව විමසා ඉරියව්ව සකස් කිරීම. 3) වේදනාව පවතී නම් එම ස්ථානය මඟහැරීම හෝ සැසිය නවතා වෛද්‍ය උපදෙස් නිර්දේශ කිරීම."],
-    ["සම්බාහන ශිල්පියෙකුගේ වෘත්තීය ආචාර ධර්ම (Professional Ethics) වලට අයත් කරුණු 3ක් පැහැදිලි කරන්න.", "1) පෞද්ගලික තොරතුරු රහසිගතව තබා ගැනීම. 2) ගෞරවනීය හැසිරීම හා වෘත්තීය සීමා රැකීම. 3) කැමැත්ත සහ ආරක්ෂාව ප්‍රමුඛ කිරීම."],
-    ["සමේ ආසාදන හෝ තුවාල ඇති විට සම්බාහනයේදී සැලකිලිමත් විය යුතු කරුණු 3ක් සඳහන් කරන්න.", "1) ආසාදිත/තුවාල වූ ස්ථානය මඟහැරීම. 2) ආසාදනය පැතිරීම වැළැක්වීම. 3) අවශ්‍ය නම් වෛද්‍ය ප්‍රතිකාර ලබා ගැනීමට උපදෙස් දීම."],
-    ["සම්බාහනයකදී පීඩනයේ තීව්‍රතාව (Pressure level) තීරණය කිරීමේදී සලකා බලන කරුණු 3ක් ලියන්න.", "1) සේවාදායකයාගේ ශරීර ස්වභාවය හා වයස. 2) සේවාදායකයාට දැනෙන සුවපහසුව හා ප්‍රතිචාරය. 3) ප්‍රතිකාරයේ අරමුණ."],
-    ["Tapotement (Percussion) සහ Vibration චලන වල ක්‍රියාකාරිත්වය කරුණු 3කින් විස්තර කරන්න.", "1) Tapotement මගින් රිද්මයානුකූල තට්ටු කිරීමෙන් මාංශ පේශි උත්තේජනය වේ. 2) Vibration මගින් සියුම් කම්පන ඇති කර ලිහිල් කිරීමට සහාය වේ. 3) දෙවර්ගයම දේශීය රුධිර සංසරණය හා සජීවී බව වැඩි කරයි."],
-    ["සම්බාහන උපකරණ, තෙල් සහ රෙදිපිළි නිසි ලෙස නඩත්තු කිරීමේ වැදගත්කම කරුණු 3කින් දක්වන්න.", "1) ආසාදන හා හරස් දූෂණය වැළැක්වීම. 2) තෙල්/ආලේපන වල ගුණාත්මකභාවය රැකීම. 3) උපකරණ හා රෙදිපිළි දිගුකාලීනව පිරිසිදුව පවත්වා ගැනීම."],
-    ["සම්බාහන සැසියකට පෙර සේවාදායකයාගේ සෞඛ්‍ය ඉතිහාසය විමසීමේ වැදගත්කම කරුණු 3කින් පැහැදිලි කරන්න.", "1) Contraindication රෝග තත්ත්ව හඳුනා ගැනීම. 2) අසාත්මිකතා හා වේදනා ස්ථාන කලින් දැනගැනීම. 3) ආරක්ෂිත ප්‍රතිකාර සැලැස්මක් සැකසීම."],
-    ["පිට හා උරහිස් ප්‍රදේශයේ මාංශ පේශි තද වීමට හේතු විය හැකි කරුණු 3ක් ලියන්න.", "1) දිගු වේලාවක් පරිගණක/දුරකථන භාවිතය හෝ ඉරියව් දෝෂ. 2) මානසික ආතතියෙන් උරහිස් තද වීම. 3) අධික ශාරීරික වෙහෙස හෝ බර එසවීම."]
-  ];
-
-  const e5Items = [
-    ["සම්බාහන ප්‍රතිකාරයක් (Massage Therapy) මගින් මිනිස් ශරීරයේ රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", "රුධිර වාහිනී පුළුල් වී රුධිර සංසරණය, ඔක්සිජන් සැපයුම හා වසා ගලායාම වැඩි දියුණු වේ. ස්නායු පද්ධතිය සන්සුන් වී විවේකී ප්‍රතිචාරය ක්‍රියාත්මක වන අතර වේදනා සංඥා අඩු වේ. මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය හා චලන පරාසය වර්ධනය වේ."],
-    ["ආරක්ෂිත හා සාර්ථක සම්බාහන සැසියක් පැවැත්වීම සඳහා පෙර, අතරතුර සහ පසු අවස්ථාවලදී අනුගමනය කළ යුතු පියවර පැහැදිලි කරන්න.", "පෙර: පරිසරය/ඇඳ පිරිසිදු කිරීම, සෞඛ්‍ය ඉතිහාසය හා කැමැත්ත ගැනීම, අත් සෝදා උණුසුම් කිරීම. අතරතුර: සුදුසු පීඩනයකින් හා ආවරණ සහිතව සම්බාහනය කිරීම හා ප්‍රතිචාර නිරීක්ෂණය. පසු: පිරිසිදු කිරීම, ජලය පානය/විවේක උපදෙස් සහ සටහන් යාවත්කාලීන කිරීම."],
-    ["සම්බාහන ශිල්පියෙකුගේ වෘත්තීයභාවය (Professionalism), සන්නිවේදනය සහ ආචාර ධර්ම සේවාදායක විශ්වාසය ගොඩනැගීමට දායක වන ආකාරය විස්තර කරන්න.", "පැහැදිලි හා කරුණාවන්ත සන්නිවේදනයෙන් අවශ්‍යතා නිවැරදිව තේරුම් ගත හැක. රහස්‍යභාවය, පෞද්ගලිකත්වය හා සීමා රැකීමෙන් විශ්වාසය ගොඩනැගේ. නිපුණත්වය හා සනීපාරක්ෂාව මගින් ආරක්ෂිත හා ගෞරවනීය අත්දැකීමක් ලැබේ."],
-    ["සම්බාහනයේදී භාවිතා කරන ප්‍රධාන චලන වර්ග (Effleurage, Petrissage, Friction, Tapotement, Vibration) හඳුන්වා දී ඒවායේ ප්‍රයෝජන පැහැදිලි කරන්න.", "Effleurage (සැහැල්ලු පිරිමැදීම - සන්සුන් කිරීම/තෙල් පැතිරවීම), Petrissage (ඇනීම/තෙරපීම - මාංශ පේශි ලිහිල් කිරීම), Friction (ගැඹුරු ඝර්ෂණය - තද ගැටිති ලිහිල් කිරීම), Tapotement (රිද්මයානුකූල තට්ටු කිරීම - උත්තේජනය), Vibration (සියුම් කම්පනය - ලිහිල් කිරීම/සන්සුන් කිරීම)."],
-    ["සම්බාහන ප්‍රතිකාරයක් නොකළ යුතු හෝ විශේෂ අවධානය යොමු කළ යුතු සෞඛ්‍ය තත්ත්ව (Contraindications & Precautions) පිළිබඳව විස්තරාත්මකව ලියන්න.", "උග්‍ර උණ, බෝවන සමේ රෝග/විවෘත තුවාල, DVT හෝ රුධිර කැටි අවදානම්, උග්‍ර ඉදිමුම්/කැඩීම් ඇති විට සම්බාහනයෙන් වැළකිය යුතුය. අධික රුධිර පීඩනය, ගර්භනීභාවය, දියවැඩියාව හෝ සංවේදී සම ඇති විට වෛද්‍ය උපදෙස් හා විශේෂ ආරක්ෂිත ක්‍රම අනුගමනය කළ යුතුය."],
-    ["සම්බාහන ශිල්පියෙකුට සිය වෘත්තීය ජීවිතයේදී ඇතිවිය හැකි ශාරීරික ආබාධ (Ergonomic hazards) වළක්වා ගැනීම සඳහා ගත හැකි ක්‍රියාමාර්ග පැහැදිලි කරන්න.", "මේසයේ/ආසනයේ උස සකස් කිරීම, කොන්ද නවාගෙන නොසිට ශරීර බර නිවැරදිව භාවිතා කිරීම, අත්/මැණික්කටු වලට අධික පීඩනය නොදීම, සැසි අතර විවේක ගැනීම සහ නිතිපතා stretching/ව්‍යායාම කිරීම."],
-    ["Ceylon Massage Therapy / සාම්ප්‍රදායික සුවතා ප්‍රතිකාර ක්ෂේත්‍රයේ ගුණාත්මකභාවය හා සනීපාරක්ෂාව පවත්වා ගැනීම සඳහා ආයතනික හා පෞද්ගලික මට්ටමින් කළ යුතු දේ විස්තර කරන්න.", "පුද්ගලික සනීපාරක්ෂාව, පිරිසිදු රෙදි/උපකරණ, ප්‍රමිතිගත තෙල් භාවිතය, නිසි පුහුණුව හා ලියාපදිංචි ප්‍රමිති පිළිපැදීම. ආයතනිකව පිරිසිදු පරිසරයක්, වාර්තා පාලනයක් සහ අඛණ්ඩ ගුණාත්මක අධීක්ෂණයක් පවත්වා ගත යුතුය."],
-    ["සේවාදායකයෙකුගේ පළමු හමුවේ සිට ප්‍රතිකාර සැසිය අවසන් වන තෙක් සිදු කරන ක්‍රියාවලිය (Consultation, Preparation, Treatment, Aftercare) පිළිවෙළින් විස්තර කරන්න.", "1) Consultation: සෞඛ්‍ය ඉතිහාසය, අවශ්‍යතා හා කැමැත්ත විමසීම. 2) Preparation: පරිසරය, උපකරණ හා ඉරියව්ව සකස් කිරීම. 3) Treatment: සුදුසු චලන/පීඩනයෙන් සම්බාහනය. 4) Aftercare: ජලය පානය, විවේකය හා පසුකාලීන සත්කාර උපදෙස්."],
-    ["දෛනික ජීවිතයේ මානසික ආතතිය හා ශාරීරික වෙහෙස පාලනය කිරීමේදී නිතිපතා සම්බාහන ප්‍රතිකාර ලබා ගැනීමේ වැදගත්කම විග්‍රහ කරන්න.", "දෛනික රැකියා හා ජීවන රටා නිසා ඇතිවන මාංශ පේශි තද ගතිය අඩු කරයි, මානසික ආතතිය හා නින්දේ ගැටලු අවම කරයි, ශරීරයේ චලන පහසුව හා සුවතාව පවත්වා ගැනීමට උපකාරී වේ."],
-    ["සේවාදායක වාර්තා පවත්වා ගැනීම, රහස්‍යභාවය සුරැකීම සහ සේවාදායකයාට ආරක්ෂිත වටපිටාවක් සැලසීම යන කරුණු එකිනෙකට සම්බන්ධ කර පැහැදිලි කරන්න.", "සෞඛ්‍ය හා පෞද්ගලික වාර්තා නිවැරදිව හා රහසිගතව තබා ගැනීමෙන් ආරක්ෂිත ප්‍රතිකාරයක් සැලසිය හැක. රහස්‍යභාවය හා ගෞරවය සුරැකෙන විට බියකින් හෝ අපහසුවකින් තොර විශ්වාසදායක පරිසරයක් ගොඩනැගේ."]
-  ];
-
-  function buildInitialQuestions() {
-    const list = [];
-    baseMcqQ.forEach((qText, idx) => {
-      const opts = defaultChoiceSet[idx % defaultChoiceSet.length];
-      list.push({
-        id: "MCQ-" + (idx + 1),
+  function seedQuestions() {
+    const arr = [];
+    for (let i = 0; i < 50; i++) {
+      const q = mcqTexts[i % mcqTexts.length] + ` (${i + 1})`;
+      arr.push({
+        id: "M" + (i + 1),
+        subject: "Ceylon Massage Therapy",
         type: "MCQ",
-        q: qText,
-        options: opts,
+        q,
+        options: ["නිවැරදි ප්‍රතිකාර ක්‍රමය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"],
         ansIdx: 0
       });
-    });
-    e2Items.forEach(([qText, ansText], idx) => {
-      list.push({ id: "E2-" + (idx + 1), type: "ESSAY2", q: qText, ans: ansText });
-    });
-    e3Items.forEach(([qText, ansText], idx) => {
-      list.push({ id: "E3-" + (idx + 1), type: "ESSAY3", q: qText, ans: ansText });
-    });
-    e5Items.forEach(([qText, ansText], idx) => {
-      list.push({ id: "E5-" + (idx + 1), type: "ESSAY5", q: qText, ans: ansText });
-    });
-    return list;
+    }
+    for (let i = 0; i < 10; i++) {
+      const pair = e2Data[i % e2Data.length];
+      arr.push({ id: "E2-" + (i + 1), subject: "Ceylon Massage Therapy", type: "ESSAY2", q: pair[0], ans: pair[1] });
+    }
+    for (let i = 0; i < 10; i++) {
+      const pair = e3Data[i % e3Data.length];
+      arr.push({ id: "E3-" + (i + 1), subject: "Ceylon Massage Therapy", type: "ESSAY3", q: pair[0], ans: pair[1] });
+    }
+    for (let i = 0; i < 10; i++) {
+      const pair = e5Data[i % e5Data.length];
+      arr.push({ id: "E5-" + (i + 1), subject: "Ceylon Massage Therapy", type: "ESSAY5", q: pair[0], ans: pair[1] });
+    }
+    return arr;
   }
 
-  let state = JSON.parse(localStorage.getItem("itmi_full_system_v1")) || {
+  let appState = JSON.parse(localStorage.getItem("itmi_v2_state")) || {
     campusName: "ITMI CAMPUS - CEYLON MASSAGE THERAPY",
     doctorName: "Prof. (Hon.) Dr. Prasanna Kumara Weerasekara",
     doctorPhoto: "https://via.placeholder.com/150?text=Doctor",
-    waNumber: "94717533483",
-    adminUnlockCode: "ADMIN100",
-    questions: buildInitialQuestions(),
-    students: [],
-    submissions: [],
-    activePaperSet: { mcqCount: 10, e2Count: 2, e3Count: 2, e5Count: 1, numPapers: 5 }
+    adminPhone: "94717533483",
+    adminUnlockPin: "1234",
+    mcqMinutes: 10,
+    essayMinutes: 20,
+    subjects: ["Ceylon Massage Therapy", "Anatomy & Physiology"],
+    questions: seedQuestions(),
+    registrations: [],
+    results: [],
+    gallery: []
   };
 
-  function persistState() {
-    localStorage.setItem("itmi_full_system_v1", JSON.stringify(state));
+  function saveState() {
+    localStorage.setItem("itmi_v2_state", JSON.stringify(appState));
   }
 
-  // Current exam session state
-  let currentStudent = { name: "Guest Student", phone: "", setNo: 1, locked: false };
-  let studentMcqSelections = {};
-  let studentEssayAnswers = {};
-  let currentPaperQuestions = { mcq: [], e2: [], e3: [], e5: [] };
-  let editingQuestionId = null;
+  let activePaper = {
+    studentName: "Guest Student",
+    subject: "Ceylon Massage Therapy",
+    mcq: [],
+    e2: [],
+    e3: [],
+    e5: []
+  };
+  let mcqAnswers = {};
+  let essayAnswers = {};
+  let violationCount = 0;
+  let isPaperLocked = false;
+  let isEssayTimeExpired = false;
+  let editingQId = null;
 
-  // --- INIT ---
-  function initSystem() {
-    applyHeaderAndProfile();
-    renderStudentsUI();
-    buildExamPaperSet();
-    renderExamPaper();
-    renderAnswerSheet("MCQ");
-    renderResultsUI();
-    renderAdminQuestionManager();
-    checkUrlDirectExamLink();
+  function initAll() {
+    syncHeaderAndForms();
+    renderGalleryViews();
+    renderRegistrationsAdmin();
+    renderAdminQuestions();
+    renderResults();
+    showAnswersByType("MCQ");
+    loadDefaultPaper();
+    checkSharedPaperLink();
   }
 
-  function applyHeaderAndProfile() {
-    document.getElementById("hdrCampus").innerText = state.campusName;
-    document.getElementById("hdrDoctor").innerText = "Director / Senior Lecturer: " + state.doctorName;
-    document.getElementById("docProfileName").innerText = state.doctorName;
-    document.getElementById("docProfileImg").src = state.doctorPhoto;
+  function syncHeaderAndForms() {
+    document.getElementById("dispCampusName").innerText = appState.campusName;
+    document.getElementById("dispDoctorSub").innerText = "Director / Senior Lecturer: " + appState.doctorName;
+    document.getElementById("docNameView").innerText = appState.doctorName;
+    document.getElementById("docImgView").src = appState.doctorPhoto;
 
-    document.getElementById("setCampusName").value = state.campusName;
-    document.getElementById("setDoctorName").value = state.doctorName;
-    document.getElementById("setWaNumber").value = state.waNumber;
+    document.getElementById("cfgCampusName").value = appState.campusName;
+    document.getElementById("cfgDoctorName").value = appState.doctorName;
+    document.getElementById("cfgPhoneWa").value = appState.adminPhone;
+    document.getElementById("cfgMcqMins").value = appState.mcqMinutes;
+    document.getElementById("cfgEssayMins").value = appState.essayMinutes;
+
+    document.getElementById("mcqCountdownText").innerText = String(appState.mcqMinutes).padStart(2, "0") + ":00";
+    document.getElementById("essayCountdownText").innerText = String(appState.essayMinutes).padStart(2, "0") + ":00";
+
+    const subSel1 = document.getElementById("regSubjectSelect");
+    const subSel2 = document.getElementById("admQSubject");
+    subSel1.innerHTML = ""; subSel2.innerHTML = "";
+    appState.subjects.forEach(s => {
+      subSel1.innerHTML += `<option value="${s}">${s}</option>`;
+      subSel2.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+
+    document.getElementById("regCountPublic").innerText = appState.registrations.length;
+    document.getElementById("admRegCount").innerText = appState.registrations.length;
   }
 
-  // --- TOP TABS ---
-  function openTopTab(tabId, btnEl) {
+  function openMainTab(tabId, btn) {
     document.querySelectorAll(".view-box").forEach(v => v.classList.remove("active"));
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.getElementById(tabId).classList.add("active");
-    if (btnEl) btnEl.classList.add("active");
-    if (tabId === "tab-results") renderResultsUI();
+    if (btn) btn.classList.add("active");
   }
 
-  // --- ADMIN SUB-TABS ---
-  function openAdminSubTab(subId, btnEl) {
+  function openAdminSub(subId, btn) {
     document.querySelectorAll(".subview-box").forEach(v => v.classList.remove("active"));
     document.querySelectorAll(".subtab-btn").forEach(b => b.classList.remove("active"));
     document.getElementById(subId).classList.add("active");
-    if (btnEl) btnEl.classList.add("active");
-    if (subId === "sub-students") renderAdminStudentsTable();
-    if (subId === "sub-results") renderAdminResultsSummary();
+    if (btn) btn.classList.add("active");
   }
 
-  // --- 10-TAP HEADER TO OPEN ADMIN PANEL ---
-  let headerTaps = 0;
-  let headerTapTimer = null;
+  // 10 taps on header opens Admin Panel
+  let hTaps = 0, hTimer = null;
   function handleHeaderTap() {
-    headerTaps++;
-    clearTimeout(headerTapTimer);
-    headerTapTimer = setTimeout(() => { headerTaps = 0; }, 3500);
-    if (headerTaps >= 10) {
-      headerTaps = 0;
-      const admBtn = document.getElementById("btn-tab-admin");
-      admBtn.style.display = "inline-block";
-      openTopTab("tab-admin", admBtn);
-      alert("⚙️ Admin Panel විවෘත විය!");
+    hTaps++;
+    clearTimeout(hTimer);
+    hTimer = setTimeout(() => { hTaps = 0; }, 3500);
+    if (hTaps >= 10) {
+      hTaps = 0;
+      const b = document.getElementById("btn-admin");
+      b.style.display = "inline-block";
+      openMainTab("tab-admin", b);
     }
   }
 
-  // --- STUDENT REGISTRATION (UP TO 50) & WHATSAPP LINKS ---
-  function addRegisteredStudent() {
-    if (state.students.length >= 50) {
-      return alert("⚠️ උපරිම ශිෂ්‍යයින් 50ක් Register කර අවසන්!");
-    }
-    const name = document.getElementById("stuInputName").value.trim();
-    const phone = document.getElementById("stuInputPhone").value.trim().replace(/[^0-9]/g, "");
-    const setNo = parseInt(document.getElementById("stuInputSet").value) || (state.students.length + 1);
-    if (!name) return alert("කරුණාකර ශිෂ්‍යයාගේ නම ලියන්න.");
+  // Student submits registration from normal link (chooses subject, MCQ, 2-mark, 3-mark)
+  function submitStudentRegistration() {
+    if (appState.registrations.length >= 50) return alert("50 දෙනෙකු Register වී අවසන්!");
+    const name = document.getElementById("regStuName").value.trim();
+    const wa = document.getElementById("regStuWa").value.trim().replace(/[^0-9]/g, "");
+    const subject = document.getElementById("regSubjectSelect").value;
+    const mcqReq = parseInt(document.getElementById("regMcqCount").value) || 0;
+    const e2Req = parseInt(document.getElementById("regE2Count").value) || 0;
+    const e3Req = parseInt(document.getElementById("regE3Count").value) || 0;
 
-    const baseUrl = window.location.href.split("#")[0];
-    const token = btoa(unescape(encodeURIComponent(name + "|" + setNo + "|" + Date.now())));
-    const examLink = `${baseUrl}#exam=${encodeURIComponent(token)}`;
+    if (!name) return alert("ශිෂ්‍යයාගේ නම ලියන්න.");
 
-    state.students.push({
+    // Build uniquely shuffled questions for this student
+    const pool = appState.questions.filter(q => q.subject === subject || subject === "Anatomy & Physiology");
+    const mcqPool = shuffleArr(appState.questions.filter(q => q.type === "MCQ")).slice(0, mcqReq);
+    const e2Pool = shuffleArr(appState.questions.filter(q => q.type === "ESSAY2")).slice(0, e2Req);
+    const e3Pool = shuffleArr(appState.questions.filter(q => q.type === "ESSAY3")).slice(0, e3Req);
+
+    const payload = {
+      studentName: name,
+      whatsapp: wa,
+      subject,
+      mcq: mcqPool,
+      e2: e2Pool,
+      e3: e3Pool,
+      e5: []
+    };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const uniqueLink = `${window.location.href.split("#")[0]}#paper=${encodeURIComponent(encoded)}`;
+
+    appState.registrations.push({
       id: Date.now(),
       name,
-      phone,
-      setNo,
-      examLink,
-      submitted: false
+      whatsapp: wa,
+      subject,
+      mcqCount: mcqPool.length,
+      e2Count: e2Pool.length,
+      e3Count: e3Pool.length,
+      uniqueLink
     });
-    persistState();
-    document.getElementById("stuInputName").value = "";
-    document.getElementById("stuInputPhone").value = "";
-    document.getElementById("stuInputSet").value = Math.min(50, state.students.length + 1);
-    renderStudentsUI();
+
+    saveState();
+    syncHeaderAndForms();
+    renderRegistrationsAdmin();
+    document.getElementById("regStuName").value = "";
+    document.getElementById("regStuWa").value = "";
+    alert("✅ ඔබගේ Registration සාර්ථකව Submit විය! Admin විසින් ඔබගේ Paper Link එක එවනු ඇත.");
   }
 
-  function renderStudentsUI() {
-    document.getElementById("stuTotalBadge").innerText = state.students.length;
-    const sel = document.getElementById("stuLinkSelect");
-    sel.innerHTML = state.students.map((s, idx) =>
-      `<option value="${idx}">${idx + 1}. ${s.name} (Set #${s.setNo})</option>`
-    ).join("");
-    refreshSingleLinkPreview();
-
-    const listDiv = document.getElementById("registeredStudentsList");
-    listDiv.innerHTML = state.students.map((s, idx) => `
-      <div class="result-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+  function renderRegistrationsAdmin() {
+    document.getElementById("admRegCount").innerText = appState.registrations.length;
+    const box = document.getElementById("adminRegisteredStudentsBox");
+    box.innerHTML = appState.registrations.map((r, i) => `
+      <div class="card-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div>
-          <b>${idx + 1}. ${s.name}</b> | Set #${s.setNo} | 📞 ${s.phone || "No WhatsApp"} |
-          <span>${s.submitted ? "✅ Submitted" : "⏳ Pending"}</span>
+          <b>${i + 1}. ${r.name}</b> | විෂය: <b>${r.subject}</b> | MCQ: ${r.mcqCount}, ලකුණු 2: ${r.e2Count}, ලකුණු 3: ${r.e3Count} | 📞 ${r.whatsapp || "-"}
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendStudentLinkByIndex(${idx})">📲 WhatsApp Link</button>
-          <button class="btn" style="margin:0; padding:5px 10px;" onclick="startExamForStudentIndex(${idx})">Open Paper</button>
-          <button class="btn btn-red" style="margin:0; padding:5px 8px;" onclick="deleteStudent(${idx})">✖</button>
+          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendStudentUniqueLinkWa(${i})">📲 Link WhatsApp යවන්න</button>
+          <button class="btn btn-blue" style="margin:0; padding:5px 10px;" onclick="openStudentPaperDirectly(${i})">Open Paper</button>
+          <button class="btn btn-red" style="margin:0; padding:5px 8px;" onclick="deleteRegistration(${i})">✖</button>
         </div>
       </div>
     `).join("");
   }
 
-  function refreshSingleLinkPreview() {
-    const idx = parseInt(document.getElementById("stuLinkSelect").value);
-    const box = document.getElementById("stuLinkBox");
-    if (!isNaN(idx) && state.students[idx]) {
-      box.value = state.students[idx].examLink;
-    } else {
-      box.value = window.location.href.split("#")[0] + "#exam=guest";
-    }
+  function sendStudentUniqueLinkWa(idx) {
+    const r = appState.registrations[idx];
+    const target = r.whatsapp || appState.adminPhone.replace(/[^0-9]/g, "");
+    const msg = `*${appState.campusName}*\nආයුබෝවන් *${r.name}*,\nඔබගේ විෂය (${r.subject}) සඳහා සැකසූ Exam Paper Link එක:\n${r.uniqueLink}\n(3 වතාවක් වෙනත් තැනක touch කළහොත් Lock වේ.)`;
+    window.open(`https://wa.me/${target}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
-  function sendStudentLinkByIndex(idx) {
-    const s = state.students[idx];
-    if (!s) return;
-    const targetPhone = s.phone || state.waNumber.replace(/[^0-9]/g, "");
-    const msg = `*${state.campusName}*\nආයුබෝවන් *${s.name}*,\nඔබගේ Exam Paper (Set #${s.setNo}) සඳහා Link එක:\n${s.examLink}\n(Link එක open කළ ගමන් Paper එකට යයි. වෙනත් Tab වලට යාමෙන් lock වේ.)`;
-    window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, "_blank");
-  }
-
-  function sendSingleStudentLinkWa() {
-    const idx = parseInt(document.getElementById("stuLinkSelect").value);
-    if (isNaN(idx)) return alert("ශිෂ්‍යයෙකු Register කරන්න.");
-    sendStudentLinkByIndex(idx);
-  }
-
-  // Send links to registered students via WhatsApp
-  function sendAllStudentsLinksWa() {
-    if (state.students.length === 0) return alert("Register වූ ශිෂ්‍යයින් නොමැත.");
-    let summary = `*${state.campusName} - Registered Students Exam Links (${state.students.length})*\n\n`;
-    state.students.forEach((s, i) => {
-      summary += `${i + 1}. *${s.name}* (Set #${s.setNo}) - ${s.phone || "N/A"}\nLink: ${s.examLink}\n\n`;
-    });
-    const adminWa = state.waNumber.replace(/[^0-9]/g, "");
-    window.open(`https://wa.me/${adminWa}?text=${encodeURIComponent(summary)}`, "_blank");
-  }
-
-  function deleteStudent(idx) {
-    state.students.splice(idx, 1);
-    persistState();
-    renderStudentsUI();
-  }
-
-  function startExamForStudentIndex(idx) {
-    const s = state.students[idx];
-    if (!s) return;
-    currentStudent = { name: s.name, phone: s.phone, setNo: s.setNo, locked: false };
-    studentMcqSelections = {};
-    studentEssayAnswers = {};
-    buildExamPaperSet();
-    renderExamPaper();
-    openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
-  }
-
-  function openDirectStudentExam() {
-    const idx = parseInt(document.getElementById("stuLinkSelect").value);
-    if (!isNaN(idx) && state.students[idx]) {
-      startExamForStudentIndex(idx);
-    } else {
-      renderExamPaper();
-      openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
-    }
-  }
-
-  function launchStudentExamMode() {
-    openDirectStudentExam();
-  }
-
-  // Opening link goes straight to Paper
-  function checkUrlDirectExamLink() {
-    const hash = window.location.hash || "";
-    if (hash.startsWith("#exam=")) {
-      const raw = decodeURIComponent(hash.replace("#exam=", ""));
-      if (raw !== "guest") {
-        try {
-          const decoded = decodeURIComponent(escape(atob(raw)));
-          const parts = decoded.split("|");
-          currentStudent = { name: parts[0] || "Student", phone: "", setNo: parts[1] || 1, locked: false };
-        } catch (e) {}
-      }
-      buildExamPaperSet();
-      renderExamPaper();
-      openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
-    }
-  }
-
-  // --- SHUFFLED PAPER GENERATION ---
-  function shuffleList(arr) {
-    const copy = [...arr];
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  }
-
-  function generateShuffledSet() {
-    state.activePaperSet = {
-      numPapers: parseInt(document.getElementById("genNumPapers").value) || 5,
-      mcqCount: parseInt(document.getElementById("genNumMcq").value) || 0,
-      e2Count: parseInt(document.getElementById("genNumE2").value) || 0,
-      e3Count: parseInt(document.getElementById("genNumE3").value) || 0,
-      e5Count: parseInt(document.getElementById("genNumE5").value) || 0
-    };
-    persistState();
-    buildExamPaperSet();
-    renderExamPaper();
-    document.getElementById("genPreviewInfo").innerText =
-      `✅ ${state.activePaperSet.numPapers} Papers සඳහා Shuffled Questions සකස් කර Exam එකට යොදන ලදී!`;
-  }
-
-  function buildExamPaperSet() {
-    const cfg = state.activePaperSet;
-    const allMcq = state.questions.filter(x => x.type === "MCQ");
-    const allE2 = state.questions.filter(x => x.type === "ESSAY2");
-    const allE3 = state.questions.filter(x => x.type === "ESSAY3");
-    const allE5 = state.questions.filter(x => x.type === "ESSAY5");
-
-    currentPaperQuestions = {
-      mcq: shuffleList(allMcq).slice(0, cfg.mcqCount),
-      e2: shuffleList(allE2).slice(0, cfg.e2Count),
-      e3: shuffleList(allE3).slice(0, cfg.e3Count),
-      e5: shuffleList(allE5).slice(0, cfg.e5Count)
-    };
-  }
-
-  // --- RENDER STUDENT EXAM PAPER (CLEAN, ORDERED, MCQ CLEARABLE, ESSAY TYPING + VOICE TYPING + NEW PAGE) ---
-  function renderExamPaper() {
-    document.getElementById("examCurrentStuName").innerText = currentStudent.name;
-    document.getElementById("examCurrentSetNo").innerText = currentStudent.setNo;
-
-    const mode = document.getElementById("examPageMode").value;
-    const container = document.getElementById("examPaperContainer");
-
-    const combined = [
-      ...currentPaperQuestions.mcq.map((item, i) => ({ kind: "MCQ", num: i + 1, data: item })),
-      ...currentPaperQuestions.e2.map((item, i) => ({ kind: "ESSAY2", marks: 2, num: i + 1, data: item })),
-      ...currentPaperQuestions.e3.map((item, i) => ({ kind: "ESSAY3", marks: 3, num: i + 1, data: item })),
-      ...currentPaperQuestions.e5.map((item, i) => ({ kind: "ESSAY5", marks: 5, num: i + 1, data: item }))
-    ];
-
-    if (mode === "per_question") {
-      container.innerHTML = combined.map((entry, idx) => `
-        <div class="new-page-card" style="page-break-after:always;">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">
-            <b>පිටුව ${idx + 1} / ${combined.length}</b>
-            <span>${entry.kind === "MCQ" ? "MCQ" : "ලකුණු " + entry.marks + " Essay"}</span>
-          </div>
-          ${renderSingleQuestionHtml(entry)}
-        </div>
-      `).join("");
-    } else {
-      let html = "";
-      if (currentPaperQuestions.mcq.length > 0) {
-        html += `<h3>කොටස A — MCQ (බහුවරණ ප්‍රශ්න)</h3>`;
-        currentPaperQuestions.mcq.forEach((item, i) => {
-          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "MCQ", num: i + 1, data: item })}</div>`;
-        });
-      }
-      if (currentPaperQuestions.e2.length > 0) {
-        html += `<h3>කොටස B — ලකුණු 2 Essay ප්‍රශ්න</h3>`;
-        currentPaperQuestions.e2.forEach((item, i) => {
-          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY2", marks: 2, num: i + 1, data: item })}</div>`;
-        });
-      }
-      if (currentPaperQuestions.e3.length > 0) {
-        html += `<h3>කොටස C — ලකුණු 3 Essay ප්‍රශ්න</h3>`;
-        currentPaperQuestions.e3.forEach((item, i) => {
-          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY3", marks: 3, num: i + 1, data: item })}</div>`;
-        });
-      }
-      if (currentPaperQuestions.e5.length > 0) {
-        html += `<h3>කොටස D — ලකුණු 5 Essay ප්‍රශ්න</h3>`;
-        currentPaperQuestions.e5.forEach((item, i) => {
-          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY5", marks: 5, num: i + 1, data: item })}</div>`;
-        });
-      }
-      container.innerHTML = html;
-    }
-  }
-
-  function renderSingleQuestionHtml(entry) {
-    const q = entry.data;
-    if (entry.kind === "MCQ") {
-      const chosen = studentMcqSelections[q.id];
-      const letters = ["A", "B", "C", "D"];
-      return `
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-          <p style="margin:0; font-weight:bold;">${entry.num}. ${q.q}</p>
-          <button class="btn btn-red no-print" style="margin:0; padding:3px 8px; font-size:0.78rem;" onclick="clearMcqChoice('${q.id}')">🗑️ Delete / Clear</button>
-        </div>
-        ${q.options.map((opt, oi) => `
-          <label class="mcq-choice">
-            <input type="radio" name="mcq_${q.id}" ${chosen === oi ? "checked" : ""} onchange="selectMcqChoice('${q.id}', ${oi})">
-            <span><b>(${letters[oi]})</b> ${opt}</span>
-          </label>
-        `).join("")}
-      `;
-    } else {
-      const val = studentEssayAnswers[q.id] || "";
-      return `
-        <p style="margin:0 0 8px; font-weight:bold;">${entry.num}. ${q.q} <span style="color:var(--secondary);">[ලකුණු ${entry.marks}]</span></p>
-        <textarea rows="5" spellcheck="false" autocorrect="off" autocomplete="off"
-          placeholder="පිළිතුර Type කරන්න හෝ Voice Typing භාවිතා කරන්න..."
-          oninput="saveEssayText('${q.id}', this.value)">${val}</textarea>
-      `;
-    }
-  }
-
-  function selectMcqChoice(qId, optIdx) {
-    studentMcqSelections[qId] = optIdx;
-  }
-
-  // Delete/clear MCQ answer anytime and re-select
-  function clearMcqChoice(qId) {
-    delete studentMcqSelections[qId];
-    renderExamPaper();
-  }
-
-  function saveEssayText(qId, txt) {
-    studentEssayAnswers[qId] = txt;
-  }
-
-  // --- EXAM TIMER (HOURS & MINUTES) + MCQ TIMER (ADJUST & DELETE) ---
-  let mainTimerRef = null;
-  let mainSecondsLeft = 3600;
-
-  function formatHMS(sec) {
-    const h = String(Math.floor(sec / 3600)).padStart(2, "0");
-    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
-    const s = String(sec % 60).padStart(2, "0");
-    return `${h}:${m}:${s}`;
-  }
-
-  function setMainExamTimer() {
-    clearInterval(mainTimerRef);
-    const hrs = parseInt(document.getElementById("adjExamHrs").value) || 0;
-    const mins = parseInt(document.getElementById("adjExamMins").value) || 0;
-    mainSecondsLeft = Math.max(10, hrs * 3600 + mins * 60);
-    document.getElementById("mainExamClock").innerText = formatHMS(mainSecondsLeft);
-  }
-
-  function startMainExamTimer() {
-    clearInterval(mainTimerRef);
-    mainTimerRef = setInterval(() => {
-      if (mainSecondsLeft <= 0) {
-        clearInterval(mainTimerRef);
-        submitExamAndShowResults();
-      } else {
-        mainSecondsLeft--;
-        document.getElementById("mainExamClock").innerText = formatHMS(mainSecondsLeft);
-      }
-    }, 1000);
-  }
-
-  let mcqTimerRef = null;
-  let mcqSecondsLeft = 900;
-
-  function adjustMcqClock() {
-    clearInterval(mcqTimerRef);
-    const mins = parseInt(document.getElementById("adjMcqMins").value) || 15;
-    mcqSecondsLeft = mins * 60;
-    const mm = String(Math.floor(mcqSecondsLeft / 60)).padStart(2, "0");
-    const ss = String(mcqSecondsLeft % 60).padStart(2, "0");
-    document.getElementById("mcqClockText").innerText = `${mm}:${ss}`;
-    mcqTimerRef = setInterval(() => {
-      if (mcqSecondsLeft <= 0) {
-        clearInterval(mcqTimerRef);
-        alert("⏱️ MCQ කාලය අවසන්!");
-      } else {
-        mcqSecondsLeft--;
-        const m2 = String(Math.floor(mcqSecondsLeft / 60)).padStart(2, "0");
-        const s2 = String(mcqSecondsLeft % 60).padStart(2, "0");
-        document.getElementById("mcqClockText").innerText = `${m2}:${s2}`;
-      }
-    }, 1000);
-  }
-
-  function deleteMcqClock() {
-    clearInterval(mcqTimerRef);
-    document.getElementById("mcqTimerSection").style.display = "none";
-  }
-
-  // --- BLOCK COPY/PASTE & TRIGGER ALARM + NAME + LOCK ON TAB SWITCH / OUTSIDE TOUCH ---
-  let alarmAudioCtx = null;
-  function playAlertAlarm() {
+  function openStudentPaperDirectly(idx) {
+    const r = appState.registrations[idx];
     try {
-      alarmAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = alarmAudioCtx.createOscillator();
-      osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(880, alarmAudioCtx.currentTime);
-      osc.connect(alarmAudioCtx.destination);
-      osc.start();
-      setTimeout(() => { osc.stop(); }, 1800);
+      const hashPart = r.uniqueLink.split("#paper=")[1];
+      const obj = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hashPart)))));
+      activePaper = obj;
+      resetExamSessionState();
+      renderExamSession();
+      openMainTab("tab-exam", document.getElementById("btn-exam"));
     } catch (e) {}
   }
 
-  function triggerExamViolationLock(reasonText) {
-    if (currentStudent.locked) return;
-    currentStudent.locked = true;
-    document.getElementById("violatorName").innerText = currentStudent.name;
-    document.getElementById("violatorReason").innerText = reasonText;
-    document.getElementById("violationModal").style.display = "flex";
-    playAlertAlarm();
+  function deleteRegistration(idx) {
+    appState.registrations.splice(idx, 1);
+    saveState();
+    syncHeaderAndForms();
+    renderRegistrationsAdmin();
   }
 
-  function sendAlertToAdminWhatsApp() {
-    const wa = state.waNumber.replace(/[^0-9]/g, "");
-    const msg = `🚨 *EXAM ALERT - ${state.campusName}*\nශිෂ්‍යයාගේ නම: *${currentStudent.name}* (Set #${currentStudent.setNo})\nතත්ත්වය: Paper එක අතරතුර වෙනත් Tab/ස්ථානයකට මාරු වූ බැවින් Lock විය!`;
-    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, "_blank");
+  function shuffleArr(arr) {
+    const c = [...arr];
+    for (let i = c.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [c[i], c[j]] = [c[j], c[i]];
+    }
+    return c;
   }
 
-  function unlockExamWithAdminCode() {
-    const code = prompt("Admin Unlock Code ඇතුළත් කරන්න:");
-    if (code === state.adminUnlockCode) {
-      currentStudent.locked = false;
-      document.getElementById("violationModal").style.display = "none";
+  function loadDefaultPaper() {
+    activePaper = {
+      studentName: "Sample Student",
+      subject: "Ceylon Massage Therapy",
+      mcq: shuffleArr(appState.questions.filter(q => q.type === "MCQ")).slice(0, 5),
+      e2: shuffleArr(appState.questions.filter(q => q.type === "ESSAY2")).slice(0, 2),
+      e3: shuffleArr(appState.questions.filter(q => q.type === "ESSAY3")).slice(0, 2),
+      e5: shuffleArr(appState.questions.filter(q => q.type === "ESSAY5")).slice(0, 1)
+    };
+    resetExamSessionState();
+    renderExamSession();
+  }
+
+  function checkSharedPaperLink() {
+    const h = window.location.hash || "";
+    if (h.startsWith("#paper=")) {
+      try {
+        const raw = decodeURIComponent(h.replace("#paper=", ""));
+        const parsed = JSON.parse(decodeURIComponent(escape(atob(raw))));
+        activePaper = parsed;
+        resetExamSessionState();
+        renderExamSession();
+        openMainTab("tab-exam", document.getElementById("btn-exam"));
+      } catch (e) {}
+    }
+  }
+
+  function resetExamSessionState() {
+    mcqAnswers = {};
+    essayAnswers = {};
+    violationCount = 0;
+    isPaperLocked = false;
+    isEssayTimeExpired = false;
+    document.getElementById("warningBanner").innerText = "";
+    document.getElementById("mcqPhaseArea").style.display = "block";
+    document.getElementById("essayPhaseArea").style.display = "none";
+    document.getElementById("mcqTimerBox").style.display = "inline-block";
+    document.getElementById("essayTimerBox").style.display = "none";
+  }
+
+  function renderExamSession() {
+    document.getElementById("examStuLabel").innerText = activePaper.studentName;
+    document.getElementById("examSubLabel").innerText = activePaper.subject;
+
+    const letters = ["A", "B", "C", "D"];
+    let mcqHtml = `<h3>කොටස A — MCQ ප්‍රශ්න</h3>`;
+    activePaper.mcq.forEach((q, i) => {
+      const picked = mcqAnswers[q.id];
+      mcqHtml += `
+        <div class="card-box">
+          <div style="display:flex; justify-content:space-between; gap:8px;">
+            <b>${i + 1}. ${q.q}</b>
+            <button class="btn btn-red no-print" style="margin:0; padding:3px 8px; font-size:0.78rem;" onclick="clearMcqAnswer('${q.id}')">Delete / Clear</button>
+          </div>
+          ${q.options.map((opt, oi) => `
+            <label class="mcq-choice">
+              <input type="radio" name="m_${q.id}" ${picked === oi ? "checked" : ""} onchange="chooseMcq('${q.id}', ${oi})">
+              <span><b>(${letters[oi]})</b> ${opt}</span>
+            </label>
+          `).join("")}
+        </div>
+      `;
+    });
+    document.getElementById("mcqPhaseArea").innerHTML = mcqHtml;
+
+    const essays = [
+      ...activePaper.e2.map((x, i) => ({ ...x, marks: 2, num: i + 1 })),
+      ...activePaper.e3.map((x, i) => ({ ...x, marks: 3, num: i + 1 })),
+      ...activePaper.e5.map((x, i) => ({ ...x, marks: 5, num: i + 1 }))
+    ];
+    let essayHtml = `<h3>කොටස B — Essay ප්‍රශ්න</h3>`;
+    essays.forEach((q, idx) => {
+      const val = essayAnswers[q.id] || "";
+      essayHtml += `
+        <div class="card-box">
+          <b>${idx + 1}. ${q.q} <span style="color:var(--secondary);">[ලකුණු ${q.marks}]</span></b>
+          <textarea rows="5" ${isEssayTimeExpired ? "disabled" : ""} spellcheck="false" autocorrect="off"
+            placeholder="පිළිතුර Type කරන්න හෝ Voice Typing භාවිතා කරන්න..."
+            oninput="essayAnswers['${q.id}'] = this.value">${val}</textarea>
+        </div>
+      `;
+    });
+    document.getElementById("essayPhaseArea").innerHTML = essayHtml;
+  }
+
+  function chooseMcq(qId, oi) {
+    mcqAnswers[qId] = oi;
+  }
+
+  function clearMcqAnswer(qId) {
+    delete mcqAnswers[qId];
+    renderExamSession();
+  }
+
+  // MCQ Timer -> Auto-opens Essay when finished
+  let mcqInt = null;
+  function startMcqPhaseTimer() {
+    clearInterval(mcqInt);
+    let sec = appState.mcqMinutes * 60;
+    mcqInt = setInterval(() => {
+      if (sec <= 0) {
+        clearInterval(mcqInt);
+        switchToEssayPhase();
+      } else {
+        sec--;
+        const m = String(Math.floor(sec / 60)).padStart(2, "0");
+        const s = String(sec % 60).padStart(2, "0");
+        document.getElementById("mcqCountdownText").innerText = `${m}:${s}`;
+      }
+    }, 1000);
+  }
+
+  function switchToEssayPhase() {
+    clearInterval(mcqInt);
+    document.getElementById("mcqPhaseArea").style.display = "none";
+    document.getElementById("essayPhaseArea").style.display = "block";
+    document.getElementById("mcqTimerBox").style.display = "none";
+    document.getElementById("essayTimerBox").style.display = "inline-block";
+    startEssayPhaseTimer();
+  }
+
+  // Essay Timer -> Locks typing when finished, keeps Submit open
+  let essayInt = null;
+  function startEssayPhaseTimer() {
+    clearInterval(essayInt);
+    let sec = appState.essayMinutes * 60;
+    essayInt = setInterval(() => {
+      if (sec <= 0) {
+        clearInterval(essayInt);
+        isEssayTimeExpired = true;
+        renderExamSession();
+        alert("⏳ Essay කාලය අවසන්! පිළිතුරු ලිවීම Lock විය; දැන් Submit බොත්තම ඔබන්න.");
+      } else {
+        sec--;
+        const m = String(Math.floor(sec / 60)).padStart(2, "0");
+        const s = String(sec % 60).padStart(2, "0");
+        document.getElementById("essayCountdownText").innerText = `${m}:${s}`;
+      }
+    }, 1000);
+  }
+
+  // 1st & 2nd touch outside -> Warning; 3rd touch outside -> Lock + WhatsApp + Admin Unlock
+  function registerOutsideTouchWarning() {
+    if (!document.getElementById("tab-exam").classList.contains("active") || isPaperLocked) return;
+    violationCount++;
+    if (violationCount < 3) {
+      const msg = `⚠️ Warning (${violationCount}/3): ${activePaper.studentName} — වෙනත් තැනක/Tab එකකට Touch නොකරන්න! (3 වතාවක් වුවහොත් Lock වේ.)`;
+      document.getElementById("warningBanner").innerText = msg;
+      alert(msg);
     } else {
-      alert("❌ වැරදි Code එකකි!");
+      isPaperLocked = true;
+      document.getElementById("lockedStudentName").innerText = activePaper.studentName;
+      document.getElementById("lockScreenModal").style.display = "flex";
     }
   }
 
   document.addEventListener("visibilitychange", () => {
-    const examActive = document.getElementById("tab-exam").classList.contains("active");
-    if (document.hidden && examActive && !currentStudent.locked) {
-      triggerExamViolationLock("ශිෂ්‍යයා වෙනත් Tab එකකට හෝ App එකකට මාරු විය!");
+    if (document.hidden) registerOutsideTouchWarning();
+  });
+
+  function sendLockWhatsAppAlert() {
+    const phone = appState.adminPhone.replace(/[^0-9]/g, "");
+    const txt = `🚨 *EXAM LOCK ALERT (3rd Touch)*\nශිෂ්‍යයා: *${activePaper.studentName}*\nවිෂය: ${activePaper.subject}\nPaper එක Lock වී ඇත.`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(txt)}`, "_blank");
+  }
+
+  function adminUnlockPaper() {
+    const pin = prompt("Admin Unlock PIN ඇතුළත් කරන්න:");
+    if (pin === appState.adminUnlockPin) {
+      isPaperLocked = false;
+      violationCount = 0;
+      document.getElementById("warningBanner").innerText = "";
+      document.getElementById("lockScreenModal").style.display = "none";
+    } else {
+      alert("❌ වැරදි PIN!");
     }
-  });
+  }
 
-  document.addEventListener("copy", (e) => {
-    if (document.getElementById("tab-exam").classList.contains("active")) e.preventDefault();
-  });
-  document.addEventListener("paste", (e) => {
-    if (document.getElementById("tab-exam").classList.contains("active")) e.preventDefault();
-  });
+  function finishWithCurrentMarks() {
+    document.getElementById("lockScreenModal").style.display = "none";
+    submitPaperAndScore();
+  }
 
-  // --- SUBMIT EXAM, SHOW IN THIS WEB APP + HIGH MARKS + WHATSAPP ANSWER SHEET ---
-  function submitExamAndShowResults() {
-    let mcqCorrect = 0;
-    const mcqTotal = currentPaperQuestions.mcq.length;
-    const mcqDetails = [];
-
-    currentPaperQuestions.mcq.forEach((q, idx) => {
-      const picked = studentMcqSelections[q.id];
-      const isRight = picked === q.ansIdx;
-      if (isRight) mcqCorrect++;
-      const letters = ["A", "B", "C", "D"];
-      mcqDetails.push(`Q${idx + 1}: ${picked !== undefined ? letters[picked] : "-"} (Ans: ${letters[q.ansIdx]})`);
+  function submitPaperAndScore() {
+    clearInterval(mcqInt);
+    clearInterval(essayInt);
+    let right = 0;
+    const total = activePaper.mcq.length;
+    activePaper.mcq.forEach(q => {
+      if (mcqAnswers[q.id] === q.ansIdx) right++;
     });
-
-    const essayCount = currentPaperQuestions.e2.length + currentPaperQuestions.e3.length + currentPaperQuestions.e5.length;
-    const essayAnswered = Object.values(studentEssayAnswers).filter(t => t && t.trim().length > 0).length;
-    const scorePct = mcqTotal > 0 ? Math.round((mcqCorrect / mcqTotal) * 100) : 100;
-
-    const record = {
-      id: Date.now(),
-      studentName: currentStudent.name,
-      setNo: currentStudent.setNo,
-      mcqCorrect,
-      mcqTotal,
-      scorePct,
-      essayAnswered,
-      essayCount,
-      mcqDetails,
-      essayAnswers: { ...studentEssayAnswers },
+    const pct = total > 0 ? Math.round((right / total) * 100) : 100;
+    appState.results.unshift({
+      studentName: activePaper.studentName,
+      subject: activePaper.subject,
+      right,
+      total,
+      pct,
       time: new Date().toLocaleString()
-    };
-
-    state.submissions.unshift(record);
-    const stuObj = state.students.find(s => s.name === currentStudent.name);
-    if (stuObj) stuObj.submitted = true;
-    persistState();
-
-    // Send Answer Sheet summary to WhatsApp
-    const wa = state.waNumber.replace(/[^0-9]/g, "");
-    const waMsg = `*${state.campusName} - Answer Sheet*\nශිෂ්‍යයා: *${record.studentName}* (Set #${record.setNo})\nMCQ Score: ${mcqCorrect}/${mcqTotal} (${scorePct}%)\nEssay Answered: ${essayAnswered}/${essayCount}\nMCQ Answers: ${mcqDetails.join(", ")}`;
-    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(waMsg)}`, "_blank");
-
-    renderResultsUI();
-    openTopTab("tab-results", document.getElementById("btn-tab-results"));
+    });
+    saveState();
+    renderResults();
+    openMainTab("tab-results", document.getElementById("btn-results"));
   }
 
-  function printStudentPaperPDF() {
-    const prevTitle = document.title;
-    document.title = `${currentStudent.name}_Set_${currentStudent.setNo}_Paper`;
-    window.print();
-    document.title = prevTitle;
+  function renderResults() {
+    const highBox = document.getElementById("highMarksContainer");
+    const allBox = document.getElementById("allResultsContainer");
+    const high = appState.results.filter(r => r.pct >= 75);
+
+    highBox.innerHTML = high.length === 0
+      ? "<p>High Marks ලබා ගත් ශිෂ්‍යයින් තවම නැත.</p>"
+      : high.map(r => `<div class="high-card"><b>🌟 ${r.studentName}</b> (${r.subject}) — <b>${r.pct}%</b> (${r.right}/${r.total})</div>`).join("");
+
+    allBox.innerHTML = appState.results.length === 0
+      ? "<p>ප්‍රතිඵල තවම නැත.</p>"
+      : appState.results.map(r => `<div class="card-box"><b>${r.studentName}</b> (${r.subject}) — <b>${r.right}/${r.total}</b> (${r.pct}%) <div style="font-size:0.8rem;">${r.time}</div></div>`).join("");
   }
 
-  function renderResultsUI() {
-    const highList = document.getElementById("highMarksList");
-    const allList = document.getElementById("allSubmittedList");
-
-    const highScorers = state.submissions.filter(r => r.scorePct >= 75);
-    highList.innerHTML = highScorers.length === 0
-      ? `<p style="color:#64748b;">තවම High Marks (75%+) ලබා ගත් අය සටහන් වී නැත.</p>`
-      : highScorers.map(r => `
-        <div class="high-mark-card">
-          <b>🌟 ${r.studentName}</b> (Set #${r.setNo}) — <b>${r.scorePct}%</b> (MCQ ${r.mcqCorrect}/${r.mcqTotal})
-          <div style="font-size:0.82rem; color:#475569;">${r.time}</div>
-        </div>
-      `).join("");
-
-    allList.innerHTML = state.submissions.length === 0
-      ? `<p style="color:#64748b;">තවම Papers Submit කර නැත.</p>`
-      : state.submissions.map(r => `
-        <div class="result-card">
-          <b>${r.studentName}</b> (Set #${r.setNo}) | MCQ: <b>${r.mcqCorrect}/${r.mcqTotal}</b> (${r.scorePct}%) | Essay: ${r.essayAnswered}/${r.essayCount}
-          <div style="font-size:0.82rem; margin-top:4px;">${r.mcqDetails.join(" | ")}</div>
-        </div>
-      `).join("");
-  }
-
-  // --- SEPARATE ANSWER SHEETS (MCQ + 2, 3, 5) ---
-  function renderAnswerSheet(typeFilter) {
-    const box = document.getElementById("answerSheetContainer");
-    const items = state.questions.filter(q => q.type === typeFilter);
+  function showAnswersByType(type) {
+    const items = appState.questions.filter(q => q.type === type);
     const letters = ["A", "B", "C", "D"];
-
-    if (typeFilter === "MCQ") {
-      box.innerHTML = `<h3>MCQ පිළිතුරු (1 – ${items.length})</h3>` + items.map((q, i) => `
-        <div class="q-card" style="padding:10px 14px; margin-bottom:8px;">
-          <b>${i + 1}.</b> ${q.q} <br>
-          <span style="color:var(--primary); font-weight:bold;">හරි පිළිතුර: (${letters[q.ansIdx]}) ${q.options[q.ansIdx]}</span>
-        </div>
-      `).join("");
-    } else {
-      const labelMap = { ESSAY2: "ලකුණු 2 Essay", ESSAY3: "ලකුණු 3 Essay", ESSAY5: "ලකුණු 5 Essay" };
-      box.innerHTML = `<h3>${labelMap[typeFilter]} පිළිතුරු (1 – ${items.length})</h3>` + items.map((q, i) => `
-        <div class="q-card" style="padding:12px 14px; margin-bottom:10px;">
-          <b>${i + 1}. ${q.q}</b>
-          <p style="margin:6px 0 0; color:#1e293b;"><b>පිළිතුර:</b> ${q.ans}</p>
-        </div>
-      `).join("");
-    }
-  }
-
-  // --- DOCTOR IMAGE UPDATE ---
-  function updateDoctorImage(e) {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = ev => {
-      state.doctorPhoto = ev.target.result;
-      persistState();
-      applyHeaderAndProfile();
-    };
-    r.readAsDataURL(f);
-  }
-
-  // --- ADMIN QUESTION EDITOR (ADD / EDIT / DELETE) ---
-  function toggleAdminQuestionInputs() {
-    const t = document.getElementById("admType").value;
-    document.getElementById("admMcqBlock").style.display = (t === "MCQ") ? "block" : "none";
-    document.getElementById("admEssayBlock").style.display = (t !== "MCQ") ? "block" : "none";
-  }
-
-  function saveQuestionItem() {
-    const type = document.getElementById("admType").value;
-    const qText = document.getElementById("admPrompt").value.trim();
-    if (!qText) return alert("ප්‍රශ්නය ඇතුළත් කරන්න.");
-
-    if (type === "MCQ") {
-      const opts = [
-        document.getElementById("admChoice0").value || "Option A",
-        document.getElementById("admChoice1").value || "Option B",
-        document.getElementById("admChoice2").value || "Option C",
-        document.getElementById("admChoice3").value || "Option D"
-      ];
-      const ansIdx = parseInt(document.getElementById("admCorrectIdx").value) || 0;
-      if (editingQuestionId) {
-        const target = state.questions.find(x => x.id === editingQuestionId);
-        if (target) { target.type = type; target.q = qText; target.options = opts; target.ansIdx = ansIdx; }
-      } else {
-        state.questions.push({ id: "MCQ-" + Date.now(), type: "MCQ", q: qText, options: opts, ansIdx });
-      }
-    } else {
-      const ans = document.getElementById("admModelAns").value.trim();
-      if (editingQuestionId) {
-        const target = state.questions.find(x => x.id === editingQuestionId);
-        if (target) { target.type = type; target.q = qText; target.ans = ans; }
-      } else {
-        state.questions.push({ id: type + "-" + Date.now(), type, q: qText, ans });
-      }
-    }
-
-    persistState();
-    clearQuestionEditor();
-    renderAdminQuestionManager();
-    buildExamPaperSet();
-    renderExamPaper();
-  }
-
-  function editQuestionItem(id) {
-    const item = state.questions.find(x => x.id === id);
-    if (!item) return;
-    editingQuestionId = item.id;
-    document.getElementById("admType").value = item.type;
-    toggleAdminQuestionInputs();
-    document.getElementById("admPrompt").value = item.q;
-    if (item.type === "MCQ") {
-      document.getElementById("admChoice0").value = item.options[0] || "";
-      document.getElementById("admChoice1").value = item.options[1] || "";
-      document.getElementById("admChoice2").value = item.options[2] || "";
-      document.getElementById("admChoice3").value = item.options[3] || "";
-      document.getElementById("admCorrectIdx").value = item.ansIdx;
-    } else {
-      document.getElementById("admModelAns").value = item.ans || "";
-    }
-  }
-
-  function deleteQuestionItem(id) {
-    state.questions = state.questions.filter(x => x.id !== id);
-    persistState();
-    renderAdminQuestionManager();
-  }
-
-  function clearQuestionEditor() {
-    editingQuestionId = null;
-    document.getElementById("admPrompt").value = "";
-    document.getElementById("admChoice0").value = "";
-    document.getElementById("admChoice1").value = "";
-    document.getElementById("admChoice2").value = "";
-    document.getElementById("admChoice3").value = "";
-    document.getElementById("admModelAns").value = "";
-  }
-
-  function renderAdminQuestionManager() {
-    const f = document.getElementById("admListFilter").value;
-    const rows = state.questions.filter(x => f === "ALL" || x.type === f);
-    document.getElementById("adminQuestionManagerList").innerHTML = rows.map((q, idx) => `
-      <div class="q-card" style="padding:10px 12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-        <div style="flex:1; min-width:220px;">
-          <b>[${q.type}] ${idx + 1}. ${q.q}</b>
-          <div style="font-size:0.84rem; color:#0f766e; margin-top:3px;">
-            ${q.type === "MCQ" ? "Ans: " + (q.options ? q.options[q.ansIdx] : "") : "Ans: " + (q.ans || "")}
-          </div>
-        </div>
-        <div>
-          <button class="btn btn-blue" style="margin:0; padding:4px 9px;" onclick="editQuestionItem('${q.id}')">✏️ Edit</button>
-          <button class="btn btn-red" style="margin:0; padding:4px 9px;" onclick="deleteQuestionItem('${q.id}')">🗑️ Delete</button>
+    document.getElementById("answersViewBox").innerHTML = items.map((q, i) => `
+      <div class="card-box">
+        <b>${i + 1}. ${q.q}</b>
+        <div style="color:var(--primary); font-weight:bold; margin-top:4px;">
+          ${type === "MCQ" ? `පිළිතුර: (${letters[q.ansIdx]}) ${q.options[q.ansIdx]}` : `පිළිතුර: ${q.ans}`}
         </div>
       </div>
     `).join("");
   }
 
-  function renderAdminStudentsTable() {
-    document.getElementById("adminStudentsTable").innerHTML = state.students.length === 0
-      ? "<p>ශිෂ්‍යයින් Register කර නැත.</p>"
-      : state.students.map((s, i) => `
-        <div class="result-card">${i + 1}. <b>${s.name}</b> | Set #${s.setNo} | 📞 ${s.phone || "-"} | ${s.submitted ? "Submitted" : "Not Submitted"}</div>
-      `).join("");
+  // Admin Question CRUD
+  function toggleAdmFields() {
+    const t = document.getElementById("admQType").value;
+    document.getElementById("admMcqOptsDiv").style.display = t === "MCQ" ? "block" : "none";
+    document.getElementById("admEssayAnsDiv").style.display = t !== "MCQ" ? "block" : "none";
   }
 
-  function renderAdminResultsSummary() {
-    document.getElementById("adminResultsSummary").innerHTML = state.submissions.length === 0
-      ? "<p>ප්‍රතිඵල නොමැත.</p>"
-      : state.submissions.map(r => `
-        <div class="result-card"><b>${r.studentName}</b> (Set #${r.setNo}) — Score: <b>${r.scorePct}%</b> (${r.mcqCorrect}/${r.mcqTotal})</div>
-      `).join("");
+  function saveAdminQuestion() {
+    const subject = document.getElementById("admQSubject").value;
+    const type = document.getElementById("admQType").value;
+    const qText = document.getElementById("admQText").value.trim();
+    if (!qText) return alert("ප්‍රශ්නය ලියන්න.");
+
+    if (type === "MCQ") {
+      const options = [
+        document.getElementById("admOptA").value || "Option A",
+        document.getElementById("admOptB").value || "Option B",
+        document.getElementById("admOptC").value || "Option C",
+        document.getElementById("admOptD").value || "Option D"
+      ];
+      const ansIdx = parseInt(document.getElementById("admCorrectAns").value) || 0;
+      if (editingQId) {
+        const item = appState.questions.find(x => x.id === editingQId);
+        if (item) { Object.assign(item, { subject, type, q: qText, options, ansIdx }); }
+      } else {
+        appState.questions.push({ id: "Q-" + Date.now(), subject, type, q: qText, options, ansIdx });
+      }
+    } else {
+      const ans = document.getElementById("admEssayModelAns").value.trim();
+      if (editingQId) {
+        const item = appState.questions.find(x => x.id === editingQId);
+        if (item) { Object.assign(item, { subject, type, q: qText, ans }); }
+      } else {
+        appState.questions.push({ id: "Q-" + Date.now(), subject, type, q: qText, ans });
+      }
+    }
+    saveState();
+    resetAdmQuestionForm();
+    renderAdminQuestions();
   }
 
-  function saveProfileAndWaSettings() {
-    state.campusName = document.getElementById("setCampusName").value.trim() || state.campusName;
-    state.doctorName = document.getElementById("setDoctorName").value.trim() || state.doctorName;
-    state.waNumber = document.getElementById("setWaNumber").value.trim().replace(/[^0-9]/g, "") || state.waNumber;
-    persistState();
-    applyHeaderAndProfile();
-    alert("✅ Settings Save විය!");
+  function editAdminQ(id) {
+    const item = appState.questions.find(x => x.id === id);
+    if (!item) return;
+    editingQId = id;
+    document.getElementById("admQSubject").value = item.subject;
+    document.getElementById("admQType").value = item.type;
+    toggleAdmFields();
+    document.getElementById("admQText").value = item.q;
+    if (item.type === "MCQ") {
+      document.getElementById("admOptA").value = item.options[0] || "";
+      document.getElementById("admOptB").value = item.options[1] || "";
+      document.getElementById("admOptC").value = item.options[2] || "";
+      document.getElementById("admOptD").value = item.options[3] || "";
+      document.getElementById("admCorrectAns").value = item.ansIdx;
+    } else {
+      document.getElementById("admEssayModelAns").value = item.ans || "";
+    }
   }
 
-  initSystem();
+  function deleteAdminQ(id) {
+    appState.questions = appState.questions.filter(x => x.id !== id);
+    saveState();
+    renderAdminQuestions();
+  }
+
+  function resetAdmQuestionForm() {
+    editingQId = null;
+    document.getElementById("admQText").value = "";
+    document.getElementById("admOptA").value = "";
+    document.getElementById("admOptB").value = "";
+    document.getElementById("admOptC").value = "";
+    document.getElementById("admOptD").value = "";
+    document.getElementById("admEssayModelAns").value = "";
+  }
+
+  function renderAdminQuestions() {
+    document.getElementById("admQuestionsListBox").innerHTML = appState.questions.slice(0, 40).map((q, i) => `
+      <div class="card-box" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div><b>[${q.type}] ${i + 1}. ${q.q}</b></div>
+        <div>
+          <button class="btn btn-blue" style="margin:0; padding:4px 8px;" onclick="editAdminQ('${q.id}')">Edit</button>
+          <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteAdminQ('${q.id}')">Delete</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function saveTimerConfigs() {
+    appState.mcqMinutes = parseInt(document.getElementById("cfgMcqMins").value) || 10;
+    appState.essayMinutes = parseInt(document.getElementById("cfgEssayMins").value) || 20;
+    saveState();
+    syncHeaderAndForms();
+    alert("✅ Timers Save විය!");
+  }
+
+  function saveProfileConfigs() {
+    appState.campusName = document.getElementById("cfgCampusName").value.trim() || appState.campusName;
+    appState.doctorName = document.getElementById("cfgDoctorName").value.trim() || appState.doctorName;
+    appState.adminPhone = document.getElementById("cfgPhoneWa").value.trim().replace(/[^0-9]/g, "") || appState.adminPhone;
+    saveState();
+    syncHeaderAndForms();
+    alert("✅ Profile & Phone Number Save විය!");
+  }
+
+  function changeDoctorPhoto(e) {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      appState.doctorPhoto = ev.target.result;
+      saveState();
+      syncHeaderAndForms();
+    };
+    r.readAsDataURL(f);
+  }
+
+  function adminAddGalleryPhotos(e) {
+    Array.from(e.target.files).forEach(file => {
+      const r = new FileReader();
+      r.onload = ev => {
+        appState.gallery.push(ev.target.result);
+        saveState();
+        renderGalleryViews();
+      };
+      r.readAsDataURL(file);
+    });
+  }
+
+  function renderGalleryViews() {
+    document.getElementById("publicGalleryGrid").innerHTML = appState.gallery.map(src =>
+      `<div class="gallery-card"><img src="${src}" alt="Gallery"></div>`
+    ).join("");
+    document.getElementById("adminGalleryList").innerHTML = appState.gallery.map((src, i) => `
+      <div class="gallery-card">
+        <img src="${src}" alt="Gallery">
+        <button class="btn btn-red" style="position:absolute; top:4px; right:4px; margin:0; padding:2px 6px;" onclick="deleteGalleryPhoto(${i})">✖</button>
+      </div>
+    `).join("");
+  }
+
+  function deleteGalleryPhoto(i) {
+    appState.gallery.splice(i, 1);
+    saveState();
+    renderGalleryViews();
+  }
+
+  function printExamPDF() {
+    const old = document.title;
+    document.title = `${activePaper.studentName}_Exam_Paper`;
+    window.print();
+    document.title = old;
+  }
+
+  initAll();
 </script>
 </body>
 </html>
