@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ITMI Campus - Admin Panel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root {
     --primary: #0b4628;
@@ -22,46 +23,44 @@
     border-bottom: 4px solid var(--gold);
   }
   header h1 { margin: 0; font-size: 1.38rem; color: var(--gold); }
-  header p { margin: 3px 0 0; font-size: 0.86rem; color: #e2e8f0; }
+  header p { margin: 4px 0 0; font-size: 0.88rem; color: #e2e8f0; }
 
-  .container { max-width: 1100px; margin: 16px auto; padding: 0 12px; }
+  .container { max-width: 1200px; margin: 16px auto; padding: 0 12px; }
   .card {
-    background: #fff; border-radius: 14px; padding: 20px;
+    background: #fff; border-radius: 14px; padding: 18px;
     box-shadow: 0 6px 22px rgba(0,0,0,0.12); border-top: 5px solid var(--gold);
     margin-bottom: 16px;
   }
-  h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  h2, h3, h4 { color: var(--primary); margin-top: 0; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 
   label { display: block; font-weight: 600; margin: 8px 0 4px; font-size: 0.88rem; }
   input, select, textarea {
-    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;
+    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.94rem;
   }
   .btn {
-    background: var(--primary); color: #fff; border: none; padding: 9px 15px;
-    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 8px;
-    display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; text-decoration: none;
+    background: var(--primary); color: #fff; border: none; padding: 8px 14px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; text-decoration: none;
   }
   .btn-gold { background: var(--gold); color: #111; }
   .btn-blue { background: var(--secondary); color: #fff; }
+  .btn-wa { background: #16a34a; color: #fff; }
   .btn-red { background: #dc2626; color: #fff; }
-  .btn-outline { background: #fff; color: #1e293b; border: 2px solid #cbd5e1; }
-  .btn-mode-active { background: var(--secondary); color: #fff; border: 2px solid var(--secondary); }
+  .btn-gray { background: #64748b; color: #fff; }
 
-  .mode-box {
-    background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px;
-    padding: 14px; margin-top: 12px;
+  .sub-item {
+    background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px;
+    padding: 10px 12px; margin-bottom: 10px;
   }
-
-  .item-row {
-    background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px;
-    padding: 10px 12px; margin-top: 8px; display: flex; justify-content: space-between;
-    align-items: flex-start; gap: 8px; flex-wrap: wrap;
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; margin-top: 10px;
   }
-  .ans-note {
-    font-size: 0.86rem; color: #0f5132; background: #ecfdf5;
-    padding: 6px 10px; border-radius: 6px; margin-top: 6px; white-space: pre-wrap;
+  .gallery-tile {
+    position: relative; border-radius: 10px; overflow: hidden; border: 2px solid var(--gold); height: 140px;
   }
+  .gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
 
   footer {
     position: fixed; bottom: 0; left: 0; right: 0; background: #062817;
@@ -74,78 +73,188 @@
 
 <header>
   <h1>⚙️ ADMIN PANEL — ITMI CAMPUS</h1>
-  <p>ආයතනයේ නම, WhatsApp අංකය, Essay Mode සහ ප්‍රශ්න/පිළිතුරු පාලනය</p>
+  <p>Default Admin PIN: <b>1234</b> | Student Link: <a href="index.html" style="color:#fde047;">index.html</a></p>
 </header>
 
-<div class="container">
+<div id="adminGate" class="container">
+  <div class="card" style="max-width:420px; margin:40px auto; text-align:center;">
+    <h3>🔐 Admin PIN ඇතුළත් කරන්න</h3>
+    <input type="password" id="gatePinInput" placeholder="PIN (Default: 1234)" style="text-align:center;">
+    <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="verifyGatePin()">🔓 ඇතුළු වන්න</button>
+  </div>
+</div>
+
+<div id="adminWorkspace" class="container" style="display:none;">
+
+  <!-- Profile, WhatsApp & PIN -->
   <div class="card">
-    <h2>🔧 මූලික සැකසුම් (Campus & WhatsApp)</h2>
+    <h3>🔧 Profile, Phone/WhatsApp & Unlock PIN</h3>
     <div class="grid-2">
       <div>
-        <label>ආයතනයේ නම:</label>
-        <input type="text" id="admCampusName">
+        <label>කැම්පස් එකේ නම:</label>
+        <input type="text" id="admCampusTitle">
+        <label>කැම්පස් විස්තර:</label>
+        <textarea id="admCampusAbout" rows="2"></textarea>
       </div>
       <div>
-        <label>WhatsApp අංකය (පිළිතුරු/Marks යවන අංකය):</label>
-        <input type="text" id="admWaNumber">
+        <label>Alert & Results Phone / WhatsApp Number:</label>
+        <input type="text" id="admPhoneWa">
+        <label>Admin Unlock PIN:</label>
+        <input type="text" id="admUnlockPin">
       </div>
     </div>
-
-    <div class="mode-box">
-      <label style="margin-top:0; font-size:0.95rem; color:var(--primary);">
-        ✍️ Essay ප්‍රශ්න ටික යවන ආකාරය තෝරන්න:
-      </label>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
-        <button type="button" id="btnModeOnline" class="btn btn-mode-active" onclick="setEssayMode('ONLINE')">
-          💻 එතනම Type / Voice Typing කර ලිවීම
-        </button>
-        <button type="button" id="btnModePaper" class="btn btn-outline" onclick="setEssayMode('PAPER_SHEET')">
-          📄 වෙනම කොළයක අතින් ලිවීමට (Print / Blank Lines)
-        </button>
-      </div>
-      <p id="modeStatusText" style="margin:8px 0 0; font-size:0.86rem; color:#0f5132; font-weight:600;"></p>
-    </div>
-
-    <button class="btn btn-gold" onclick="saveBasicSettings()">💾 Settings Save කරන්න</button>
-    <a class="btn btn-blue" href="index.html">📝 Student Paper Link (`index.html`) බලන්න</a>
+    <button class="btn btn-gold" onclick="saveProfileSettings()">💾 Profile & Settings Save කරන්න</button>
+    <a class="btn btn-blue" href="index.html">📄 Student Link (`index.html`) බලන්න</a>
   </div>
 
+  <!-- Gallery -->
   <div class="card">
-    <h2>➕ නව MCQ / Essay ප්‍රශ්නයක් සහ පිළිතුරක් එකතු කිරීම</h2>
-    <label>වර්ගය:</label>
-    <select id="newQKind" onchange="toggleNewQKind()">
-      <option value="MCQ">MCQ</option>
-      <option value="ESSAY">Essay</option>
-    </select>
-    <label>ප්‍රශ්නය:</label>
-    <input type="text" id="newQTitle" placeholder="ප්‍රශ්නය ඇතුළත් කරන්න">
-
-    <div id="newMcqBox">
-      <div class="grid-2" style="gap:8px; margin-top:6px;">
-        <input type="text" id="opt0" placeholder="Option A">
-        <input type="text" id="opt1" placeholder="Option B">
-        <input type="text" id="opt2" placeholder="Option C">
-        <input type="text" id="opt3" placeholder="Option D">
-      </div>
-      <label>හරි පිළිතුර:</label>
-      <select id="rightOpt">
-        <option value="0">A</option>
-        <option value="1">B</option>
-        <option value="2">C</option>
-        <option value="3">D</option>
-      </select>
-    </div>
-
-    <div id="newEssayBox" style="display:none;">
-      <label>Essay Label (උදා: Essay 6 (ලකුණු 3)):</label>
-      <input type="text" id="essayLabelInput" placeholder="Essay 6 (ලකුණු 3)">
-      <label>Essay ප්‍රශ්නයේ පිළිතුර (Model Answer):</label>
-      <textarea id="essayAnsInput" rows="3" placeholder="මෙම Essay ප්‍රශ්නයට අදාළ පිළිතුර මෙතන ලියන්න..."></textarea>
-    </div>
-
-    <button class="btn" onclick="addNewQuestion()">➕ ප්‍රශ්නය හා පිළිතුර Save කරන්න</button>
-    <div id="adminQList" style="margin-top:14px;"></div>
+    <h3>🖼️ Gallery Add / Delete</h3>
+    <input type="file" accept="image/*" multiple onchange="addGalleryImages(event)">
+    <div id="admGalleryGrid" class="gallery-grid"></div>
   </div>
+
+  <!-- Subjects + Buttons + PDF Auto Generator -->
+  <div class="card">
+    <h3>📚 විෂයයන්, ප්‍රශ්න & PDF Auto Question Generator</h3>
+    <div class="grid-2">
+      <div>
+        <label>නව විෂයක් (Subject) එකතු කරන්න:</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="newSubjectName" placeholder="උදා: Physiology">
+          <button class="btn" style="margin:0;" onclick="addNewSubject()">Add</button>
+        </div>
+        <label>විෂය තෝරන්න:</label>
+        <select id="admSelectedSubject" onchange="refreshSubjectView()"></select>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button class="btn btn-blue" onclick="toggleSubjectSubView('INCLUDED')">📋 ඇතුළත් කළ ප්‍රශ්න</button>
+          <button class="btn btn-gold" onclick="toggleSubjectSubView('ADD_NEW')">➕ නව ප්‍රශ්න ඇතුළත් කිරීම</button>
+        </div>
+      </div>
+
+      <div style="background:#eff6ff; padding:12px; border-radius:10px; border:1px solid #bfdbfe;">
+        <label style="margin-top:0;">📄 PDF Upload කර Auto ප්‍රශ්න සැකසීම:</label>
+        <input type="file" accept="application/pdf" id="pdfUploadInput">
+        <div class="grid-2" style="gap:8px; margin-top:6px;">
+          <div>
+            <label>Auto MCQ ගණන (Max 100):</label>
+            <input type="number" id="autoPdfMcqCount" value="10" min="0" max="100">
+          </div>
+          <div>
+            <label>Auto Essay ගණන:</label>
+            <input type="number" id="autoPdfEssayCount" value="10" min="0" max="50">
+          </div>
+        </div>
+        <button class="btn btn-blue" onclick="generateQuestionsFromPdf()">⚡ PDF වලින් Auto ප්‍රශ්න සාදන්න</button>
+        <div id="pdfGenStatus" style="font-size:0.84rem; color:#1e3a8a; margin-top:6px;"></div>
+      </div>
+    </div>
+
+    <div id="subViewAddNew" class="sub-item" style="display:none; margin-top:12px; background:#fffbeb;">
+      <h4>➕ නව ප්‍රශ්න ඇතුළත් කිරීම (<span id="addSubLabel">Anatomy</span>)</h4>
+      <label>ප්‍රශ්න වර්ගය:</label>
+      <select id="newQType" onchange="toggleNewQOptions()">
+        <option value="MCQ">MCQ</option>
+        <option value="ESSAY2">ලකුණු 2 Essay</option>
+        <option value="ESSAY3">ලකුණු 3 Essay</option>
+        <option value="ESSAY5">ලකුණු 5 Essay</option>
+      </select>
+      <label>ප්‍රශ්නය:</label>
+      <input type="text" id="newQPrompt" placeholder="ප්‍රශ්නය ලියන්න...">
+      <div id="newMcqFields">
+        <div class="grid-2" style="gap:6px; margin-top:6px;">
+          <input type="text" id="qOpt0" placeholder="Option A">
+          <input type="text" id="qOpt1" placeholder="Option B">
+          <input type="text" id="qOpt2" placeholder="Option C">
+          <input type="text" id="qOpt3" placeholder="Option D">
+        </div>
+        <label>හරි පිළිතුර:</label>
+        <select id="qAnsIdx">
+          <option value="0">A</option>
+          <option value="1">B</option>
+          <option value="2">C</option>
+          <option value="3">D</option>
+        </select>
+      </div>
+      <div id="newEssayAnsField" style="display:none;">
+        <label>පිළිතුර:</label>
+        <textarea id="qEssayAns" rows="2" placeholder="පිළිතුර ලියන්න..."></textarea>
+      </div>
+      <button class="btn" onclick="saveNewQuestionToSubject()">💾 ප්‍රශ්නය Save කරන්න</button>
+    </div>
+
+    <div id="subViewIncluded" style="margin-top:12px;">
+      <h4>📋 ඇතුළත් කළ ප්‍රශ්න (<span id="incSubLabel">Anatomy</span>)</h4>
+      <div class="grid-2">
+        <div>
+          <h5>MCQ ප්‍රශ්න (<span id="incMcqTotal">0</span>)</h5>
+          <div id="incMcqList"></div>
+        </div>
+        <div>
+          <h5>රචනා / Essay ප්‍රශ්න (2, 3, 5) (<span id="incEssayTotal">0</span>)</h5>
+          <div id="incEssayList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timers & Essay Mode Buttons -->
+  <div class="card">
+    <h3>⏱️ Timers & Essay ලියන ආකාරය</h3>
+    <div class="grid-2">
+      <div>
+        <label>MCQ කාලය (විනාඩි):</label>
+        <input type="number" id="cfgMcqMins" value="10" min="1" max="180">
+      </div>
+      <div>
+        <label>Essay කාලය (විනාඩි):</label>
+        <input type="number" id="cfgEssayMins" value="20" min="1" max="300">
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <label>Essay යවන ආකාරය:</label>
+      <button type="button" class="btn btn-blue" id="btnModeOnline" onclick="chooseEssayMode('ONLINE')">
+        💻 Online (Phone එකෙන් ටයිප් කර ලියන්න)
+      </button>
+      <button type="button" class="btn btn-gray" id="btnModeManual" onclick="chooseEssayMode('MANUAL_PDF')">
+        📄 Manual / Print PDF (පරතරයක් ඇතුව වෙනම කොළයක ලියන්න)
+      </button>
+    </div>
+    <button class="btn btn-gold" onclick="saveTimersAndMode()">💾 Timer & Mode Save කරන්න</button>
+  </div>
+
+  <!-- Registered Applicants & Shuffled Links -->
+  <div class="card">
+    <h3>👥 Register වූ ළමයි & Shuffled Paper Links</h3>
+    <div class="grid-4" style="margin-bottom:10px;">
+      <div>
+        <label>MCQ ගණන (Max 100):</label>
+        <input type="number" id="setPaperMcq" value="10" min="0" max="100">
+      </div>
+      <div>
+        <label>ලකුණු 2 Essay:</label>
+        <input type="number" id="setPaperE2" value="10" min="0" max="10">
+      </div>
+      <div>
+        <label>ලකුණු 3 Essay:</label>
+        <input type="number" id="setPaperE3" value="10" min="0" max="10">
+      </div>
+      <div>
+        <label>ලකුණු 5 Essay:</label>
+        <input type="number" id="setPaperE5" value="10" min="0" max="10">
+      </div>
+    </div>
+    <p id="totalMarksCalc" style="font-weight:bold; color:var(--primary);"></p>
+    <div id="adminRegisteredList"></div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h3>📊 ශිෂ්‍යයින්ගේ ප්‍රතිඵල</h3>
+    <div id="adminResultsBox"></div>
+  </div>
+
 </div>
 
 <footer>
@@ -153,155 +262,283 @@
 </footer>
 
 <script>
-  const defMcq = [
-    { id: "M1", q: "1. සම්බාහන ප්‍රතිකාරයක (Massage Therapy) මූලික අරමුණ කුමක්ද?", opts: ["රුධිර සංසරණය වැඩි දියුණු කිරීම", "හිසරදය වැඩි කිරීම", "සන්ධි දැඩි කිරීම", "නිදිමත ඇති කිරීම"], ans: 0 },
-    { id: "M2", q: "2. Ceylon Massage Therapy යනු කුමන ක්ෂේත්‍රයට අයත් ප්‍රතිකාර ක්‍රමයක්ද?", opts: ["දේශීය හා සාම්ප්‍රදායික සුවතා ප්‍රතිකාර", "ශල්‍ය වෛද්‍ය විද්‍යාව", "දන්ත වෛද්‍ය විද්‍යාව", "පශු වෛද්‍ය විද්‍යාව"], ans: 0 },
-    { id: "M3", q: "3. සම්බාහනයට පෙර සේවාදායකයාගේ (Client) කුමක් පරීක්ෂා කළ යුතුද?", opts: ["වෛද්‍ය ඉතිහාසය හා සමේ තත්ත්වය", "ඇඳුමේ වර්ණය", "දුරකථන අංකය", "සපත්තු ප්‍රමාණය"], ans: 0 },
-    { id: "M4", q: "4. සම මත තුවාල, කැපුම් හෝ උග්‍ර ආසාදන ඇති විට සම්බාහනය කළ යුත්තේ කෙසේද?", opts: ["එම ස්ථානය මඟහැර හෝ වෛද්‍ය උපදෙස් මත", "තදින් පිරිමැදීමෙන්", "උණු වතුර වත් කිරීමෙන්", "කිසිදු සැලකිල්ලක් නොදක්වා"], ans: 0 },
-    { id: "M5", q: "5. සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?", opts: ["සමට ගැළපෙන, අසාත්මිකතා ඇති නොකරන බව", "තද සුවඳක් තිබීම", "ඉතා ඝනකම් වීම", "මිල අධික වීම පමණක්"], ans: 0 }
-  ];
+  function buildAnatomySeed() {
+    const list = [];
+    for (let i = 1; i <= 50; i++) {
+      list.push({
+        id: "ANA-M-" + i, subject: "Anatomy", type: "MCQ",
+        q: `Anatomy MCQ ${i}: මානව ශරීරයේ අදාළ ව්‍යුහය හා ක්‍රියාකාරිත්වය පිළිබඳ නිවැරදි ප්‍රකාශය තෝරන්න (${i}).`,
+        opts: ["නිවැරදි ව්‍යුහ විද්‍යාත්මක ප්‍රකාශය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0
+      });
+    }
+    for (let i = 1; i <= 10; i++) {
+      list.push({ id: "ANA-E2-" + i, subject: "Anatomy", type: "ESSAY2", q: `Anatomy ලකුණු 2 ප්‍රශ්නය ${i}: ප්‍රධාන ලක්ෂණ 2ක් ලියන්න.`, ans: "1) ප්‍රධාන ලක්ෂණය.\n2) ක්‍රියාකාරිත්වය." });
+      list.push({ id: "ANA-E3-" + i, subject: "Anatomy", type: "ESSAY3", q: `Anatomy ලකුණු 3 ප්‍රශ්නය ${i}: කරුණු 3කින් පැහැදිලි කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
+      list.push({ id: "ANA-E5-" + i, subject: "Anatomy", type: "ESSAY5", q: `Anatomy ලකුණු 5 ප්‍රශ්නය ${i}: විස්තරාත්මකව ලියන්න.`, ans: "ව්‍යුහය, ක්‍රියාකාරිත්වය සහ වැදගත්කම." });
+    }
+    return list;
+  }
 
-  const defEssay = [
-    { id: "E1", label: "Essay 1 (ලකුණු 2)", q: "සම්බාහන ප්‍රතිකාරයක (Massage Therapy) ප්‍රධාන අරමුණු 2ක් ලියන්න.", ans: "1) රුධිර සංසරණය වැඩි දියුණු කිරීම.\n2) මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම." },
-    { id: "E2", label: "Essay 2 (ලකුණු 2)", q: "සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", ans: "1) සේවාදායකයාගේ සෞඛ්‍ය/වෛද්‍ය ඉතිහාසය.\n2) සම මත තුවාල හෝ ආසාදන තිබේද යන්න." },
-    { id: "E3", label: "Essay 3 (ලකුණු 3)", q: "Effleurage සහ Petrissage යන සම්බාහන චලන වර්ග 2 අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", ans: "1) Effleurage සැහැල්ලු/මධ්‍යස්ථ පිරිමැදීම වන අතර Petrissage ඇනීම/තෙරපීමයි.\n2) Effleurage සන්සුන් කිරීමට සහ Petrissage ගැඹුරු මාංශ පේශි ලිහිල් කිරීමට යොදා ගනී.\n3) Effleurage පුළුල්වද Petrissage නිශ්චිත මාංශ පේශි මතද කෙරේ." },
-    { id: "E4", label: "Essay 4 (ලකුණු 3)", q: "සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", ans: "1) මාංශ පේශිවල තද ගතිය ලිහිල් වීම.\n2) ස්නායු පද්ධතිය සන්සුන් වී විවේකී තත්ත්වයක් ඇති වීම.\n3) රිද්මයානුකූල ස්පර්ශයෙන් මනසට සැහැල්ලුව ලැබීම." },
-    { id: "E5", label: "Essay 5 (ලකුණු 5)", q: "සම්බාහන ප්‍රතිකාරයක් මගින් රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", ans: "රුධිර වාහිනී පුළුල් වී රුධිර සංසරණය හා ඔක්සිජන් සැපයුම වැඩි දියුණු වේ. ස්නායු පද්ධතිය සන්සුන් වී විවේකී ප්‍රතිචාරය ක්‍රියාත්මක වන අතර වේදනා සංඥා අඩු වේ. මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය හා චලන පරාසය වර්ධනය වේ." }
-  ];
-
-  let store = JSON.parse(localStorage.getItem("itmi_exam_shared_cfg") || "null") || {
-    campusName: "ITMI CAMPUS - CEYLON MASSAGE THERAPY",
-    waNumber: "94717533483",
+  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v1") || "null") || {
+    campusTitle: "ITMI CAMPUS - SRI LANKA",
+    campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level). Conducted by Prof. (Hon.) Dr. Prasanna Kumara Weerasekara.",
+    phoneWa: "94717533483",
+    unlockPin: "1234",
+    mcqMins: 10,
+    essayMins: 20,
     essayMode: "ONLINE",
-    mcqBank: defMcq,
-    essayBank: defEssay
+    subjects: ["Anatomy", "Ceylon Massage Therapy"],
+    questions: buildAnatomySeed(),
+    gallery: [],
+    applicants: [],
+    submissions: [],
+    paperCounts: { mcq: 10, e2: 10, e3: 10, e5: 10 }
   };
 
-  if (!store.essayBank || store.essayBank.length === 0) {
-    store.essayBank = defEssay;
-  } else {
-    store.essayBank = store.essayBank.map((item, idx) => ({
-      ...item,
-      ans: item.ans || (defEssay[idx] ? defEssay[idx].ans : "පිළිතුර ඇතුළත් කර නොමැත.")
-    }));
+  function persistDb() {
+    localStorage.setItem("itmi_shared_db_v1", JSON.stringify(db));
   }
 
-  function persist() {
-    localStorage.setItem("itmi_exam_shared_cfg", JSON.stringify(store));
-  }
-
-  function setEssayMode(mode) {
-    store.essayMode = mode;
-    persist();
-    updateModeButtonsUI();
-  }
-
-  function updateModeButtonsUI() {
-    const mode = store.essayMode || "ONLINE";
-    const bOn = document.getElementById("btnModeOnline");
-    const bPa = document.getElementById("btnModePaper");
-    const txt = document.getElementById("modeStatusText");
-
-    if (mode === "ONLINE") {
-      bOn.className = "btn btn-mode-active";
-      bPa.className = "btn btn-outline";
-      txt.innerText = "දැනට තෝරා ඇත්තේ: 💻 එතනම Type / Voice Typing කර ලිවීම";
+  function verifyGatePin() {
+    const val = document.getElementById("gatePinInput").value.trim();
+    if (val === db.unlockPin) {
+      document.getElementById("adminGate").style.display = "none";
+      document.getElementById("adminWorkspace").style.display = "block";
+      initAdmin();
     } else {
-      bPa.className = "btn btn-mode-active";
-      bOn.className = "btn btn-outline";
-      txt.innerText = "දැනට තෝරා ඇත්තේ: 📄 වෙනම කොළයක අතින් ලිවීමට (Print / Blank Lines)";
+      alert("❌ වැරදි PIN එකකි! (Default: 1234)");
     }
   }
 
-  function loadAdm() {
-    document.getElementById("admCampusName").value = store.campusName;
-    document.getElementById("admWaNumber").value = store.waNumber;
-    updateModeButtonsUI();
-    renderAdmList();
+  function initAdmin() {
+    document.getElementById("admCampusTitle").value = db.campusTitle;
+    document.getElementById("admCampusAbout").value = db.campusAbout;
+    document.getElementById("admPhoneWa").value = db.phoneWa;
+    document.getElementById("admUnlockPin").value = db.unlockPin;
+    document.getElementById("cfgMcqMins").value = db.mcqMins;
+    document.getElementById("cfgEssayMins").value = db.essayMins;
+    document.getElementById("setPaperMcq").value = db.paperCounts.mcq;
+    document.getElementById("setPaperE2").value = db.paperCounts.e2;
+    document.getElementById("setPaperE3").value = db.paperCounts.e3;
+    document.getElementById("setPaperE5").value = db.paperCounts.e5;
+
+    document.getElementById("admSelectedSubject").innerHTML = db.subjects.map(s => `<option value="${s}">${s}</option>`).join("");
+    renderGallery();
+    refreshSubjectView();
+    renderApplicants();
+    renderResults();
+    updateMarksCalc();
   }
 
-  function saveBasicSettings() {
-    store.campusName = document.getElementById("admCampusName").value.trim() || store.campusName;
-    store.waNumber = document.getElementById("admWaNumber").value.trim().replace(/[^0-9]/g, "") || store.waNumber;
-    persist();
-    alert("✅ Settings සහ Essay Mode Save විය!");
+  function saveProfileSettings() {
+    db.campusTitle = document.getElementById("admCampusTitle").value.trim() || db.campusTitle;
+    db.campusAbout = document.getElementById("admCampusAbout").value.trim() || db.campusAbout;
+    db.phoneWa = document.getElementById("admPhoneWa").value.trim().replace(/[^0-9]/g, "") || db.phoneWa;
+    db.unlockPin = document.getElementById("admUnlockPin").value.trim() || "1234";
+    persistDb();
+    alert("✅ Profile & Settings Save විය!");
   }
 
-  function toggleNewQKind() {
-    const k = document.getElementById("newQKind").value;
-    document.getElementById("newMcqBox").style.display = k === "MCQ" ? "block" : "none";
-    document.getElementById("newEssayBox").style.display = k === "ESSAY" ? "block" : "none";
+  function addGalleryImages(e) {
+    Array.from(e.target.files).forEach(file => {
+      const r = new FileReader();
+      r.onload = ev => { db.gallery.push(ev.target.result); persistDb(); renderGallery(); };
+      r.readAsDataURL(file);
+    });
   }
 
-  function addNewQuestion() {
-    const k = document.getElementById("newQKind").value;
-    const title = document.getElementById("newQTitle").value.trim();
-    if (!title) return alert("ප්‍රශ්නය ලියන්න.");
+  function renderGallery() {
+    document.getElementById("admGalleryGrid").innerHTML = db.gallery.map((src, i) => `
+      <div class="gallery-tile">
+        <img src="${src}" alt="Gallery">
+        <button class="btn btn-red" style="position:absolute; top:4px; right:4px; margin:0; padding:2px 6px;" onclick="deleteGalleryImg(${i})">✖</button>
+      </div>
+    `).join("");
+  }
 
-    if (k === "MCQ") {
-      store.mcqBank.push({
-        id: "M-" + Date.now(),
-        q: title,
-        opts: [
-          document.getElementById("opt0").value || "A",
-          document.getElementById("opt1").value || "B",
-          document.getElementById("opt2").value || "C",
-          document.getElementById("opt3").value || "D"
-        ],
-        ans: parseInt(document.getElementById("rightOpt").value) || 0
+  function deleteGalleryImg(i) {
+    db.gallery.splice(i, 1); persistDb(); renderGallery();
+  }
+
+  function addNewSubject() {
+    const s = document.getElementById("newSubjectName").value.trim();
+    if (!s) return;
+    if (!db.subjects.includes(s)) {
+      db.subjects.push(s); persistDb();
+      document.getElementById("admSelectedSubject").innerHTML = db.subjects.map(x => `<option value="${x}">${x}</option>`).join("");
+    }
+    document.getElementById("newSubjectName").value = "";
+  }
+
+  function toggleSubjectSubView(m) {
+    document.getElementById("subViewIncluded").style.display = m === "INCLUDED" ? "block" : "none";
+    document.getElementById("subViewAddNew").style.display = m === "ADD_NEW" ? "block" : "none";
+    refreshSubjectView();
+  }
+
+  function toggleNewQOptions() {
+    const t = document.getElementById("newQType").value;
+    document.getElementById("newMcqFields").style.display = t === "MCQ" ? "block" : "none";
+    document.getElementById("newEssayAnsField").style.display = t !== "MCQ" ? "block" : "none";
+  }
+
+  function saveNewQuestionToSubject() {
+    const sub = document.getElementById("admSelectedSubject").value;
+    const type = document.getElementById("newQType").value;
+    const qText = document.getElementById("newQPrompt").value.trim();
+    if (!qText) return alert("ප්‍රශ්නය ලියන්න.");
+
+    if (type === "MCQ") {
+      db.questions.push({
+        id: "Q-" + Date.now(), subject: sub, type: "MCQ", q: qText,
+        opts: [document.getElementById("qOpt0").value || "A", document.getElementById("qOpt1").value || "B", document.getElementById("qOpt2").value || "C", document.getElementById("qOpt3").value || "D"],
+        ans: parseInt(document.getElementById("qAnsIdx").value) || 0
       });
     } else {
-      const eAns = document.getElementById("essayAnsInput").value.trim() || "(පිළිතුර ඇතුළත් කර නොමැත)";
-      store.essayBank.push({
-        id: "E-" + Date.now(),
-        label: document.getElementById("essayLabelInput").value.trim() || "Essay",
-        q: title,
-        ans: eAns
-      });
+      db.questions.push({ id: "Q-" + Date.now(), subject: sub, type, q: qText, ans: document.getElementById("qEssayAns").value.trim() || "(පිළිතුරක් නැත)" });
     }
-    persist();
-    document.getElementById("newQTitle").value = "";
-    document.getElementById("essayLabelInput").value = "";
-    document.getElementById("essayAnsInput").value = "";
-    renderAdmList();
+    persistDb();
+    document.getElementById("newQPrompt").value = "";
+    refreshSubjectView();
+    alert("✅ ප්‍රශ්නය Save විය!");
   }
 
-  function deleteMcq(idx) {
-    store.mcqBank.splice(idx, 1);
-    persist();
-    renderAdmList();
-  }
+  function refreshSubjectView() {
+    const sub = document.getElementById("admSelectedSubject").value;
+    document.getElementById("addSubLabel").innerText = sub;
+    document.getElementById("incSubLabel").innerText = sub;
 
-  function deleteEssay(idx) {
-    store.essayBank.splice(idx, 1);
-    persist();
-    renderAdmList();
-  }
+    const list = db.questions.filter(q => q.subject === sub);
+    const mcqs = list.filter(q => q.type === "MCQ");
+    const essays = list.filter(q => q.type !== "MCQ");
 
-  function renderAdmList() {
-    let html = "<h3>MCQ (" + store.mcqBank.length + ")</h3>";
-    html += store.mcqBank.map((m, i) => `
-      <div class="item-row">
-        <span>${m.q}</span>
-        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteMcq(${i})">Delete</button>
+    document.getElementById("incMcqTotal").innerText = mcqs.length;
+    document.getElementById("incEssayTotal").innerText = essays.length;
+
+    document.getElementById("incMcqList").innerHTML = mcqs.map((q, i) => `
+      <div class="sub-item" style="display:flex; justify-content:space-between; gap:6px;">
+        <span style="font-size:0.86rem;"><b>${i + 1}.</b> ${q.q}</span>
+        <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="deleteQ('${q.id}')">✖</button>
       </div>
     `).join("");
 
-    html += "<h3>Essay ප්‍රශ්න & පිළිතුරු (" + store.essayBank.length + ")</h3>";
-    html += store.essayBank.map((e, i) => `
-      <div class="item-row">
-        <div style="flex:1; min-width:220px;">
-          <div><b>${e.label}:</b> ${e.q}</div>
-          <div class="ans-note"><b>පිළිතුර:</b>\n${e.ans || "(පිළිතුරක් නැත)"}</div>
+    document.getElementById("incEssayList").innerHTML = essays.map((q, i) => `
+      <div class="sub-item" style="display:flex; justify-content:space-between; gap:6px;">
+        <span style="font-size:0.86rem;"><b>[${q.type}] ${i + 1}.</b> ${q.q}</span>
+        <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="deleteQ('${q.id}')">✖</button>
+      </div>
+    `).join("");
+  }
+
+  function deleteQ(id) {
+    db.questions = db.questions.filter(q => q.id !== id);
+    persistDb(); refreshSubjectView();
+  }
+
+  async function generateQuestionsFromPdf() {
+    const file = document.getElementById("pdfUploadInput").files[0];
+    if (!file) return alert("PDF file එකක් තෝරන්න.");
+    const sub = document.getElementById("admSelectedSubject").value;
+    const wantMcq = Math.min(100, Math.max(0, parseInt(document.getElementById("autoPdfMcqCount").value) || 0));
+    const wantEssay = Math.max(0, parseInt(document.getElementById("autoPdfEssayCount").value) || 0);
+    try {
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      let txt = "";
+      for (let p = 1; p <= pdf.numPages; p++) {
+        const pg = await pdf.getPage(p);
+        const c = await pg.getTextContent();
+        txt += c.items.map(it => it.str).join(" ") + "\n";
+      }
+      const lines = txt.split(/[.!?。\n]+/).map(s => s.trim()).filter(s => s.length > 15);
+      for (let m = 0; m < wantMcq; m++) {
+        const sn = lines[m % (lines.length || 1)] || `PDF Topic ${m + 1}`;
+        db.questions.push({ id: "PDF-M-" + Date.now() + "-" + m, subject: sub, type: "MCQ", q: `(${sub}) ${sn.slice(0, 90)} — නිවැරදි ප්‍රකාශය කුමක්ද?`, opts: ["නිවැරදි පිළිතුර (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0 });
+      }
+      for (let e = 0; e < wantEssay; e++) {
+        const sn = lines[(wantMcq + e) % (lines.length || 1)] || `PDF Topic ${e + 1}`;
+        db.questions.push({ id: "PDF-E-" + Date.now() + "-" + e, subject: sub, type: "ESSAY3", q: `(${sub}) "${sn.slice(0, 80)}" කරුණු 3කින් විස්තර කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
+      }
+      persistDb(); refreshSubjectView();
+      document.getElementById("pdfGenStatus").innerText = `✅ Auto MCQ ${wantMcq} සහ Essay ${wantEssay} (${sub}) සාදන ලදී!`;
+    } catch (err) { alert("PDF කියවීමේදී ගැටලුවක් ඇති විය."); }
+  }
+
+  function chooseEssayMode(mode) {
+    db.essayMode = mode; persistDb();
+    document.getElementById("btnModeOnline").className = mode === "ONLINE" ? "btn btn-blue" : "btn btn-gray";
+    document.getElementById("btnModeManual").className = mode === "MANUAL_PDF" ? "btn btn-blue" : "btn btn-gray";
+  }
+
+  function saveTimersAndMode() {
+    db.mcqMins = parseInt(document.getElementById("cfgMcqMins").value) || 10;
+    db.essayMins = parseInt(document.getElementById("cfgEssayMins").value) || 20;
+    db.paperCounts = {
+      mcq: Math.min(100, parseInt(document.getElementById("setPaperMcq").value) || 0),
+      e2: Math.min(10, parseInt(document.getElementById("setPaperE2").value) || 0),
+      e3: Math.min(10, parseInt(document.getElementById("setPaperE3").value) || 0),
+      e5: Math.min(10, parseInt(document.getElementById("setPaperE5").value) || 0)
+    };
+    persistDb(); updateMarksCalc(); renderApplicants();
+    alert("✅ Timers, Mode & Paper Counts Save විය!");
+  }
+
+  function updateMarksCalc() {
+    const c = db.paperCounts;
+    const totalEssayMarks = (c.e2 * 2) + (c.e3 * 3) + (c.e5 * 5);
+    document.getElementById("totalMarksCalc").innerText = `MCQ: ${c.mcq} | Essay ලකුණු: ${totalEssayMarks} (2×${c.e2} + 3×${c.e3} + 5×${c.e5})`;
+  }
+
+  function shuffleArray(arr) {
+    const c = [...arr];
+    for (let i = c.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [c[i], c[j]] = [c[j], c[i]]; }
+    return c;
+  }
+
+  function makeLinkForApplicant(app) {
+    const pool = db.questions.filter(q => q.subject === app.subject);
+    const fMcq = pool.filter(q => q.type === "MCQ").length ? pool.filter(q => q.type === "MCQ") : db.questions.filter(q => q.type === "MCQ");
+    const fE2 = pool.filter(q => q.type === "ESSAY2").length ? pool.filter(q => q.type === "ESSAY2") : db.questions.filter(q => q.type === "ESSAY2");
+    const fE3 = pool.filter(q => q.type === "ESSAY3").length ? pool.filter(q => q.type === "ESSAY3") : db.questions.filter(q => q.type === "ESSAY3");
+    const fE5 = pool.filter(q => q.type === "ESSAY5").length ? pool.filter(q => q.type === "ESSAY5") : db.questions.filter(q => q.type === "ESSAY5");
+    const obj = {
+      studentName: app.name, subject: app.subject, paperName: `${app.subject} Examination Paper`,
+      mcq: shuffleArray(fMcq).slice(0, db.paperCounts.mcq),
+      e2: shuffleArray(fE2).slice(0, db.paperCounts.e2),
+      e3: shuffleArray(fE3).slice(0, db.paperCounts.e3),
+      e5: shuffleArray(fE5).slice(0, db.paperCounts.e5)
+    };
+    const base = window.location.href.replace(/admin\.html.*$/i, "index.html").split("#")[0];
+    return `${base}#p=${encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(obj)))))}`;
+  }
+
+  function renderApplicants() {
+    document.getElementById("adminRegisteredList").innerHTML = db.applicants.map((app, i) => {
+      const link = makeLinkForApplicant(app);
+      return `
+        <div class="sub-item" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div><b>${i + 1}. ${app.name}</b> | විෂය: <b>${app.subject}</b> | 📞 ${app.whatsapp || "-"}</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendWaLink('${app.whatsapp}', '${app.name}', '${encodeURIComponent(link)}')">📲 WhatsApp Link</button>
+            <a class="btn btn-blue" style="margin:0; padding:5px 10px;" href="${link}" target="_blank">Open Paper</a>
+          </div>
         </div>
-        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteEssay(${i})">Delete</button>
-      </div>
-    `).join("");
-
-    document.getElementById("adminQList").innerHTML = html;
+      `;
+    }).join("");
   }
 
-  loadAdm();
+  function sendWaLink(wa, name, enc) {
+    const url = decodeURIComponent(enc);
+    const target = wa || db.phoneWa.replace(/[^0-9]/g, "");
+    const msg = `*${db.campusTitle}*\nආයුබෝවන් *${name}*,\nඔබගේ Exam Paper Link එක:\n${url}`;
+    window.open(`https://wa.me/${target}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  function renderResults() {
+    document.getElementById("adminResultsBox").innerHTML = db.submissions.length === 0
+      ? "<p>ප්‍රතිඵල නැත.</p>"
+      : db.submissions.map(s => `<div class="sub-item"><b>${s.studentName}</b> (${s.subject}) — MCQ: <b>${s.score}</b> | ${s.status} (${s.time})</div>`).join("");
+  }
 </script>
 </body>
 </html>
