@@ -6,392 +6,430 @@
 <title>ITMI Campus - Ceylon Massage Therapy System</title>
 <style>
   :root {
-    --primary: #0f5132;
+    --primary: #0b4628;
+    --secondary: #155e9c;
     --gold: #d4af37;
-    --accent: #ff6b35;
-    --bg-grad: linear-gradient(135deg, #0b3d26 0%, #196f3d 45%, #b7950b 100%);
-    --card-bg: rgba(255, 255, 255, 0.96);
+    --accent: #b91c1c;
+    --bg: linear-gradient(135deg, #dcfce7 0%, #fef9c3 50%, #dbeafe 100%);
   }
   * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
   body {
-    margin: 0; padding: 0;
-    background: var(--bg-grad);
-    min-height: 100vh; color: #222;
-    padding-bottom: 60px;
+    margin: 0; padding: 0; background: var(--bg);
+    min-height: 100vh; color: #1e293b; padding-bottom: 65px;
   }
+
   /* Header */
   header {
-    background: linear-gradient(90deg, #072b1a, #114b2f);
-    color: #fff; padding: 15px 20px;
-    text-align: center; border-bottom: 4px solid var(--gold);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    user-select: none; cursor: pointer;
+    background: linear-gradient(90deg, #062817, #0b4628, #103c66);
+    color: #fff; padding: 14px 18px; text-align: center;
+    border-bottom: 4px solid var(--gold); cursor: pointer; user-select: none;
   }
-  header h1 { margin: 0; font-size: 1.5rem; color: var(--gold); letter-spacing: 1px; }
-  header p { margin: 4px 0 0; font-size: 0.9rem; color: #e0f2f1; }
-  .badge-bar {
-    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 8px;
-  }
-  .badge {
-    background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold);
-    color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem;
-  }
+  header h1 { margin: 0; font-size: 1.4rem; color: var(--gold); }
+  header p { margin: 3px 0 0; font-size: 0.88rem; color: #e2e8f0; }
 
-  /* Navigation Buttons */
-  .nav-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px; max-width: 1100px; margin: 15px auto; padding: 0 15px;
+  /* Top Tabs */
+  .top-tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    max-width: 1200px; margin: 12px auto; padding: 0 12px;
   }
-  .nav-btn {
-    background: #fff; border: 2px solid var(--gold); color: var(--primary);
-    padding: 12px 10px; border-radius: 12px; font-weight: bold; font-size: 0.95rem;
-    cursor: pointer; transition: 0.25s; box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+  .tab-btn {
+    background: #fff; border: 2px solid var(--primary); color: var(--primary);
+    padding: 8px 13px; border-radius: 10px; font-weight: bold; cursor: pointer;
+    font-size: 0.88rem; transition: 0.2s;
   }
-  .nav-btn.active, .nav-btn:hover {
-    background: var(--gold); color: #072b1a; transform: translateY(-2px);
-  }
+  .tab-btn.active, .tab-btn:hover { background: var(--primary); color: #fff; }
+  .tab-btn.admin-tab { border-color: #b45309; color: #92400e; background: #fef08a; }
+  .tab-btn.admin-tab.active, .tab-btn.admin-tab:hover { background: #eab308; color: #000; }
 
-  /* Container & Sections */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
-  .section {
-    display: none; background: var(--card-bg); border-radius: 16px;
-    padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    border-top: 5px solid var(--gold); animation: fadeIn 0.3s ease;
+  /* Admin Sub-Tabs */
+  .admin-subtabs {
+    display: flex; flex-wrap: wrap; gap: 8px; background: #f1f5f9;
+    padding: 10px; border-radius: 10px; margin-bottom: 16px; border: 1px solid #cbd5e1;
   }
-  .section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .subtab-btn {
+    background: #fff; border: 1.5px solid var(--secondary); color: var(--secondary);
+    padding: 7px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem;
+  }
+  .subtab-btn.active, .subtab-btn:hover { background: var(--secondary); color: #fff; }
 
-  h2 { color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 8px; margin-top: 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 12px; }
+  .view-box {
+    display: none; background: #fff; border-radius: 14px; padding: 20px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.12); border-top: 5px solid var(--gold);
+  }
+  .view-box.active { display: block; }
+  .subview-box { display: none; }
+  .subview-box.active { display: block; }
+
+  h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+  h3 { color: var(--secondary); margin-top: 14px; }
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-  
-  label { display: block; font-weight: 600; margin: 10px 0 4px; color: #333; font-size: 0.9rem; }
-  input, select, textarea {
-    width: 100%; padding: 10px; border: 1.5px solid #ccc; border-radius: 8px;
-    font-size: 0.95rem; outline: none;
-  }
-  input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
 
-  .btn {
-    background: var(--primary); color: #fff; border: none; padding: 10px 16px;
-    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem;
-    margin-top: 10px; display: inline-flex; align-items: center; gap: 6px;
+  label { display: block; font-weight: 600; margin: 8px 0 4px; font-size: 0.88rem; }
+  input, select, textarea {
+    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px;
+    font-size: 0.95rem;
   }
-  .btn:hover { opacity: 0.9; }
-  .btn-gold { background: var(--gold); color: #000; }
-  .btn-wa { background: #25D366; color: #fff; }
-  .btn-danger { background: #dc3545; color: #fff; }
+  .btn {
+    background: var(--primary); color: #fff; border: none; padding: 8px 14px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem;
+  }
+  .btn-gold { background: var(--gold); color: #111; }
+  .btn-blue { background: var(--secondary); color: #fff; }
+  .btn-wa { background: #16a34a; color: #fff; }
+  .btn-red { background: #dc2626; color: #fff; }
+  .btn-gray { background: #64748b; color: #fff; }
+
+  /* Exam Styling */
+  .exam-header-bar {
+    background: #fef9c3; border: 2px solid var(--gold); border-radius: 10px;
+    padding: 12px 15px; display: flex; flex-wrap: wrap; justify-content: space-between;
+    align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .q-card {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .mcq-choice {
+    display: flex; align-items: center; gap: 10px; background: #fff;
+    border: 1px solid #cbd5e1; padding: 9px 12px; border-radius: 8px;
+    margin-top: 7px; cursor: pointer;
+  }
+  .mcq-choice input[type="radio"] { width: auto; transform: scale(1.2); }
+
+  .new-page-card {
+    background: #ffffff; border: 2px solid var(--secondary); border-radius: 12px;
+    padding: 20px; min-height: 250px; margin-top: 10px;
+  }
+
+  /* High Marks & Results Cards */
+  .result-card {
+    background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 10px;
+  }
+  .high-mark-card {
+    background: #fffbeb; border: 2px solid var(--gold); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 10px;
+  }
 
   /* Doctor Card */
-  .doc-card {
-    display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
-    background: linear-gradient(135deg, #f8f9fa, #e8f5e9);
-    padding: 15px; border-radius: 12px; border: 1px solid #c8e6c9;
+  .doc-box {
+    display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+    background: #f0fdf4; padding: 14px; border-radius: 12px; border: 1px solid #bbf7d0;
   }
-  .doc-img {
-    width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
-    border: 4px solid var(--gold); background: #ddd;
+  .doc-avatar {
+    width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--gold); background: #e5e7eb;
   }
 
-  /* Timer Banner */
-  .timer-box {
-    background: #fff3cd; border: 1px solid #ffeeba; padding: 10px 15px;
-    border-radius: 10px; display: flex; justify-content: space-between;
-    align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;
-  }
-  .timer-display { font-size: 1.3rem; font-weight: bold; color: #d9534f; }
-
-  /* Paper Preview Box */
-  .paper-sheet {
-    background: #fff; border: 2px solid #333; padding: 20px;
-    margin-top: 15px; border-radius: 8px; page-break-after: always;
-  }
-  .paper-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
-
-  /* Gallery */
-  .gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 15px;
-  }
-  .gallery-item { position: relative; border-radius: 10px; overflow: hidden; border: 2px solid var(--gold); height: 150px; }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-
-  /* Lock Screen */
-  #lockScreen {
-    display: none; position: fixed; inset: 0; background: rgba(7, 43, 26, 0.97);
+  /* Violation Lock Overlay */
+  #violationModal {
+    display: none; position: fixed; inset: 0; background: rgba(127, 29, 29, 0.97);
     z-index: 9999; color: #fff; align-items: center; justify-content: center;
     padding: 20px; text-align: center;
   }
-  .lock-box {
-    background: #114b2f; border: 2px solid var(--gold); padding: 25px;
-    border-radius: 16px; max-width: 400px; width: 100%;
+  .violation-box {
+    background: #450a0a; border: 3px solid #fca5a5; padding: 24px;
+    border-radius: 16px; max-width: 450px; width: 100%;
   }
 
-  /* Footer */
   footer {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: #072b1a; color: var(--gold); text-align: center;
-    padding: 8px; font-size: 0.85rem; border-top: 2px solid var(--gold); z-index: 100;
+    position: fixed; bottom: 0; left: 0; right: 0; background: #062817;
+    color: var(--gold); text-align: center; padding: 8px; font-size: 0.85rem;
+    border-top: 2px solid var(--gold); z-index: 100;
   }
 
   @media print {
-    header, .nav-grid, .no-print, footer { display: none !important; }
-    .section { box-shadow: none; border: none; padding: 0; }
+    header, .top-tabs, .admin-subtabs, .no-print, footer { display: none !important; }
+    .view-box, .subview-box { box-shadow: none; border: none; padding: 0; display: block !important; }
     body { background: #fff; }
   }
 </style>
 </head>
 <body>
 
-<!-- Header (Tap 10 times for Admin Panel) -->
-<header id="mainHeader" onclick="handleHeaderTap()">
-  <h1 id="dispCampusName">ITMI CAMPUS - SRI LANKA</h1>
-  <p id="dispSubTitle">International Traditional Medical Institute | Ceylon Massage Therapy</p>
-  <div class="badge-bar">
-    <span class="badge">CTMC Reg: GA 00291335</span>
-    <span class="badge">ISO 9001:2015</span>
-    <span class="badge">CPD Member</span>
-    <span class="badge">100th Batch Diploma</span>
-  </div>
+<!-- Tap Header 10 times to open Admin Panel -->
+<header id="mainHdr" onclick="handleHeaderTap()">
+  <h1 id="hdrCampus">ITMI CAMPUS - CEYLON MASSAGE THERAPY</h1>
+  <p id="hdrDoctor">Director / Senior Lecturer: Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</p>
 </header>
 
-<!-- Navigation Buttons -->
-<div class="nav-grid no-print">
-  <button class="nav-btn active" onclick="openTab('tab-home', this)">🏠 මුල් පිටුව & Doctor</button>
-  <button class="nav-btn" onclick="openTab('tab-subjects', this)">📚 විෂයයන් & ප්‍රශ්න</button>
-  <button class="nav-btn" onclick="openTab('tab-generator', this)">📝 Paper Generator</button>
-  <button class="nav-btn" onclick="openTab('tab-students', this)">👨‍🎓 ළමයි & WhatsApp</button>
-  <button class="nav-btn" onclick="openTab('tab-gallery', this)">🖼️ Photo Gallery</button>
-  <button class="nav-btn" id="adminNavBtn" style="display:none; background:#ffeb3b;" onclick="openTab('tab-admin', this)">⚙️ Admin Panel</button>
+<!-- Main Tabs -->
+<div class="top-tabs no-print" id="topTabsBar">
+  <button class="tab-btn active" id="btn-tab-register" onclick="openTopTab('tab-register', this)">👥 ශිෂ්‍ය ලියාපදිංචිය (50)</button>
+  <button class="tab-btn" id="btn-tab-exam" onclick="openTopTab('tab-exam', this)">📝 Exam Paper</button>
+  <button class="tab-btn" id="btn-tab-results" onclick="openTopTab('tab-results', this)">🏆 ප්‍රතිඵල & High Marks</button>
+  <button class="tab-btn" id="btn-tab-answers" onclick="openTopTab('tab-answers', this)">✅ පිළිතුරු පත්‍ර</button>
+  <button class="tab-btn" id="btn-tab-doctor" onclick="openTopTab('tab-doctor', this)">🩺 Doctor & විස්තර</button>
+  <button class="tab-btn admin-tab" id="btn-tab-admin" style="display:none;" onclick="openTopTab('tab-admin', this)">⚙️ Admin Panel</button>
 </div>
 
 <div class="container">
 
-  <!-- 1. HOME & DOCTOR PROFILE -->
-  <div id="tab-home" class="section active">
-    <h2>🩺 පාඨමාලා අධ්‍යක්ෂක / ප්‍රධාන දේශක (Doctor Profile)</h2>
-    <div class="doc-card">
-      <img id="docImgPreview" class="doc-img" src="https://via.placeholder.com/150?text=Doctor+Photo" alt="Doctor Photo">
-      <div style="flex:1; min-width:220px;">
-        <h3 id="dispDocName" style="margin:0; color:var(--primary);">Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</h3>
-        <p id="dispDocTitle" style="margin:5px 0; font-weight:bold; color:#555;">Director / Senior Lecturer - ITMI Campus & CTMC</p>
-        <p id="dispDocBio" style="margin:5px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.</p>
-        <div class="no-print" style="margin-top:10px;">
-          <label style="display:inline-block; background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.85rem;">
-            📷 Doctor Photo මාරු කරන්න
-            <input type="file" accept="image/*" style="display:none;" onchange="updateDocPhoto(event)">
-          </label>
+  <!-- TAB 1: STUDENT REGISTRATION (UP TO 50) & WHATSAPP LINK SENDING -->
+  <div id="tab-register" class="view-box active">
+    <h2>👥 සිසුන් ලියාපදිංචිය (Max 50) & WhatsApp Link යැවීම</h2>
+    <div class="grid-2">
+      <div style="background:#eff6ff; padding:15px; border-radius:12px; border:1px solid #bfdbfe;">
+        <h3 style="margin-top:0;">📊 Register වූ ශිෂ්‍යයින් ගණන: <span id="stuTotalBadge">0</span> / 50</h3>
+        <label>ශිෂ්‍යයාගේ නම:</label>
+        <input type="text" id="stuInputName" placeholder="නම ඇතුළත් කරන්න">
+        <label>WhatsApp අංකය (උදා: 94717533483):</label>
+        <input type="tel" id="stuInputPhone" placeholder="947XXXXXXXX">
+        <label>Paper Set අංකය (1 - 50):</label>
+        <input type="number" id="stuInputSet" value="1" min="1" max="50">
+        <button class="btn btn-blue" onclick="addRegisteredStudent()">➕ ශිෂ්‍යයා Register කරන්න</button>
+      </div>
+
+      <div style="background:#f0fdf4; padding:15px; border-radius:12px; border:1px solid #bbf7d0;">
+        <h3 style="margin-top:0; color:var(--primary);">📲 WhatsApp හරහා Link යැවීම</h3>
+        <p style="font-size:0.88rem;">Link එක open කළ ගමන් ශිෂ්‍යයා කෙලින්ම <b>Exam Paper</b> එකට යයි. Register වූ සියලු දෙනාට (උදා: 50 දෙනාටම) හෝ එක් අයෙකුට WhatsApp හරහා Link යැවිය හැක.</p>
+        <label>ශිෂ්‍යයා තෝරන්න:</label>
+        <select id="stuLinkSelect" onchange="refreshSingleLinkPreview()"></select>
+        <label>Student Direct Exam Link:</label>
+        <input type="text" id="stuLinkBox" readonly>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+          <button class="btn btn-wa" onclick="sendSingleStudentLinkWa()">📲 තෝරාගත් අයට WhatsApp</button>
+          <button class="btn btn-gold" onclick="sendAllStudentsLinksWa()">📤 Register වූ සැමට WhatsApp</button>
+          <button class="btn" onclick="openDirectStudentExam()">🚀 කෙලින්ම Paper එකට යන්න</button>
         </div>
       </div>
     </div>
 
-    <div style="margin-top:20px; background:#fff8e1; padding:15px; border-radius:12px; border-left:5px solid var(--gold);">
-      <h3 style="margin-top:0; color:#8d6e63;">📌 පද්ධතිය භාවිතා කරන ආකාරය (Quick Guide)</h3>
-      <ul style="margin:0; padding-left:20px; line-height:1.6;">
-        <li><b>විෂයයන් & ප්‍රශ්න:</b> ඔබට අවශ්‍ය PDF හෝ Image එකක් upload කර බලාගෙන, විෂයයන් එකතු කර MCQ සහ ලකුණු 2, 3, 5 Essay ප්‍රශ්න ඇතුළත් කරන්න.</li>
-        <li><b>Paper Generator:</b> ළමයි ගණනට (5, 10, 20, 50) අනුව <b>එකම ප්‍රශ්න ටික එකිනෙකට වෙනස් Order එකකට (Shuffled)</b> සකස් කර PDF/Print ලබා ගන්න.</li>
-        <li><b>Admin Panel:</b> ඉහළම ඇති <b>ITMI CAMPUS</b> නම <b>10 වතාවක්</b> Touch/Click කළ විට Admin Panel එක විවෘත වේ.</li>
-      </ul>
+    <h3>📋 ලියාපදිංචි ශිෂ්‍ය ලැයිස්තුව</h3>
+    <div id="registeredStudentsList"></div>
+  </div>
+
+  <!-- TAB 2: STUDENT EXAM PAPER -->
+  <div id="tab-exam" class="view-box">
+    <div class="exam-header-bar no-print">
+      <div>
+        <b>ශිෂ්‍යයා:</b> <span id="examCurrentStuName">Student</span> |
+        <b>Set #:</b> <span id="examCurrentSetNo">1</span>
+      </div>
+
+      <!-- Adjustable Exam Timer (Hours & Minutes) -->
+      <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+        <span>⏳ <b>Exam Time:</b> <b id="mainExamClock" style="color:#b91c1c;">01:00:00</b></span>
+        <input type="number" id="adjExamHrs" value="1" min="0" max="12" style="width:55px; padding:4px;"><span>පැය</span>
+        <input type="number" id="adjExamMins" value="0" min="0" max="59" style="width:55px; padding:4px;"><span>මිනි</span>
+        <button class="btn" style="margin:0; padding:4px 9px;" onclick="setMainExamTimer()">Set</button>
+        <button class="btn btn-gold" style="margin:0; padding:4px 9px;" onclick="startMainExamTimer()">Start</button>
+      </div>
+
+      <!-- MCQ Timer Adjust & Delete -->
+      <div id="mcqTimerSection" style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+        <span>⏱️ <b>MCQ Time:</b> <b id="mcqClockText" style="color:#1d4ed8;">15:00</b></span>
+        <input type="number" id="adjMcqMins" value="15" min="1" max="180" style="width:58px; padding:4px;">
+        <button class="btn btn-blue" style="margin:0; padding:4px 8px;" onclick="adjustMcqClock()">Adjust</button>
+        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteMcqClock()">Delete</button>
+      </div>
+    </div>
+
+    <div class="no-print" style="margin-bottom:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <label style="margin:0;">පිළිතුරු ලියන පිටු ක්‍රමය:</label>
+      <select id="examPageMode" style="width:auto;" onchange="renderExamPaper()">
+        <option value="continuous">සියලු ප්‍රශ්න පිළිවෙලට (MCQ + 2, 3, 5 Essay)</option>
+        <option value="per_question">එක් එක් ප්‍රශ්නයට අලුත් පිටුවක් (New Page per Question)</option>
+      </select>
+      <button class="btn btn-gray" style="margin:0;" onclick="printStudentPaperPDF()">📄 ශිෂ්‍යයාගේ නමට PDF / Print</button>
+    </div>
+
+    <div id="examPaperContainer"></div>
+
+    <div class="no-print" style="margin-top:18px; text-align:right;">
+      <button class="btn btn-wa" style="padding:11px 20px; font-size:0.98rem;" onclick="submitExamAndShowResults()">
+        ✅ Paper Submit කර Web එකේම Results බලන්න & WhatsApp යවන්න
+      </button>
     </div>
   </div>
 
-  <!-- 2. SUBJECTS, PDF/IMAGE VIEWER & QUESTION BANK -->
-  <div id="tab-subjects" class="section">
-    <h2>📚 විෂයයන් එකතු කිරීම & PDF / Image ඇසුරින් ප්‍රශ්න සැකසීම</h2>
-    
+  <!-- TAB 3: SUBMITTED RESULTS & HIGH MARKS (SHOWN RIGHT IN THIS WEB APP) -->
+  <div id="tab-results" class="view-box">
+    <h2>🏆 Submit කළ Papers ප්‍රතිඵල & High Marks</h2>
+    <p style="font-size:0.9rem; color:#475569;">ශිෂ්‍යයා Paper එක Submit කළ වහාම මෙම Web එකේම ප්‍රතිඵල සහ High Marks ලබා ගත් අය වෙන වෙනම පෙන්වයි.</p>
+
     <div class="grid-2">
-      <!-- Left: Reference PDF/Image Upload -->
-      <div style="background:#f1f8e9; padding:15px; border-radius:10px;">
-        <label>📄 අදාළ PDF හෝ Image එක තෝරන්න (Reference):</label>
-        <input type="file" accept="image/*,.pdf" onchange="previewReferenceFile(event)">
-        <div id="refPreviewBox" style="margin-top:10px; max-height:280px; overflow:auto; border:1px dashed #888; padding:5px; text-align:center; background:#fff;">
-          <small style="color:#666;">Upload කරන PDF හෝ Image එක මෙතන දිස්වේ...</small>
-        </div>
-      </div>
-
-      <!-- Right: Add Subject & Questions -->
       <div>
-        <label>➕ නව විෂයක් (Subject) එකතු කරන්න:</label>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="newSubjectInput" placeholder="උදා: Anatomy & Physiology / Massage Techniques">
-          <button class="btn" style="margin-top:0;" onclick="addSubject()">එකතු කරන්න</button>
+        <h3>🌟 High Marks ගත් ශිෂ්‍යයින් (75% හෝ ඊට වැඩි)</h3>
+        <div id="highMarksList"></div>
+      </div>
+      <div>
+        <h3>📋 සියලු Submit කළ ශිෂ්‍ය ප්‍රතිඵල</h3>
+        <div id="allSubmittedList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: SEPARATE ANSWER SHEETS (MCQ + 2, 3, 5 MARKS) -->
+  <div id="tab-answers" class="view-box">
+    <h2>✅ පිළිතුරු පත්‍ර (MCQ & ලකුණු 2, 3, 5 වෙන් වෙන් වශයෙන්)</h2>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+      <button class="btn" onclick="renderAnswerSheet('MCQ')">MCQ පිළිතුරු (1–50)</button>
+      <button class="btn btn-blue" onclick="renderAnswerSheet('ESSAY2')">ලකුණු 2 Essay පිළිතුරු (1–10)</button>
+      <button class="btn btn-gold" onclick="renderAnswerSheet('ESSAY3')">ලකුණු 3 Essay පිළිතුරු (1–10)</button>
+      <button class="btn btn-wa" onclick="renderAnswerSheet('ESSAY5')">ලකුණු 5 Essay පිළිතුරු (1–10)</button>
+    </div>
+    <div id="answerSheetContainer"></div>
+  </div>
+
+  <!-- TAB 5: DOCTOR & COURSE INFO -->
+  <div id="tab-doctor" class="view-box">
+    <h2>🩺 Doctor Profile & පාඨමාලා විස්තර</h2>
+    <div class="doc-box">
+      <img id="docProfileImg" class="doc-avatar" src="https://via.placeholder.com/150?text=Doctor" alt="Doctor">
+      <div style="flex:1; min-width:220px;">
+        <h3 id="docProfileName" style="margin:0; color:var(--primary);">Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</h3>
+        <p style="margin:4px 0;"><b>Director / Senior Lecturer - ITMI Campus & CTMC</b></p>
+        <p style="margin:4px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - 100th Batch</p>
+        <label class="no-print" style="display:inline-block; background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.85rem;">
+          📷 Doctor Photo වෙනස් කරන්න
+          <input type="file" accept="image/*" style="display:none;" onchange="updateDoctorImage(event)">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 6: ADMIN PANEL WITH SUB-TABS FOR EVERY TOPIC -->
+  <div id="tab-admin" class="view-box">
+    <h2>⚙️ Admin Panel — මාතෘකා Sub-Tabs</h2>
+
+    <div class="admin-subtabs no-print">
+      <button class="subtab-btn active" onclick="openAdminSubTab('sub-qbank', this)">📚 ප්‍රශ්න & පිළිතුරු (Add/Edit/Delete)</button>
+      <button class="subtab-btn" onclick="openAdminSubTab('sub-pgen', this)">📄 Paper Generator (Shuffled)</button>
+      <button class="subtab-btn" onclick="openAdminSubTab('sub-students', this)">👥 ශිෂ්‍යයින් (50)</button>
+      <button class="subtab-btn" onclick="openAdminSubTab('sub-results', this)">🏆 Results & High Marks</button>
+      <button class="subtab-btn" onclick="openAdminSubTab('sub-settings', this)">🔧 Profile & WhatsApp</button>
+    </div>
+
+    <!-- Admin Sub-Tab 1: Question & Answer Bank -->
+    <div id="sub-qbank" class="subview-box active">
+      <h3>➕ / ✏️ ප්‍රශ්න හා පිළිතුරු එකතු කිරීම, වෙනස් කිරීම හා මැකීම</h3>
+      <div class="grid-2">
+        <div>
+          <label>ප්‍රශ්න වර්ගය:</label>
+          <select id="admType" onchange="toggleAdminQuestionInputs()">
+            <option value="MCQ">MCQ</option>
+            <option value="ESSAY2">ලකුණු 2 Essay</option>
+            <option value="ESSAY3">ලකුණු 3 Essay</option>
+            <option value="ESSAY5">ලකුණු 5 Essay</option>
+          </select>
+          <label>ප්‍රශ්නය:</label>
+          <textarea id="admPrompt" rows="2" placeholder="ප්‍රශ්නය ලියන්න..."></textarea>
         </div>
 
-        <label>විෂය තෝරන්න:</label>
-        <select id="subjectSelect" onchange="renderQuestionList()"></select>
-
-        <label>ප්‍රශ්න වර්ගය (Question Type):</label>
-        <select id="qTypeSelect" onchange="toggleMcqFields()">
-          <option value="MCQ">MCQ (බහුවරණ ප්‍රශ්නය)</option>
-          <option value="ESSAY2">Essay - ලකුණු 2 ප්‍රශ්නය</option>
-          <option value="ESSAY3">Essay - ලකුණු 3 ප්‍රශ්නය</option>
-          <option value="ESSAY5">Essay - ලකුණු 5 ප්‍රශ්නය</option>
-        </select>
-
-        <label>ප්‍රශ්නය ලියන්න:</label>
-        <textarea id="qText" rows="2" placeholder="ප්‍රශ්නය මෙතන ඇතුළත් කරන්න..."></textarea>
-
-        <div id="mcqOptionsBox">
-          <div class="grid-2" style="gap:8px; margin-top:6px;">
-            <input type="text" id="opt1" placeholder="පිළිතුර 1">
-            <input type="text" id="opt2" placeholder="පිළිතුර 2">
-            <input type="text" id="opt3" placeholder="පිළිතුර 3">
-            <input type="text" id="opt4" placeholder="පිළිතුර 4">
+        <div id="admMcqBlock">
+          <div class="grid-2" style="gap:6px;">
+            <input type="text" id="admChoice0" placeholder="Option A">
+            <input type="text" id="admChoice1" placeholder="Option B">
+            <input type="text" id="admChoice2" placeholder="Option C">
+            <input type="text" id="admChoice3" placeholder="Option D">
           </div>
           <label>නිවැරදි පිළිතුර:</label>
-          <select id="correctOpt">
-            <option value="0">පිළිතුර 1</option>
-            <option value="1">පිළිතුර 2</option>
-            <option value="2">පිළිතුර 3</option>
-            <option value="3">පිළිතුර 4</option>
+          <select id="admCorrectIdx">
+            <option value="0">A</option>
+            <option value="1">B</option>
+            <option value="2">C</option>
+            <option value="3">D</option>
           </select>
         </div>
 
-        <button class="btn btn-gold" onclick="saveQuestion()">💾 ප්‍රශ්නය Save කරන්න</button>
-      </div>
-    </div>
-
-    <div style="margin-top:20px;">
-      <h3>📋 ඇතුළත් කළ ප්‍රශ්න ලැයිස්තුව (<span id="qCountBadge">0</span>)</h3>
-      <div id="savedQuestionsList"></div>
-    </div>
-  </div>
-
-  <!-- 3. PAPER GENERATOR (SHUFFLED ORDER + TIMER) -->
-  <div id="tab-generator" class="section">
-    <h2 class="no-print">📝 Paper Generator (එකිනෙකට වෙනස් Order එකට Papers සැකසීම)</h2>
-
-    <!-- MCQ Timer Adjust & Delete -->
-    <div class="timer-box no-print" id="timerControlPanel">
-      <div>
-        <b>⏱️ MCQ Exam Timer:</b>
-        <span class="timer-display" id="timerDisplay">15:00</span>
-      </div>
-      <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-        <input type="number" id="timerMinutesInput" value="15" min="1" max="180" style="width:75px;" placeholder="Min">
-        <button class="btn" style="margin:0; padding:6px 10px;" onclick="setTimer()">Set</button>
-        <button class="btn btn-gold" style="margin:0; padding:6px 10px;" onclick="startTimer()">▶ Start</button>
-        <button class="btn btn-danger" style="margin:0; padding:6px 10px;" onclick="deleteTimer()">🗑️ Timer Delete/Off</button>
-      </div>
-    </div>
-    <div id="timerRestoredDiv" class="no-print" style="display:none; margin-bottom:10px;">
-      <button class="btn" onclick="restoreTimer()">➕ MCQ Timer නැවත දාන්න</button>
-    </div>
-
-    <div class="grid-2 no-print">
-      <div>
-        <label>විෂය තෝරන්න:</label>
-        <select id="genSubjectSelect"></select>
-      </div>
-      <div>
-        <label>සෑදිය යුතු Paper ගණන (ළමයි ගණන - උදා: 5, 10, 20, 50):</label>
-        <input type="number" id="paperCountInput" value="5" min="1" max="100">
-      </div>
-    </div>
-
-    <div class="grid-2 no-print" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
-      <div>
-        <label>MCQ ගණන:</label>
-        <input type="number" id="mcqCountInput" value="5" min="0">
-      </div>
-      <div>
-        <label>ලකුණු 2 Essay ගණන:</label>
-        <input type="number" id="e2CountInput" value="2" min="0">
-      </div>
-      <div>
-        <label>ලකුණු 3 Essay ගණන:</label>
-        <input type="number" id="e3CountInput" value="1" min="0">
-      </div>
-      <div>
-        <label>ලකුණු 5 Essay ගණන:</label>
-        <input type="number" id="e5CountInput" value="1" min="0">
-      </div>
-    </div>
-
-    <div class="no-print" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-gold" onclick="generateShuffledPapers()">⚡ Papers Generate කරන්න (Shuffled Order)</button>
-      <button class="btn" onclick="window.print()">🖨️ Print / PDF Save කරන්න</button>
-      <button class="btn btn-wa" onclick="sendPapersSummaryToWhatsApp()">📲 WhatsApp වෙත යවන්න</button>
-    </div>
-
-    <div id="generatedPapersOutput"></div>
-  </div>
-
-  <!-- 4. STUDENT REGISTRATION & WHATSAPP -->
-  <div id="tab-students" class="section">
-    <h2>👨‍🎓 සිසුන් ලියාපදිංචිය (Register) & WhatsApp යැවීම</h2>
-    <div class="grid-2">
-      <div>
-        <label>ශිෂ්‍යයාගේ නම (Student Name):</label>
-        <input type="text" id="stuName" placeholder="නම ඇතුළත් කරන්න">
-        <label>WhatsApp දුරකථන අංකය:</label>
-        <input type="tel" id="stuPhone" placeholder="උදා: 94717533483">
-        <label>ලබා දෙන Paper අංකය (Paper Set No):</label>
-        <input type="number" id="stuPaperNo" value="1" min="1">
-        <button class="btn" onclick="registerStudent()">➕ ශිෂ්‍යයා Register කරන්න</button>
-      </div>
-      <div style="background:#e8f5e9; padding:15px; border-radius:10px;">
-        <h3 style="margin-top:0;">📊 ලියාපදිංචි සිසුන් ගණන: <span id="regStuCount">0</span></h3>
-        <p style="font-size:0.9rem;">ලියාපදිංචි වූ සිසුන්ගේ ගණනට අනුව Paper විස්තර හෝ ලැයිස්තුව WhatsApp වෙත යවන්න.</p>
-        <button class="btn btn-wa" onclick="sendAllStudentsToWhatsApp()">📲 සියලු විස්තර WhatsApp යවන්න</button>
-      </div>
-    </div>
-
-    <div id="studentListContainer" style="margin-top:15px;"></div>
-  </div>
-
-  <!-- 5. PHOTO GALLERY -->
-  <div id="tab-gallery" class="section">
-    <h2>🖼️ ITMI Campus - Photo Gallery</h2>
-    <div class="no-print">
-      <label>📷 ගැලරියට නව පින්තූර එකතු කරන්න:</label>
-      <input type="file" accept="image/*" multiple onchange="addGalleryPhotos(event)">
-    </div>
-    <div class="gallery-grid" id="galleryGrid"></div>
-  </div>
-
-  <!-- 6. ADMIN PANEL (10 Taps on Header) -->
-  <div id="tab-admin" class="section">
-    <h2>⚙️ Admin Panel (පාලන පුවරුව)</h2>
-    <div class="grid-2">
-      <div>
-        <label>ආයතනයේ නම (Profile / Campus Name):</label>
-        <input type="text" id="adminCampusInput" value="ITMI CAMPUS - SRI LANKA">
-        <label>උප සිරස්තලය (Subtitle):</label>
-        <input type="text" id="adminSubInput" value="International Traditional Medical Institute | Ceylon Massage Therapy">
-        <label>Doctor ගේ නම:</label>
-        <input type="text" id="adminDocNameInput" value="Prof. (Hon.) Dr. Prasanna Kumara Weerasekara">
-        <label>Admin WhatsApp අංකය (Unlock & Reports සඳහා):</label>
-        <input type="text" id="adminWaInput" value="94717533483">
-        <button class="btn btn-gold" onclick="saveAdminProfile()">💾 Profile වෙනස්කම් Save කරන්න</button>
+        <div id="admEssayBlock" style="display:none;">
+          <label>පිළිතුර (Answer):</label>
+          <textarea id="admModelAns" rows="3" placeholder="පිළිතුර ඇතුළත් කරන්න..."></textarea>
+        </div>
       </div>
 
-      <div style="background:#fff3e0; padding:15px; border-radius:10px; border:1px solid #ffcc80;">
-        <h3 style="margin-top:0;">🔒 Auto-Lock & Password Security</h3>
-        <label>Auto-Lock තත්ත්වය:</label>
-        <select id="autoLockStatus">
-          <option value="OFF">OFF (දැනට එකපාරින් Open වේ)</option>
-          <option value="ON">ON (Auto-Lock සක්‍රීය කරන්න)</option>
+      <button class="btn btn-gold" onclick="saveQuestionItem()">💾 ප්‍රශ්නය Save කරන්න</button>
+      <button class="btn btn-gray" onclick="clearQuestionEditor()">Clear</button>
+
+      <div style="margin-top:14px;">
+        <label style="display:inline-block; width:auto; margin-right:8px;">Filter:</label>
+        <select id="admListFilter" style="width:auto;" onchange="renderAdminQuestionManager()">
+          <option value="ALL">සියලු ප්‍රශ්න (80)</option>
+          <option value="MCQ">MCQ (50)</option>
+          <option value="ESSAY2">ලකුණු 2 Essay (10)</option>
+          <option value="ESSAY3">ලකුණු 3 Essay (10)</option>
+          <option value="ESSAY5">ලකුණු 5 Essay (10)</option>
         </select>
-        <label>Auto-Lock වන කාලය (තත්පර වලින්):</label>
-        <input type="number" id="autoLockSeconds" value="180" min="10">
-        <label>Unlock Password (එක් වරක් දුන් පසු නැවත Lock නොවේ):</label>
-        <input type="text" id="adminPassInput" value="ITMI100">
-        <button class="btn" onclick="saveSecuritySettings()">🔐 Security Save කරන්න</button>
-        <button class="btn btn-danger" onclick="resetPermanentUnlock()">🔄 Lock නැවත පරීක්ෂා කරන්න</button>
+      </div>
+      <div id="adminQuestionManagerList" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Admin Sub-Tab 2: Paper Generator (Shuffled Order) -->
+    <div id="sub-pgen" class="subview-box">
+      <h3>📄 Shuffled Paper Generator (එකම ප්‍රශ්න, වෙනස් Order)</h3>
+      <div class="grid-4">
+        <div>
+          <label>Papers ගණන:</label>
+          <input type="number" id="genNumPapers" value="5" min="1" max="50">
+        </div>
+        <div>
+          <label>MCQ ගණන:</label>
+          <input type="number" id="genNumMcq" value="10" min="0" max="50">
+        </div>
+        <div>
+          <label>ලකුණු 2 Essay:</label>
+          <input type="number" id="genNumE2" value="2" min="0" max="10">
+        </div>
+        <div>
+          <label>ලකුණු 3 Essay:</label>
+          <input type="number" id="genNumE3" value="2" min="0" max="10">
+        </div>
+        <div>
+          <label>ලකුණු 5 Essay:</label>
+          <input type="number" id="genNumE5" value="1" min="0" max="10">
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="generateShuffledSet()">⚡ Shuffled Paper Set සකස් කර Exam එකට යොදන්න</button>
+      <div id="genPreviewInfo" style="margin-top:10px; font-weight:bold; color:var(--primary);"></div>
+    </div>
+
+    <!-- Admin Sub-Tab 3: Students Admin View -->
+    <div id="sub-students" class="subview-box">
+      <h3>👥 Register වූ ශිෂ්‍යයින් කළමනාකරණය</h3>
+      <div id="adminStudentsTable"></div>
+    </div>
+
+    <!-- Admin Sub-Tab 4: Results Admin View -->
+    <div id="sub-results" class="subview-box">
+      <h3>🏆 ප්‍රතිඵල & High Marks සාරාංශය</h3>
+      <div id="adminResultsSummary"></div>
+    </div>
+
+    <!-- Admin Sub-Tab 5: Profile & WhatsApp Settings -->
+    <div id="sub-settings" class="subview-box">
+      <h3>🔧 Profile Name, Doctor & WhatsApp Settings</h3>
+      <div class="grid-2">
+        <div>
+          <label>Profile / Campus Name:</label>
+          <input type="text" id="setCampusName">
+          <label>Doctor Name:</label>
+          <input type="text" id="setDoctorName">
+          <label>Admin WhatsApp Number (Alerts & Answer Sheets):</label>
+          <input type="text" id="setWaNumber">
+          <button class="btn btn-gold" onclick="saveProfileAndWaSettings()">💾 Save Settings</button>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- Auto-Lock Overlay -->
-<div id="lockScreen">
-  <div class="lock-box">
-    <h2 style="color:var(--gold); border:none;">🔒 System Locked</h2>
-    <p>මෙම පද්ධතිය ආරක්ෂිතව අගුළු දමා ඇත. Password එක ඇතුළත් කරන්න (එක් වරක් නිවැරදිව ලබා දුන් පසු නැවත Lock නොවේ).</p>
-    <input type="password" id="unlockInput" placeholder="Password ඇතුළත් කරන්න" style="text-align:center; margin-bottom:10px;">
-    <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="attemptUnlock()">🔓 Unlock කරන්න</button>
-    <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="requestPasswordViaWhatsApp()">📲 WhatsApp හරහා Password ඉල්ලන්න</button>
+<!-- ALARM & LOCK OVERLAY WHEN TOUCHING OUTSIDE / SWITCHING TAB -->
+<div id="violationModal">
+  <div class="violation-box">
+    <h2 style="color:#fca5a5; border:none;">🚨 ALERT! EXAM LOCKED</h2>
+    <p style="font-size:1.05rem;"><b>ශිෂ්‍යයාගේ නම:</b> <span id="violatorName">-</span></p>
+    <p id="violatorReason">ශිෂ්‍යයා වෙනත් තැනකට / Tab එකකට ගිය බැවින් Paper එක Lock විය!</p>
+    <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendAlertToAdminWhatsApp()">
+      📲 Admin WhatsApp වෙත Alert Message යවන්න
+    </button>
+    <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="unlockExamWithAdminCode()">
+      🔓 Admin Code යොදා Unlock කරන්න
+    </button>
   </div>
 </div>
 
@@ -400,177 +438,348 @@
 </footer>
 
 <script>
-  // --- STATE & STORAGE ---
-  let appData = JSON.parse(localStorage.getItem('itmi_system_data')) || {
-    campusName: "ITMI CAMPUS - SRI LANKA",
-    subTitle: "International Traditional Medical Institute | Ceylon Massage Therapy",
-    docName: "Prof. (Hon.) Dr. Prasanna Kumara Weerasekara",
-    docPhoto: "https://via.placeholder.com/150?text=Dr+Prasanna",
+  // --- DEFAULT 80 QUESTIONS & ANSWERS ---
+  const baseMcqQ = [
+    "සම්බාහන ප්‍රතිකාරයක (Massage Therapy) මූලික අරමුණ කුමක්ද?",
+    "Ceylon Massage Therapy යනු කුමන ක්ෂේත්‍රයට අයත් ප්‍රතිකාර ක්‍රමයක්ද?",
+    "සම්බාහනයට පෙර සේවාදායකයාගේ (Client) කුමක් පරීක්ෂා කළ යුතුද?",
+    "සම මත තුවාල, කැපුම් හෝ උග්‍ර ආසාදන ඇති විට සම්බාහනය කළ යුත්තේ කෙසේද?",
+    "සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?",
+    "සම්බාහනයෙන් මාංශ පේශි වලට සිදුවන ප්‍රධාන යහපත් බලපෑම කුමක්ද?",
+    "සම්බාහන ශිල්පියෙකුගේ (Therapist) සනීපාරක්ෂාවට අයත් වන්නේ කුමක්ද?",
+    "සම්බාහන කාමරයක තිබිය යුතු සුදුසු පරිසර ලක්ෂණයක් වන්නේ කුමක්ද?",
+    "සේවාදායකයාට සම්බාහනය අතරතුර වේදනාවක් හෝ අපහසුවක් දැනුණහොත් කුමක් කළ යුතුද?",
+    "වසා පද්ධතියට (Lymphatic System) සම්බාහනයෙන් ලැබෙන සහය කුමක්ද?",
+    "සම්බාහනයකදී 'Effleurage' යන්නෙන් සාමාන්‍යයෙන් අදහස් වන්නේ කුමක්ද?",
+    "'Petrissage' යටතේ බහුලව සිදු කෙරෙන්නේ කුමක්ද?",
+    "'Tapotement' / Percussion චලන වලදී සිදු කෙරෙන්නේ කුමක්ද?",
+    "'Friction' චලනයක් ප්‍රධාන වශයෙන් භාවිතා කරන්නේ කුමන අවස්ථාවලදීද?",
+    "සම්බාහනයකදී 'Vibration' චලනය මගින් ඇති කරන්නේ කුමක්ද?",
+    "සම්බාහන ශිල්පියෙකුගේ ශරීර ඉරියව්ව (Ergonomics) නිවැරදිව තබා ගැනීම වැදගත් ඇයි?",
+    "සම්බාහනයකට පෙර සේවාදායකයාගෙන් ලබා ගත යුතු දෙය කුමක්ද?",
+    "උණ (Fever) පවතින අවස්ථාවක සම්බාහනය සම්බන්ධයෙන් නිවැරදි පිළිවෙත කුමක්ද?",
+    "ගර්භනී මවකට සම්බාහනයක් සිදු කිරීමේදී සැලකිලිමත් විය යුත්තේ කුමක්ද?",
+    "සම්බාහනයෙන් පසු සේවාදායකයාට සාමාන්‍යයෙන් නිර්දේශ කරන්නේ කුමක්ද?",
+    "ස්නායු පද්ධතියට (Nervous System) සන්සුන් සම්බාහනයකින් ඇති වන ප්‍රතිඵලය කුමක්ද?",
+    "රුධිර සංසරණය වැඩි වීමෙන් පටක වලට ලැබෙන ප්‍රධාන වාසිය කුමක්ද?",
+    "සම්බාහන මේසයක හෝ ඇඳක සනීපාරක්ෂාව සඳහා කළ යුත්තේ කුමක්ද?",
+    "සම්බාහනයේදී 'Contraindication' (නොකළ යුතු අවස්ථා) යන්නෙන් අදහස් කරන්නේ කුමක්ද?",
+    "Deep Vein Thrombosis (DVT) හෝ රුධිර කැටි ගැසීමේ අවදානමක් ඇති විට කුමක් කළ යුතුද?",
+    "පිට (Back) සම්බාහනයකදී කොඳු ඇට පෙළේ (Spine) අස්ථි මත කෙලින්ම තද පීඩනය යෙදීම සුදුසුද?",
+    "සම්බාහන සැසියකට පෙර ශිල්පියෙකු තම අත් උණුසුම් කර ගැනීම වැදගත් ඇයි?",
+    "මානසික ආතතිය (Stress) අඩු කිරීමට සම්බාහනය උපකාරී වන්නේ කෙසේද?",
+    "සම්බාහන ශිල්පියෙකුගේ වෘත්තීය ආචාර ධර්ම (Professional Ethics) වලට අයත් වන්නේ කුමක්ද?",
+    "සමේ දද (Eczema) හෝ පුස් රෝග (Fungal infection) ඇති විට සැලකිලිමත් විය යුත්තේ ඇයි?",
+    "සම්බාහනයකදී පීඩනයේ තීව්‍රතාව (Pressure level) තීරණය කළ යුත්තේ කෙසේද?",
+    "උරහිස් හා බෙල්ලේ (Neck & Shoulder) තද ගතිය බහුලව ඇතිවීමට හේතුවක් විය හැක්කේ කුමක්ද?",
+    "සම්බාහනයකදී තෙල් අධික ලෙස භාවිතා කළහොත් සිදුවිය හැක්කේ කුමක්ද?",
+    "සම්බාහනයකදී තෙල් ඉතා අඩුවෙන් භාවිතා කළහොත් සිදුවිය හැක්කේ කුමක්ද?",
+    "සේවාදායකයෙකුට ක්ලාන්තය හෝ කරකැවිල්ල ඇති වුවහොත් මුලින්ම කළ යුත්තේ කුමක්ද?",
+    "සම්බාහන ශිල්පියෙකුගේ ඇඳුම (Uniform) කෙසේ විය යුතුද?",
+    "සේවාදායකයාගේ පෞද්ගලිකත්වය (Privacy) ආරක්ෂා කිරීමට සම්බාහනයේදී කරන්නේ කුමක්ද?",
+    "සම්බාහනයකින් පසු මාංශ පේශි වල සුළු වෙහෙසක් හෝ මෘදු බවක් දැනීම සාමාන්‍ය විය හැක්කේ කුමන අවස්ථාවකදීද?",
+    "සම්බාහන ප්‍රතිකාරයක සාර්ථකත්වය මැනීමට උපකාරී වන්නේ කුමක්ද?",
+    "සම්බාහන ශිල්පියෙකුට පිටතට යාමට පෙර අත් සෝදා ගත යුත්තේ ඇයි?",
+    "පාද සම්බාහනයේදී (Foot Massage) සැලකිලිමත් විය යුතු වැදගත් කරුණක් වන්නේ කුමක්ද?",
+    "සම්බාහනයකදී රිද්මයානුකූල (Rhythmic) චලන භාවිතා කිරීමෙන් ලැබෙන වාසිය කුමක්ද?",
+    "අධික රුධිර පීඩනය (High Blood Pressure) ඇති සේවාදායකයෙකු සම්බන්ධයෙන් කළ යුත්තේ කුමක්ද?",
+    "සම්බාහන ශිල්පියෙකුගේ සන්නිවේදන කුසලතා (Communication skills) වැදගත් ඇයි?",
+    "සම්බාහන උපකරණ හා රෙදි (Linens) ගබඩා කළ යුත්තේ කෙසේද?",
+    "සම්බාහන සැසියක් ආරම්භ කිරීමට පෙර කළ යුතු මූලික කාර්යයක් වන්නේ කුමක්ද?",
+    "සම්බාහනයෙන් සන්ධි (Joints) වලට ලැබෙන ප්‍රතිඵලයක් විය හැක්කේ කුමක්ද?",
+    "සේවාදායකයාගේ වාර්තා (Client Records) පවත්වා ගැනීමේදී අවධානය යොමු කළ යුත්තේ කුමක්ද?",
+    "සම්බාහන ප්‍රතිකාරයකදී 'Safety First' (ආරක්ෂාව මුලින්ම) ප්‍රතිපත්තියෙන් අදහස් වන්නේ කුමක්ද?",
+    "වෘත්තීය තෙරපි පුහුණුවක් (Therapy Course) නිසි ලෙස හැදෑරීමෙන් ලැබෙන ප්‍රධාන ප්‍රතිලාභය කුමක්ද?"
+  ];
+
+  const defaultChoiceSet = [
+    ["නිවැරදි ප්‍රතිකාර ක්‍රමය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"]
+  ];
+
+  const e2Items = [
+    ["සම්බාහන ප්‍රතිකාරයක (Massage Therapy) ප්‍රධාන අරමුණු 2ක් ලියන්න.", "රුධිර සංසරණය වැඩි දියුණු කිරීම සහ මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම."],
+    ["සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", "සේවාදායකයාගේ වෛද්‍ය/සෞඛ්‍ය ඉතිහාසය සහ සමේ තුවාල හෝ ආසාදන තිබේද යන්න."],
+    ["සම්බාහන ශිල්පියෙකුගේ පුද්ගලික සනීපාරක්ෂාවට අදාළ කරුණු 2ක් ලියන්න.", "අත් පිරිසිදුව සෝදා තබා ගැනීම සහ නියපොතු කොටට කපා පිරිසිදුව තබා ගැනීම."],
+    ["සම්බාහනයකින් රුධිර සංසරණයට සිදුවන ප්‍රතිඵල 2ක් දක්වන්න.", "පටක වලට ඔක්සිජන් හා පෝෂ්‍ය පදාර්ථ වඩා හොඳින් සැපයීම සහ පරිවෘත්තීය අපද්‍රව්‍ය ඉවත් කිරීමට සහාය වීම."],
+    ["සම්බාහනයකදී තෙල් භාවිතා කිරීමේ වැදගත්කම කරුණු 2කින් පැහැදිලි කරන්න.", "සම මත ඝර්ෂණය අඩු කර චලන සුමටව සිදු කිරීම සහ සමේ වියළි බව අවම කිරීම."],
+    ["සම්බාහනයකදී 'Contraindication' (නොකළ යුතු අවස්ථා) සඳහා උදාහරණ 2ක් ලියන්න.", "සම මත විවෘත තුවාල/ආසාදන තිබීම සහ උග්‍ර උණ හෝ රුධිර කැටි ගැසීමේ අවදානම් තත්ත්ව."],
+    ["සම්බාහන කාමරයක තිබිය යුතු සුදුසු ලක්ෂණ 2ක් සඳහන් කරන්න.", "පිරිසිදුකම හා නිස්කලංක පරිසරය සහ සුවපහසු උෂ්ණත්වය හා වාතාශ්‍රය."],
+    ["සම්බාහන ශිල්පියෙකුට නිවැරදි ශරීර ඉරියව්ව (Ergonomics) වැදගත් වන්නේ ඇයි යන්නට හේතු 2ක් ලියන්න.", "ශිල්පියාට කොන්දේ හෝ අත්වල ආබාධ ඇතිවීම වැළැක්වීම සහ දිගුකාලීනව වෙහෙසකින් තොරව සේවය කිරීමට හැකි වීම."],
+    ["සම්බාහනයකින් පසු සේවාදායකයාට ලබා දිය යුතු උපදෙස් 2ක් ලියන්න.", "ප්‍රමාණවත් තරම් ජලය පානය කිරීම සහ සැසියෙන් පසු මඳ විවේකයක් ගැනීම."],
+    ["සම්බාහන සැසියකදී සේවාදායකයාගේ පෞද්ගලිකත්වය (Privacy) රකින ආකාරය 2ක් දක්වන්න.", "සම්බාහනය කරන කොටස පමණක් නිරාවරණය කර සෙසු කොටස් රෙද්දකින් ආවරණය කිරීම සහ පෞද්ගලික තොරතුරු රහසිගතව තබා ගැනීම."]
+  ];
+
+  const e3Items = [
+    ["Effleurage සහ Petrissage යන සම්බාහන චලන වර්ග 2 අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", "1) Effleurage සැහැල්ලු/මධ්‍යස්ථ පිරිමැදීම වන අතර Petrissage ඇනීම/තෙරපීමයි. 2) Effleurage සන්සුන් කිරීමට සහ Petrissage ගැඹුරු මාංශ පේශි ලිහිල් කිරීමට යොදා ගනී. 3) Effleurage පුළුල්වද Petrissage නිශ්චිත මාංශ පේශි මතද කෙරේ."],
+    ["සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", "1) මාංශ පේශි තද ගතිය ලිහිල් වීම. 2) ස්නායු පද්ධතිය සන්සුන් වී විවේකී තත්ත්වයක් ඇති වීම. 3) රිද්මයානුකූල ස්පර්ශයෙන් මනසට සැහැල්ලුව ලැබීම."],
+    ["සේවාදායකයෙකුට සම්බාහනය අතරතුර වේදනාවක් හෝ අපහසුවක් දැනුණහොත් ගත යුතු පියවර 3ක් ලියන්න.", "1) පීඩනය වහාම අඩු කිරීම හෝ නැවැත්වීම. 2) අපහසුව විමසා ඉරියව්ව සකස් කිරීම. 3) වේදනාව පවතී නම් එම ස්ථානය මඟහැරීම හෝ සැසිය නවතා වෛද්‍ය උපදෙස් නිර්දේශ කිරීම."],
+    ["සම්බාහන ශිල්පියෙකුගේ වෘත්තීය ආචාර ධර්ම (Professional Ethics) වලට අයත් කරුණු 3ක් පැහැදිලි කරන්න.", "1) පෞද්ගලික තොරතුරු රහසිගතව තබා ගැනීම. 2) ගෞරවනීය හැසිරීම හා වෘත්තීය සීමා රැකීම. 3) කැමැත්ත සහ ආරක්ෂාව ප්‍රමුඛ කිරීම."],
+    ["සමේ ආසාදන හෝ තුවාල ඇති විට සම්බාහනයේදී සැලකිලිමත් විය යුතු කරුණු 3ක් සඳහන් කරන්න.", "1) ආසාදිත/තුවාල වූ ස්ථානය මඟහැරීම. 2) ආසාදනය පැතිරීම වැළැක්වීම. 3) අවශ්‍ය නම් වෛද්‍ය ප්‍රතිකාර ලබා ගැනීමට උපදෙස් දීම."],
+    ["සම්බාහනයකදී පීඩනයේ තීව්‍රතාව (Pressure level) තීරණය කිරීමේදී සලකා බලන කරුණු 3ක් ලියන්න.", "1) සේවාදායකයාගේ ශරීර ස්වභාවය හා වයස. 2) සේවාදායකයාට දැනෙන සුවපහසුව හා ප්‍රතිචාරය. 3) ප්‍රතිකාරයේ අරමුණ."],
+    ["Tapotement (Percussion) සහ Vibration චලන වල ක්‍රියාකාරිත්වය කරුණු 3කින් විස්තර කරන්න.", "1) Tapotement මගින් රිද්මයානුකූල තට්ටු කිරීමෙන් මාංශ පේශි උත්තේජනය වේ. 2) Vibration මගින් සියුම් කම්පන ඇති කර ලිහිල් කිරීමට සහාය වේ. 3) දෙවර්ගයම දේශීය රුධිර සංසරණය හා සජීවී බව වැඩි කරයි."],
+    ["සම්බාහන උපකරණ, තෙල් සහ රෙදිපිළි නිසි ලෙස නඩත්තු කිරීමේ වැදගත්කම කරුණු 3කින් දක්වන්න.", "1) ආසාදන හා හරස් දූෂණය වැළැක්වීම. 2) තෙල්/ආලේපන වල ගුණාත්මකභාවය රැකීම. 3) උපකරණ හා රෙදිපිළි දිගුකාලීනව පිරිසිදුව පවත්වා ගැනීම."],
+    ["සම්බාහන සැසියකට පෙර සේවාදායකයාගේ සෞඛ්‍ය ඉතිහාසය විමසීමේ වැදගත්කම කරුණු 3කින් පැහැදිලි කරන්න.", "1) Contraindication රෝග තත්ත්ව හඳුනා ගැනීම. 2) අසාත්මිකතා හා වේදනා ස්ථාන කලින් දැනගැනීම. 3) ආරක්ෂිත ප්‍රතිකාර සැලැස්මක් සැකසීම."],
+    ["පිට හා උරහිස් ප්‍රදේශයේ මාංශ පේශි තද වීමට හේතු විය හැකි කරුණු 3ක් ලියන්න.", "1) දිගු වේලාවක් පරිගණක/දුරකථන භාවිතය හෝ ඉරියව් දෝෂ. 2) මානසික ආතතියෙන් උරහිස් තද වීම. 3) අධික ශාරීරික වෙහෙස හෝ බර එසවීම."]
+  ];
+
+  const e5Items = [
+    ["සම්බාහන ප්‍රතිකාරයක් (Massage Therapy) මගින් මිනිස් ශරීරයේ රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", "රුධිර වාහිනී පුළුල් වී රුධිර සංසරණය, ඔක්සිජන් සැපයුම හා වසා ගලායාම වැඩි දියුණු වේ. ස්නායු පද්ධතිය සන්සුන් වී විවේකී ප්‍රතිචාරය ක්‍රියාත්මක වන අතර වේදනා සංඥා අඩු වේ. මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය හා චලන පරාසය වර්ධනය වේ."],
+    ["ආරක්ෂිත හා සාර්ථක සම්බාහන සැසියක් පැවැත්වීම සඳහා පෙර, අතරතුර සහ පසු අවස්ථාවලදී අනුගමනය කළ යුතු පියවර පැහැදිලි කරන්න.", "පෙර: පරිසරය/ඇඳ පිරිසිදු කිරීම, සෞඛ්‍ය ඉතිහාසය හා කැමැත්ත ගැනීම, අත් සෝදා උණුසුම් කිරීම. අතරතුර: සුදුසු පීඩනයකින් හා ආවරණ සහිතව සම්බාහනය කිරීම හා ප්‍රතිචාර නිරීක්ෂණය. පසු: පිරිසිදු කිරීම, ජලය පානය/විවේක උපදෙස් සහ සටහන් යාවත්කාලීන කිරීම."],
+    ["සම්බාහන ශිල්පියෙකුගේ වෘත්තීයභාවය (Professionalism), සන්නිවේදනය සහ ආචාර ධර්ම සේවාදායක විශ්වාසය ගොඩනැගීමට දායක වන ආකාරය විස්තර කරන්න.", "පැහැදිලි හා කරුණාවන්ත සන්නිවේදනයෙන් අවශ්‍යතා නිවැරදිව තේරුම් ගත හැක. රහස්‍යභාවය, පෞද්ගලිකත්වය හා සීමා රැකීමෙන් විශ්වාසය ගොඩනැගේ. නිපුණත්වය හා සනීපාරක්ෂාව මගින් ආරක්ෂිත හා ගෞරවනීය අත්දැකීමක් ලැබේ."],
+    ["සම්බාහනයේදී භාවිතා කරන ප්‍රධාන චලන වර්ග (Effleurage, Petrissage, Friction, Tapotement, Vibration) හඳුන්වා දී ඒවායේ ප්‍රයෝජන පැහැදිලි කරන්න.", "Effleurage (සැහැල්ලු පිරිමැදීම - සන්සුන් කිරීම/තෙල් පැතිරවීම), Petrissage (ඇනීම/තෙරපීම - මාංශ පේශි ලිහිල් කිරීම), Friction (ගැඹුරු ඝර්ෂණය - තද ගැටිති ලිහිල් කිරීම), Tapotement (රිද්මයානුකූල තට්ටු කිරීම - උත්තේජනය), Vibration (සියුම් කම්පනය - ලිහිල් කිරීම/සන්සුන් කිරීම)."],
+    ["සම්බාහන ප්‍රතිකාරයක් නොකළ යුතු හෝ විශේෂ අවධානය යොමු කළ යුතු සෞඛ්‍ය තත්ත්ව (Contraindications & Precautions) පිළිබඳව විස්තරාත්මකව ලියන්න.", "උග්‍ර උණ, බෝවන සමේ රෝග/විවෘත තුවාල, DVT හෝ රුධිර කැටි අවදානම්, උග්‍ර ඉදිමුම්/කැඩීම් ඇති විට සම්බාහනයෙන් වැළකිය යුතුය. අධික රුධිර පීඩනය, ගර්භනීභාවය, දියවැඩියාව හෝ සංවේදී සම ඇති විට වෛද්‍ය උපදෙස් හා විශේෂ ආරක්ෂිත ක්‍රම අනුගමනය කළ යුතුය."],
+    ["සම්බාහන ශිල්පියෙකුට සිය වෘත්තීය ජීවිතයේදී ඇතිවිය හැකි ශාරීරික ආබාධ (Ergonomic hazards) වළක්වා ගැනීම සඳහා ගත හැකි ක්‍රියාමාර්ග පැහැදිලි කරන්න.", "මේසයේ/ආසනයේ උස සකස් කිරීම, කොන්ද නවාගෙන නොසිට ශරීර බර නිවැරදිව භාවිතා කිරීම, අත්/මැණික්කටු වලට අධික පීඩනය නොදීම, සැසි අතර විවේක ගැනීම සහ නිතිපතා stretching/ව්‍යායාම කිරීම."],
+    ["Ceylon Massage Therapy / සාම්ප්‍රදායික සුවතා ප්‍රතිකාර ක්ෂේත්‍රයේ ගුණාත්මකභාවය හා සනීපාරක්ෂාව පවත්වා ගැනීම සඳහා ආයතනික හා පෞද්ගලික මට්ටමින් කළ යුතු දේ විස්තර කරන්න.", "පුද්ගලික සනීපාරක්ෂාව, පිරිසිදු රෙදි/උපකරණ, ප්‍රමිතිගත තෙල් භාවිතය, නිසි පුහුණුව හා ලියාපදිංචි ප්‍රමිති පිළිපැදීම. ආයතනිකව පිරිසිදු පරිසරයක්, වාර්තා පාලනයක් සහ අඛණ්ඩ ගුණාත්මක අධීක්ෂණයක් පවත්වා ගත යුතුය."],
+    ["සේවාදායකයෙකුගේ පළමු හමුවේ සිට ප්‍රතිකාර සැසිය අවසන් වන තෙක් සිදු කරන ක්‍රියාවලිය (Consultation, Preparation, Treatment, Aftercare) පිළිවෙළින් විස්තර කරන්න.", "1) Consultation: සෞඛ්‍ය ඉතිහාසය, අවශ්‍යතා හා කැමැත්ත විමසීම. 2) Preparation: පරිසරය, උපකරණ හා ඉරියව්ව සකස් කිරීම. 3) Treatment: සුදුසු චලන/පීඩනයෙන් සම්බාහනය. 4) Aftercare: ජලය පානය, විවේකය හා පසුකාලීන සත්කාර උපදෙස්."],
+    ["දෛනික ජීවිතයේ මානසික ආතතිය හා ශාරීරික වෙහෙස පාලනය කිරීමේදී නිතිපතා සම්බාහන ප්‍රතිකාර ලබා ගැනීමේ වැදගත්කම විග්‍රහ කරන්න.", "දෛනික රැකියා හා ජීවන රටා නිසා ඇතිවන මාංශ පේශි තද ගතිය අඩු කරයි, මානසික ආතතිය හා නින්දේ ගැටලු අවම කරයි, ශරීරයේ චලන පහසුව හා සුවතාව පවත්වා ගැනීමට උපකාරී වේ."],
+    ["සේවාදායක වාර්තා පවත්වා ගැනීම, රහස්‍යභාවය සුරැකීම සහ සේවාදායකයාට ආරක්ෂිත වටපිටාවක් සැලසීම යන කරුණු එකිනෙකට සම්බන්ධ කර පැහැදිලි කරන්න.", "සෞඛ්‍ය හා පෞද්ගලික වාර්තා නිවැරදිව හා රහසිගතව තබා ගැනීමෙන් ආරක්ෂිත ප්‍රතිකාරයක් සැලසිය හැක. රහස්‍යභාවය හා ගෞරවය සුරැකෙන විට බියකින් හෝ අපහසුවකින් තොර විශ්වාසදායක පරිසරයක් ගොඩනැගේ."]
+  ];
+
+  function buildInitialQuestions() {
+    const list = [];
+    baseMcqQ.forEach((qText, idx) => {
+      const opts = defaultChoiceSet[idx % defaultChoiceSet.length];
+      list.push({
+        id: "MCQ-" + (idx + 1),
+        type: "MCQ",
+        q: qText,
+        options: opts,
+        ansIdx: 0
+      });
+    });
+    e2Items.forEach(([qText, ansText], idx) => {
+      list.push({ id: "E2-" + (idx + 1), type: "ESSAY2", q: qText, ans: ansText });
+    });
+    e3Items.forEach(([qText, ansText], idx) => {
+      list.push({ id: "E3-" + (idx + 1), type: "ESSAY3", q: qText, ans: ansText });
+    });
+    e5Items.forEach(([qText, ansText], idx) => {
+      list.push({ id: "E5-" + (idx + 1), type: "ESSAY5", q: qText, ans: ansText });
+    });
+    return list;
+  }
+
+  let state = JSON.parse(localStorage.getItem("itmi_full_system_v1")) || {
+    campusName: "ITMI CAMPUS - CEYLON MASSAGE THERAPY",
+    doctorName: "Prof. (Hon.) Dr. Prasanna Kumara Weerasekara",
+    doctorPhoto: "https://via.placeholder.com/150?text=Doctor",
     waNumber: "94717533483",
-    autoLock: "OFF",
-    lockSeconds: 180,
-    password: "ITMI100",
-    permanentlyUnlocked: false,
-    subjects: ["Ceylon Massage Therapy", "Anatomy & Physiology"],
-    questions: [
-      { id: 1, subject: "Ceylon Massage Therapy", type: "MCQ", text: "සම්බාහන ප්‍රතිකාරයක ප්‍රධාන අරමුණ කුමක්ද?", options: ["රුධිර සංසරණය වැඩි දියුණු කිරීම", "හිසරදය වැඩි කිරීම", "මාංශ පේශි තද කිරීම", "කිසිවක් නොවේ"], ans: 0 },
-      { id: 2, subject: "Ceylon Massage Therapy", type: "MCQ", text: "CTMC ආයතනයේ ලියාපදිංචි අංකය කුමක්ද?", options: ["GA 00291335", "ISO 9001", "ITMI 100", "CPD 2026"], ans: 0 },
-      { id: 3, subject: "Ceylon Massage Therapy", type: "ESSAY2", text: "සම්බාහනයට පෙර සැලකිලිමත් විය යුතු කරුණු 2ක් ලියන්න." },
-      { id: 4, subject: "Ceylon Massage Therapy", type: "ESSAY3", text: "තෙරපි ප්‍රතිකාර මගින් ශරීරයට ලැබෙන වාසි 3ක් පැහැදිලි කරන්න." },
-      { id: 5, subject: "Ceylon Massage Therapy", type: "ESSAY5", text: "Ceylon Massage Therapy පාඨමාලාවේ වැදගත්කම කෙටියෙන් විස්තර කරන්න." }
-    ],
+    adminUnlockCode: "ADMIN100",
+    questions: buildInitialQuestions(),
     students: [],
-    gallery: []
+    submissions: [],
+    activePaperSet: { mcqCount: 10, e2Count: 2, e3Count: 2, e5Count: 1, numPapers: 5 }
   };
 
-  function saveData() {
-    localStorage.setItem('itmi_system_data', JSON.stringify(appData));
+  function persistState() {
+    localStorage.setItem("itmi_full_system_v1", JSON.stringify(state));
   }
 
-  // --- INITIALIZE UI ---
-  function initApp() {
-    document.getElementById('dispCampusName').innerText = appData.campusName;
-    document.getElementById('dispSubTitle').innerText = appData.subTitle;
-    document.getElementById('dispDocName').innerText = appData.docName;
-    document.getElementById('docImgPreview').src = appData.docPhoto;
+  // Current exam session state
+  let currentStudent = { name: "Guest Student", phone: "", setNo: 1, locked: false };
+  let studentMcqSelections = {};
+  let studentEssayAnswers = {};
+  let currentPaperQuestions = { mcq: [], e2: [], e3: [], e5: [] };
+  let editingQuestionId = null;
 
-    document.getElementById('adminCampusInput').value = appData.campusName;
-    document.getElementById('adminSubInput').value = appData.subTitle;
-    document.getElementById('adminDocNameInput').value = appData.docName;
-    document.getElementById('adminWaInput').value = appData.waNumber;
-    document.getElementById('autoLockStatus').value = appData.autoLock;
-    document.getElementById('autoLockSeconds').value = appData.lockSeconds;
-    document.getElementById('adminPassInput').value = appData.password;
-
-    refreshSubjects();
-    renderQuestionList();
-    renderStudents();
-    renderGallery();
-    setupAutoLock();
+  // --- INIT ---
+  function initSystem() {
+    applyHeaderAndProfile();
+    renderStudentsUI();
+    buildExamPaperSet();
+    renderExamPaper();
+    renderAnswerSheet("MCQ");
+    renderResultsUI();
+    renderAdminQuestionManager();
+    checkUrlDirectExamLink();
   }
 
-  // --- NAVIGATION ---
-  function openTab(tabId, btn) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    if (btn) btn.classList.add('active');
+  function applyHeaderAndProfile() {
+    document.getElementById("hdrCampus").innerText = state.campusName;
+    document.getElementById("hdrDoctor").innerText = "Director / Senior Lecturer: " + state.doctorName;
+    document.getElementById("docProfileName").innerText = state.doctorName;
+    document.getElementById("docProfileImg").src = state.doctorPhoto;
+
+    document.getElementById("setCampusName").value = state.campusName;
+    document.getElementById("setDoctorName").value = state.doctorName;
+    document.getElementById("setWaNumber").value = state.waNumber;
   }
 
-  // --- 10-TAP ADMIN UNLOCK ---
-  let tapCount = 0;
-  let tapTimer = null;
+  // --- TOP TABS ---
+  function openTopTab(tabId, btnEl) {
+    document.querySelectorAll(".view-box").forEach(v => v.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(tabId).classList.add("active");
+    if (btnEl) btnEl.classList.add("active");
+    if (tabId === "tab-results") renderResultsUI();
+  }
+
+  // --- ADMIN SUB-TABS ---
+  function openAdminSubTab(subId, btnEl) {
+    document.querySelectorAll(".subview-box").forEach(v => v.classList.remove("active"));
+    document.querySelectorAll(".subtab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(subId).classList.add("active");
+    if (btnEl) btnEl.classList.add("active");
+    if (subId === "sub-students") renderAdminStudentsTable();
+    if (subId === "sub-results") renderAdminResultsSummary();
+  }
+
+  // --- 10-TAP HEADER TO OPEN ADMIN PANEL ---
+  let headerTaps = 0;
+  let headerTapTimer = null;
   function handleHeaderTap() {
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
-    if (tapCount >= 10) {
-      tapCount = 0;
-      const adminBtn = document.getElementById('adminNavBtn');
-      adminBtn.style.display = 'inline-flex';
-      openTab('tab-admin', adminBtn);
+    headerTaps++;
+    clearTimeout(headerTapTimer);
+    headerTapTimer = setTimeout(() => { headerTaps = 0; }, 3500);
+    if (headerTaps >= 10) {
+      headerTaps = 0;
+      const admBtn = document.getElementById("btn-tab-admin");
+      admBtn.style.display = "inline-block";
+      openTopTab("tab-admin", admBtn);
       alert("⚙️ Admin Panel විවෘත විය!");
     }
   }
 
-  // --- DOCTOR PHOTO UPDATE ---
-  function updateDocPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      appData.docPhoto = ev.target.result;
-      document.getElementById('docImgPreview').src = appData.docPhoto;
-      saveData();
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // --- REFERENCE PDF / IMAGE PREVIEW ---
-  function previewReferenceFile(e) {
-    const file = e.target.files[0];
-    const box = document.getElementById('refPreviewBox');
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    if (file.type === "application/pdf") {
-      box.innerHTML = `<iframe src="${url}" width="100%" height="260px" style="border:none;"></iframe>`;
-    } else {
-      box.innerHTML = `<img src="${url}" style="max-width:100%; border-radius:6px;">`;
+  // --- STUDENT REGISTRATION (UP TO 50) & WHATSAPP LINKS ---
+  function addRegisteredStudent() {
+    if (state.students.length >= 50) {
+      return alert("⚠️ උපරිම ශිෂ්‍යයින් 50ක් Register කර අවසන්!");
     }
-  }
+    const name = document.getElementById("stuInputName").value.trim();
+    const phone = document.getElementById("stuInputPhone").value.trim().replace(/[^0-9]/g, "");
+    const setNo = parseInt(document.getElementById("stuInputSet").value) || (state.students.length + 1);
+    if (!name) return alert("කරුණාකර ශිෂ්‍යයාගේ නම ලියන්න.");
 
-  // --- SUBJECTS & QUESTIONS ---
-  function refreshSubjects() {
-    const s1 = document.getElementById('subjectSelect');
-    const s2 = document.getElementById('genSubjectSelect');
-    s1.innerHTML = ''; s2.innerHTML = '';
-    appData.subjects.forEach(sub => {
-      s1.innerHTML += `<option value="${sub}">${sub}</option>`;
-      s2.innerHTML += `<option value="${sub}">${sub}</option>`;
+    const baseUrl = window.location.href.split("#")[0];
+    const token = btoa(unescape(encodeURIComponent(name + "|" + setNo + "|" + Date.now())));
+    const examLink = `${baseUrl}#exam=${encodeURIComponent(token)}`;
+
+    state.students.push({
+      id: Date.now(),
+      name,
+      phone,
+      setNo,
+      examLink,
+      submitted: false
     });
+    persistState();
+    document.getElementById("stuInputName").value = "";
+    document.getElementById("stuInputPhone").value = "";
+    document.getElementById("stuInputSet").value = Math.min(50, state.students.length + 1);
+    renderStudentsUI();
   }
 
-  function addSubject() {
-    const val = document.getElementById('newSubjectInput').value.trim();
-    if (!val) return;
-    if (!appData.subjects.includes(val)) {
-      appData.subjects.push(val);
-      saveData();
-      refreshSubjects();
-    }
-    document.getElementById('newSubjectInput').value = '';
-  }
+  function renderStudentsUI() {
+    document.getElementById("stuTotalBadge").innerText = state.students.length;
+    const sel = document.getElementById("stuLinkSelect");
+    sel.innerHTML = state.students.map((s, idx) =>
+      `<option value="${idx}">${idx + 1}. ${s.name} (Set #${s.setNo})</option>`
+    ).join("");
+    refreshSingleLinkPreview();
 
-  function toggleMcqFields() {
-    const type = document.getElementById('qTypeSelect').value;
-    document.getElementById('mcqOptionsBox').style.display = (type === 'MCQ') ? 'block' : 'none';
-  }
-
-  function saveQuestion() {
-    const subject = document.getElementById('subjectSelect').value;
-    const type = document.getElementById('qTypeSelect').value;
-    const text = document.getElementById('qText').value.trim();
-    if (!text) return alert("කරුණාකර ප්‍රශ්නය ඇතුළත් කරන්න.");
-
-    let qObj = { id: Date.now(), subject, type, text };
-    if (type === 'MCQ') {
-      qObj.options = [
-        document.getElementById('opt1').value || "Option A",
-        document.getElementById('opt2').value || "Option B",
-        document.getElementById('opt3').value || "Option C",
-        document.getElementById('opt4').value || "Option D"
-      ];
-      qObj.ans = parseInt(document.getElementById('correctOpt').value);
-    }
-    appData.questions.push(qObj);
-    saveData();
-    document.getElementById('qText').value = '';
-    ['opt1','opt2','opt3','opt4'].forEach(id => document.getElementById(id).value = '');
-    renderQuestionList();
-  }
-
-  function renderQuestionList() {
-    const sub = document.getElementById('subjectSelect').value;
-    const list = appData.questions.filter(q => q.subject === sub);
-    document.getElementById('qCountBadge').innerText = list.length;
-    const container = document.getElementById('savedQuestionsList');
-    container.innerHTML = list.map((q, i) => `
-      <div style="background:#f9f9f9; padding:10px; border-radius:8px; margin-bottom:8px; border-left:4px solid var(--primary); display:flex; justify-content:space-between; align-items:center;">
-        <div><b>[${q.type}]</b> ${i+1}. ${q.text}</div>
-        <button class="btn btn-danger" style="margin:0; padding:4px 8px;" onclick="deleteQuestion(${q.id})">✖</button>
+    const listDiv = document.getElementById("registeredStudentsList");
+    listDiv.innerHTML = state.students.map((s, idx) => `
+      <div class="result-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div>
+          <b>${idx + 1}. ${s.name}</b> | Set #${s.setNo} | 📞 ${s.phone || "No WhatsApp"} |
+          <span>${s.submitted ? "✅ Submitted" : "⏳ Pending"}</span>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendStudentLinkByIndex(${idx})">📲 WhatsApp Link</button>
+          <button class="btn" style="margin:0; padding:5px 10px;" onclick="startExamForStudentIndex(${idx})">Open Paper</button>
+          <button class="btn btn-red" style="margin:0; padding:5px 8px;" onclick="deleteStudent(${idx})">✖</button>
+        </div>
       </div>
-    `).join('');
+    `).join("");
   }
 
-  function deleteQuestion(id) {
-    appData.questions = appData.questions.filter(q => q.id !== id);
-    saveData();
-    renderQuestionList();
+  function refreshSingleLinkPreview() {
+    const idx = parseInt(document.getElementById("stuLinkSelect").value);
+    const box = document.getElementById("stuLinkBox");
+    if (!isNaN(idx) && state.students[idx]) {
+      box.value = state.students[idx].examLink;
+    } else {
+      box.value = window.location.href.split("#")[0] + "#exam=guest";
+    }
   }
 
-  // --- SHUFFLE HELPER (Same Questions, Different Order) ---
-  function shuffleArray(arr) {
-    let copy = [...arr];
+  function sendStudentLinkByIndex(idx) {
+    const s = state.students[idx];
+    if (!s) return;
+    const targetPhone = s.phone || state.waNumber.replace(/[^0-9]/g, "");
+    const msg = `*${state.campusName}*\nආයුබෝවන් *${s.name}*,\nඔබගේ Exam Paper (Set #${s.setNo}) සඳහා Link එක:\n${s.examLink}\n(Link එක open කළ ගමන් Paper එකට යයි. වෙනත් Tab වලට යාමෙන් lock වේ.)`;
+    window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  function sendSingleStudentLinkWa() {
+    const idx = parseInt(document.getElementById("stuLinkSelect").value);
+    if (isNaN(idx)) return alert("ශිෂ්‍යයෙකු Register කරන්න.");
+    sendStudentLinkByIndex(idx);
+  }
+
+  // Send links to registered students via WhatsApp
+  function sendAllStudentsLinksWa() {
+    if (state.students.length === 0) return alert("Register වූ ශිෂ්‍යයින් නොමැත.");
+    let summary = `*${state.campusName} - Registered Students Exam Links (${state.students.length})*\n\n`;
+    state.students.forEach((s, i) => {
+      summary += `${i + 1}. *${s.name}* (Set #${s.setNo}) - ${s.phone || "N/A"}\nLink: ${s.examLink}\n\n`;
+    });
+    const adminWa = state.waNumber.replace(/[^0-9]/g, "");
+    window.open(`https://wa.me/${adminWa}?text=${encodeURIComponent(summary)}`, "_blank");
+  }
+
+  function deleteStudent(idx) {
+    state.students.splice(idx, 1);
+    persistState();
+    renderStudentsUI();
+  }
+
+  function startExamForStudentIndex(idx) {
+    const s = state.students[idx];
+    if (!s) return;
+    currentStudent = { name: s.name, phone: s.phone, setNo: s.setNo, locked: false };
+    studentMcqSelections = {};
+    studentEssayAnswers = {};
+    buildExamPaperSet();
+    renderExamPaper();
+    openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
+  }
+
+  function openDirectStudentExam() {
+    const idx = parseInt(document.getElementById("stuLinkSelect").value);
+    if (!isNaN(idx) && state.students[idx]) {
+      startExamForStudentIndex(idx);
+    } else {
+      renderExamPaper();
+      openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
+    }
+  }
+
+  function launchStudentExamMode() {
+    openDirectStudentExam();
+  }
+
+  // Opening link goes straight to Paper
+  function checkUrlDirectExamLink() {
+    const hash = window.location.hash || "";
+    if (hash.startsWith("#exam=")) {
+      const raw = decodeURIComponent(hash.replace("#exam=", ""));
+      if (raw !== "guest") {
+        try {
+          const decoded = decodeURIComponent(escape(atob(raw)));
+          const parts = decoded.split("|");
+          currentStudent = { name: parts[0] || "Student", phone: "", setNo: parts[1] || 1, locked: false };
+        } catch (e) {}
+      }
+      buildExamPaperSet();
+      renderExamPaper();
+      openTopTab("tab-exam", document.getElementById("btn-tab-exam"));
+    }
+  }
+
+  // --- SHUFFLED PAPER GENERATION ---
+  function shuffleList(arr) {
+    const copy = [...arr];
     for (let i = copy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [copy[i], copy[j]] = [copy[j], copy[i]];
@@ -578,245 +787,482 @@
     return copy;
   }
 
-  let lastGeneratedPapers = [];
+  function generateShuffledSet() {
+    state.activePaperSet = {
+      numPapers: parseInt(document.getElementById("genNumPapers").value) || 5,
+      mcqCount: parseInt(document.getElementById("genNumMcq").value) || 0,
+      e2Count: parseInt(document.getElementById("genNumE2").value) || 0,
+      e3Count: parseInt(document.getElementById("genNumE3").value) || 0,
+      e5Count: parseInt(document.getElementById("genNumE5").value) || 0
+    };
+    persistState();
+    buildExamPaperSet();
+    renderExamPaper();
+    document.getElementById("genPreviewInfo").innerText =
+      `✅ ${state.activePaperSet.numPapers} Papers සඳහා Shuffled Questions සකස් කර Exam එකට යොදන ලදී!`;
+  }
 
-  function generateShuffledPapers() {
-    const sub = document.getElementById('genSubjectSelect').value;
-    const paperCount = parseInt(document.getElementById('paperCountInput').value) || 1;
-    const mcqReq = parseInt(document.getElementById('mcqCountInput').value) || 0;
-    const e2Req = parseInt(document.getElementById('e2CountInput').value) || 0;
-    const e3Req = parseInt(document.getElementById('e3CountInput').value) || 0;
-    const e5Req = parseInt(document.getElementById('e5CountInput').value) || 0;
+  function buildExamPaperSet() {
+    const cfg = state.activePaperSet;
+    const allMcq = state.questions.filter(x => x.type === "MCQ");
+    const allE2 = state.questions.filter(x => x.type === "ESSAY2");
+    const allE3 = state.questions.filter(x => x.type === "ESSAY3");
+    const allE5 = state.questions.filter(x => x.type === "ESSAY5");
 
-    const pool = appData.questions.filter(q => q.subject === sub);
-    const baseMcqs = pool.filter(q => q.type === 'MCQ').slice(0, mcqReq);
-    const baseE2 = pool.filter(q => q.type === 'ESSAY2').slice(0, e2Req);
-    const baseE3 = pool.filter(q => q.type === 'ESSAY3').slice(0, e3Req);
-    const baseE5 = pool.filter(q => q.type === 'ESSAY5').slice(0, e5Req);
+    currentPaperQuestions = {
+      mcq: shuffleList(allMcq).slice(0, cfg.mcqCount),
+      e2: shuffleList(allE2).slice(0, cfg.e2Count),
+      e3: shuffleList(allE3).slice(0, cfg.e3Count),
+      e5: shuffleList(allE5).slice(0, cfg.e5Count)
+    };
+  }
 
-    if (baseMcqs.length === 0 && baseE2.length === 0 && baseE3.length === 0 && baseE5.length === 0) {
-      return alert("මෙම විෂය සඳහා ප්‍රශ්න ඇතුළත් කර නොමැත!");
-    }
+  // --- RENDER STUDENT EXAM PAPER (CLEAN, ORDERED, MCQ CLEARABLE, ESSAY TYPING + VOICE TYPING + NEW PAGE) ---
+  function renderExamPaper() {
+    document.getElementById("examCurrentStuName").innerText = currentStudent.name;
+    document.getElementById("examCurrentSetNo").innerText = currentStudent.setNo;
 
-    lastGeneratedPapers = [];
-    let html = '';
+    const mode = document.getElementById("examPageMode").value;
+    const container = document.getElementById("examPaperContainer");
 
-    for (let p = 1; p <= paperCount; p++) {
-      // Same questions, uniquely shuffled order for each student/paper!
-      const sMcq = shuffleArray(baseMcqs);
-      const sE2 = shuffleArray(baseE2);
-      const sE3 = shuffleArray(baseE3);
-      const sE5 = shuffleArray(baseE5);
+    const combined = [
+      ...currentPaperQuestions.mcq.map((item, i) => ({ kind: "MCQ", num: i + 1, data: item })),
+      ...currentPaperQuestions.e2.map((item, i) => ({ kind: "ESSAY2", marks: 2, num: i + 1, data: item })),
+      ...currentPaperQuestions.e3.map((item, i) => ({ kind: "ESSAY3", marks: 3, num: i + 1, data: item })),
+      ...currentPaperQuestions.e5.map((item, i) => ({ kind: "ESSAY5", marks: 5, num: i + 1, data: item }))
+    ];
 
-      lastGeneratedPapers.push({ paperNo: p, subject: sub, sMcq, sE2, sE3, sE5 });
-
-      html += `
-        <div class="paper-sheet">
-          <div class="paper-header">
-            <h3 style="margin:0;">${appData.campusName}</h3>
-            <p style="margin:2px 0;"><b>Subject:</b> ${sub} | <b>Paper Set Code: #${String(p).padStart(3, '0')}</b></p>
-            <p style="margin:2px 0; font-size:0.85rem;">Student Name: .................................................... | ID No: .......................</p>
+    if (mode === "per_question") {
+      container.innerHTML = combined.map((entry, idx) => `
+        <div class="new-page-card" style="page-break-after:always;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #cbd5e1; padding-bottom:6px;">
+            <b>පිටුව ${idx + 1} / ${combined.length}</b>
+            <span>${entry.kind === "MCQ" ? "MCQ" : "ලකුණු " + entry.marks + " Essay"}</span>
           </div>
-          ${sMcq.length ? `<h4>Part A - MCQ (බහුවරණ ප්‍රශ්න)</h4>` : ''}
-          ${sMcq.map((q, idx) => `
-            <div style="margin-bottom:10px;">
-              <b>${idx+1}. ${q.text}</b>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; padding-left:15px; margin-top:4px;">
-                ${q.options.map((o, oi) => `<span>(${String.fromCharCode(65+oi)}) ${o}</span>`).join('')}
-              </div>
-            </div>
-          `).join('')}
-          ${(sE2.length || sE3.length || sE5.length) ? `<h4>Part B - Structured / Essay Questions</h4>` : ''}
-          ${sE2.map((q, idx) => `<p><b>${idx+1}.</b> ${q.text} <i>[ලකුණු 02]</i></p>`).join('')}
-          ${sE3.map((q, idx) => `<p><b>${sE2.length+idx+1}.</b> ${q.text} <i>[ලකුණු 03]</i></p>`).join('')}
-          ${sE5.map((q, idx) => `<p><b>${sE2.length+sE3.length+idx+1}.</b> ${q.text} <i>[ලකුණු 05]</i></p>`).join('')}
+          ${renderSingleQuestionHtml(entry)}
         </div>
+      `).join("");
+    } else {
+      let html = "";
+      if (currentPaperQuestions.mcq.length > 0) {
+        html += `<h3>කොටස A — MCQ (බහුවරණ ප්‍රශ්න)</h3>`;
+        currentPaperQuestions.mcq.forEach((item, i) => {
+          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "MCQ", num: i + 1, data: item })}</div>`;
+        });
+      }
+      if (currentPaperQuestions.e2.length > 0) {
+        html += `<h3>කොටස B — ලකුණු 2 Essay ප්‍රශ්න</h3>`;
+        currentPaperQuestions.e2.forEach((item, i) => {
+          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY2", marks: 2, num: i + 1, data: item })}</div>`;
+        });
+      }
+      if (currentPaperQuestions.e3.length > 0) {
+        html += `<h3>කොටස C — ලකුණු 3 Essay ප්‍රශ්න</h3>`;
+        currentPaperQuestions.e3.forEach((item, i) => {
+          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY3", marks: 3, num: i + 1, data: item })}</div>`;
+        });
+      }
+      if (currentPaperQuestions.e5.length > 0) {
+        html += `<h3>කොටස D — ලකුණු 5 Essay ප්‍රශ්න</h3>`;
+        currentPaperQuestions.e5.forEach((item, i) => {
+          html += `<div class="q-card">${renderSingleQuestionHtml({ kind: "ESSAY5", marks: 5, num: i + 1, data: item })}</div>`;
+        });
+      }
+      container.innerHTML = html;
+    }
+  }
+
+  function renderSingleQuestionHtml(entry) {
+    const q = entry.data;
+    if (entry.kind === "MCQ") {
+      const chosen = studentMcqSelections[q.id];
+      const letters = ["A", "B", "C", "D"];
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <p style="margin:0; font-weight:bold;">${entry.num}. ${q.q}</p>
+          <button class="btn btn-red no-print" style="margin:0; padding:3px 8px; font-size:0.78rem;" onclick="clearMcqChoice('${q.id}')">🗑️ Delete / Clear</button>
+        </div>
+        ${q.options.map((opt, oi) => `
+          <label class="mcq-choice">
+            <input type="radio" name="mcq_${q.id}" ${chosen === oi ? "checked" : ""} onchange="selectMcqChoice('${q.id}', ${oi})">
+            <span><b>(${letters[oi]})</b> ${opt}</span>
+          </label>
+        `).join("")}
+      `;
+    } else {
+      const val = studentEssayAnswers[q.id] || "";
+      return `
+        <p style="margin:0 0 8px; font-weight:bold;">${entry.num}. ${q.q} <span style="color:var(--secondary);">[ලකුණු ${entry.marks}]</span></p>
+        <textarea rows="5" spellcheck="false" autocorrect="off" autocomplete="off"
+          placeholder="පිළිතුර Type කරන්න හෝ Voice Typing භාවිතා කරන්න..."
+          oninput="saveEssayText('${q.id}', this.value)">${val}</textarea>
       `;
     }
-    document.getElementById('generatedPapersOutput').innerHTML = html;
   }
 
-  // --- MCQ TIMER (ADJUST & DELETE) ---
-  let timerInterval = null;
-  let remainingSeconds = 15 * 60;
+  function selectMcqChoice(qId, optIdx) {
+    studentMcqSelections[qId] = optIdx;
+  }
 
-  function updateTimerDisplay() {
-    const m = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
-    const s = String(remainingSeconds % 60).padStart(2, '0');
-    document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+  // Delete/clear MCQ answer anytime and re-select
+  function clearMcqChoice(qId) {
+    delete studentMcqSelections[qId];
+    renderExamPaper();
   }
-  function setTimer() {
-    clearInterval(timerInterval);
-    const mins = parseInt(document.getElementById('timerMinutesInput').value) || 10;
-    remainingSeconds = mins * 60;
-    updateTimerDisplay();
+
+  function saveEssayText(qId, txt) {
+    studentEssayAnswers[qId] = txt;
   }
-  function startTimer() {
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      if (remainingSeconds <= 0) {
-        clearInterval(timerInterval);
-        alert("⏰ MCQ කාලය අවසන් විය!");
+
+  // --- EXAM TIMER (HOURS & MINUTES) + MCQ TIMER (ADJUST & DELETE) ---
+  let mainTimerRef = null;
+  let mainSecondsLeft = 3600;
+
+  function formatHMS(sec) {
+    const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  }
+
+  function setMainExamTimer() {
+    clearInterval(mainTimerRef);
+    const hrs = parseInt(document.getElementById("adjExamHrs").value) || 0;
+    const mins = parseInt(document.getElementById("adjExamMins").value) || 0;
+    mainSecondsLeft = Math.max(10, hrs * 3600 + mins * 60);
+    document.getElementById("mainExamClock").innerText = formatHMS(mainSecondsLeft);
+  }
+
+  function startMainExamTimer() {
+    clearInterval(mainTimerRef);
+    mainTimerRef = setInterval(() => {
+      if (mainSecondsLeft <= 0) {
+        clearInterval(mainTimerRef);
+        submitExamAndShowResults();
       } else {
-        remainingSeconds--;
-        updateTimerDisplay();
+        mainSecondsLeft--;
+        document.getElementById("mainExamClock").innerText = formatHMS(mainSecondsLeft);
       }
     }, 1000);
   }
-  function deleteTimer() {
-    clearInterval(timerInterval);
-    document.getElementById('timerControlPanel').style.display = 'none';
-    document.getElementById('timerRestoredDiv').style.display = 'block';
-  }
-  function restoreTimer() {
-    document.getElementById('timerControlPanel').style.display = 'flex';
-    document.getElementById('timerRestoredDiv').style.display = 'none';
+
+  let mcqTimerRef = null;
+  let mcqSecondsLeft = 900;
+
+  function adjustMcqClock() {
+    clearInterval(mcqTimerRef);
+    const mins = parseInt(document.getElementById("adjMcqMins").value) || 15;
+    mcqSecondsLeft = mins * 60;
+    const mm = String(Math.floor(mcqSecondsLeft / 60)).padStart(2, "0");
+    const ss = String(mcqSecondsLeft % 60).padStart(2, "0");
+    document.getElementById("mcqClockText").innerText = `${mm}:${ss}`;
+    mcqTimerRef = setInterval(() => {
+      if (mcqSecondsLeft <= 0) {
+        clearInterval(mcqTimerRef);
+        alert("⏱️ MCQ කාලය අවසන්!");
+      } else {
+        mcqSecondsLeft--;
+        const m2 = String(Math.floor(mcqSecondsLeft / 60)).padStart(2, "0");
+        const s2 = String(mcqSecondsLeft % 60).padStart(2, "0");
+        document.getElementById("mcqClockText").innerText = `${m2}:${s2}`;
+      }
+    }, 1000);
   }
 
-  // --- STUDENTS & WHATSAPP ---
-  function registerStudent() {
-    const name = document.getElementById('stuName').value.trim();
-    const phone = document.getElementById('stuPhone').value.trim();
-    const paperNo = document.getElementById('stuPaperNo').value;
-    if (!name) return alert("ශිෂ්‍යයාගේ නම ඇතුළත් කරන්න.");
-    appData.students.push({ id: Date.now(), name, phone, paperNo });
-    saveData();
-    document.getElementById('stuName').value = '';
-    document.getElementById('stuPhone').value = '';
-    document.getElementById('stuPaperNo').value = appData.students.length + 1;
-    renderStudents();
+  function deleteMcqClock() {
+    clearInterval(mcqTimerRef);
+    document.getElementById("mcqTimerSection").style.display = "none";
   }
 
-  function renderStudents() {
-    document.getElementById('regStuCount').innerText = appData.students.length;
-    const container = document.getElementById('studentListContainer');
-    container.innerHTML = appData.students.map((s, idx) => `
-      <div style="background:#f1f8e9; padding:10px; border-radius:8px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <div><b>${idx+1}. ${s.name}</b> | Paper Set: #${s.paperNo} | 📞 ${s.phone || 'N/A'}</div>
+  // --- BLOCK COPY/PASTE & TRIGGER ALARM + NAME + LOCK ON TAB SWITCH / OUTSIDE TOUCH ---
+  let alarmAudioCtx = null;
+  function playAlertAlarm() {
+    try {
+      alarmAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = alarmAudioCtx.createOscillator();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(880, alarmAudioCtx.currentTime);
+      osc.connect(alarmAudioCtx.destination);
+      osc.start();
+      setTimeout(() => { osc.stop(); }, 1800);
+    } catch (e) {}
+  }
+
+  function triggerExamViolationLock(reasonText) {
+    if (currentStudent.locked) return;
+    currentStudent.locked = true;
+    document.getElementById("violatorName").innerText = currentStudent.name;
+    document.getElementById("violatorReason").innerText = reasonText;
+    document.getElementById("violationModal").style.display = "flex";
+    playAlertAlarm();
+  }
+
+  function sendAlertToAdminWhatsApp() {
+    const wa = state.waNumber.replace(/[^0-9]/g, "");
+    const msg = `🚨 *EXAM ALERT - ${state.campusName}*\nශිෂ්‍යයාගේ නම: *${currentStudent.name}* (Set #${currentStudent.setNo})\nතත්ත්වය: Paper එක අතරතුර වෙනත් Tab/ස්ථානයකට මාරු වූ බැවින් Lock විය!`;
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  function unlockExamWithAdminCode() {
+    const code = prompt("Admin Unlock Code ඇතුළත් කරන්න:");
+    if (code === state.adminUnlockCode) {
+      currentStudent.locked = false;
+      document.getElementById("violationModal").style.display = "none";
+    } else {
+      alert("❌ වැරදි Code එකකි!");
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    const examActive = document.getElementById("tab-exam").classList.contains("active");
+    if (document.hidden && examActive && !currentStudent.locked) {
+      triggerExamViolationLock("ශිෂ්‍යයා වෙනත් Tab එකකට හෝ App එකකට මාරු විය!");
+    }
+  });
+
+  document.addEventListener("copy", (e) => {
+    if (document.getElementById("tab-exam").classList.contains("active")) e.preventDefault();
+  });
+  document.addEventListener("paste", (e) => {
+    if (document.getElementById("tab-exam").classList.contains("active")) e.preventDefault();
+  });
+
+  // --- SUBMIT EXAM, SHOW IN THIS WEB APP + HIGH MARKS + WHATSAPP ANSWER SHEET ---
+  function submitExamAndShowResults() {
+    let mcqCorrect = 0;
+    const mcqTotal = currentPaperQuestions.mcq.length;
+    const mcqDetails = [];
+
+    currentPaperQuestions.mcq.forEach((q, idx) => {
+      const picked = studentMcqSelections[q.id];
+      const isRight = picked === q.ansIdx;
+      if (isRight) mcqCorrect++;
+      const letters = ["A", "B", "C", "D"];
+      mcqDetails.push(`Q${idx + 1}: ${picked !== undefined ? letters[picked] : "-"} (Ans: ${letters[q.ansIdx]})`);
+    });
+
+    const essayCount = currentPaperQuestions.e2.length + currentPaperQuestions.e3.length + currentPaperQuestions.e5.length;
+    const essayAnswered = Object.values(studentEssayAnswers).filter(t => t && t.trim().length > 0).length;
+    const scorePct = mcqTotal > 0 ? Math.round((mcqCorrect / mcqTotal) * 100) : 100;
+
+    const record = {
+      id: Date.now(),
+      studentName: currentStudent.name,
+      setNo: currentStudent.setNo,
+      mcqCorrect,
+      mcqTotal,
+      scorePct,
+      essayAnswered,
+      essayCount,
+      mcqDetails,
+      essayAnswers: { ...studentEssayAnswers },
+      time: new Date().toLocaleString()
+    };
+
+    state.submissions.unshift(record);
+    const stuObj = state.students.find(s => s.name === currentStudent.name);
+    if (stuObj) stuObj.submitted = true;
+    persistState();
+
+    // Send Answer Sheet summary to WhatsApp
+    const wa = state.waNumber.replace(/[^0-9]/g, "");
+    const waMsg = `*${state.campusName} - Answer Sheet*\nශිෂ්‍යයා: *${record.studentName}* (Set #${record.setNo})\nMCQ Score: ${mcqCorrect}/${mcqTotal} (${scorePct}%)\nEssay Answered: ${essayAnswered}/${essayCount}\nMCQ Answers: ${mcqDetails.join(", ")}`;
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(waMsg)}`, "_blank");
+
+    renderResultsUI();
+    openTopTab("tab-results", document.getElementById("btn-tab-results"));
+  }
+
+  function printStudentPaperPDF() {
+    const prevTitle = document.title;
+    document.title = `${currentStudent.name}_Set_${currentStudent.setNo}_Paper`;
+    window.print();
+    document.title = prevTitle;
+  }
+
+  function renderResultsUI() {
+    const highList = document.getElementById("highMarksList");
+    const allList = document.getElementById("allSubmittedList");
+
+    const highScorers = state.submissions.filter(r => r.scorePct >= 75);
+    highList.innerHTML = highScorers.length === 0
+      ? `<p style="color:#64748b;">තවම High Marks (75%+) ලබා ගත් අය සටහන් වී නැත.</p>`
+      : highScorers.map(r => `
+        <div class="high-mark-card">
+          <b>🌟 ${r.studentName}</b> (Set #${r.setNo}) — <b>${r.scorePct}%</b> (MCQ ${r.mcqCorrect}/${r.mcqTotal})
+          <div style="font-size:0.82rem; color:#475569;">${r.time}</div>
+        </div>
+      `).join("");
+
+    allList.innerHTML = state.submissions.length === 0
+      ? `<p style="color:#64748b;">තවම Papers Submit කර නැත.</p>`
+      : state.submissions.map(r => `
+        <div class="result-card">
+          <b>${r.studentName}</b> (Set #${r.setNo}) | MCQ: <b>${r.mcqCorrect}/${r.mcqTotal}</b> (${r.scorePct}%) | Essay: ${r.essayAnswered}/${r.essayCount}
+          <div style="font-size:0.82rem; margin-top:4px;">${r.mcqDetails.join(" | ")}</div>
+        </div>
+      `).join("");
+  }
+
+  // --- SEPARATE ANSWER SHEETS (MCQ + 2, 3, 5) ---
+  function renderAnswerSheet(typeFilter) {
+    const box = document.getElementById("answerSheetContainer");
+    const items = state.questions.filter(q => q.type === typeFilter);
+    const letters = ["A", "B", "C", "D"];
+
+    if (typeFilter === "MCQ") {
+      box.innerHTML = `<h3>MCQ පිළිතුරු (1 – ${items.length})</h3>` + items.map((q, i) => `
+        <div class="q-card" style="padding:10px 14px; margin-bottom:8px;">
+          <b>${i + 1}.</b> ${q.q} <br>
+          <span style="color:var(--primary); font-weight:bold;">හරි පිළිතුර: (${letters[q.ansIdx]}) ${q.options[q.ansIdx]}</span>
+        </div>
+      `).join("");
+    } else {
+      const labelMap = { ESSAY2: "ලකුණු 2 Essay", ESSAY3: "ලකුණු 3 Essay", ESSAY5: "ලකුණු 5 Essay" };
+      box.innerHTML = `<h3>${labelMap[typeFilter]} පිළිතුරු (1 – ${items.length})</h3>` + items.map((q, i) => `
+        <div class="q-card" style="padding:12px 14px; margin-bottom:10px;">
+          <b>${i + 1}. ${q.q}</b>
+          <p style="margin:6px 0 0; color:#1e293b;"><b>පිළිතුර:</b> ${q.ans}</p>
+        </div>
+      `).join("");
+    }
+  }
+
+  // --- DOCTOR IMAGE UPDATE ---
+  function updateDoctorImage(e) {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      state.doctorPhoto = ev.target.result;
+      persistState();
+      applyHeaderAndProfile();
+    };
+    r.readAsDataURL(f);
+  }
+
+  // --- ADMIN QUESTION EDITOR (ADD / EDIT / DELETE) ---
+  function toggleAdminQuestionInputs() {
+    const t = document.getElementById("admType").value;
+    document.getElementById("admMcqBlock").style.display = (t === "MCQ") ? "block" : "none";
+    document.getElementById("admEssayBlock").style.display = (t !== "MCQ") ? "block" : "none";
+  }
+
+  function saveQuestionItem() {
+    const type = document.getElementById("admType").value;
+    const qText = document.getElementById("admPrompt").value.trim();
+    if (!qText) return alert("ප්‍රශ්නය ඇතුළත් කරන්න.");
+
+    if (type === "MCQ") {
+      const opts = [
+        document.getElementById("admChoice0").value || "Option A",
+        document.getElementById("admChoice1").value || "Option B",
+        document.getElementById("admChoice2").value || "Option C",
+        document.getElementById("admChoice3").value || "Option D"
+      ];
+      const ansIdx = parseInt(document.getElementById("admCorrectIdx").value) || 0;
+      if (editingQuestionId) {
+        const target = state.questions.find(x => x.id === editingQuestionId);
+        if (target) { target.type = type; target.q = qText; target.options = opts; target.ansIdx = ansIdx; }
+      } else {
+        state.questions.push({ id: "MCQ-" + Date.now(), type: "MCQ", q: qText, options: opts, ansIdx });
+      }
+    } else {
+      const ans = document.getElementById("admModelAns").value.trim();
+      if (editingQuestionId) {
+        const target = state.questions.find(x => x.id === editingQuestionId);
+        if (target) { target.type = type; target.q = qText; target.ans = ans; }
+      } else {
+        state.questions.push({ id: type + "-" + Date.now(), type, q: qText, ans });
+      }
+    }
+
+    persistState();
+    clearQuestionEditor();
+    renderAdminQuestionManager();
+    buildExamPaperSet();
+    renderExamPaper();
+  }
+
+  function editQuestionItem(id) {
+    const item = state.questions.find(x => x.id === id);
+    if (!item) return;
+    editingQuestionId = item.id;
+    document.getElementById("admType").value = item.type;
+    toggleAdminQuestionInputs();
+    document.getElementById("admPrompt").value = item.q;
+    if (item.type === "MCQ") {
+      document.getElementById("admChoice0").value = item.options[0] || "";
+      document.getElementById("admChoice1").value = item.options[1] || "";
+      document.getElementById("admChoice2").value = item.options[2] || "";
+      document.getElementById("admChoice3").value = item.options[3] || "";
+      document.getElementById("admCorrectIdx").value = item.ansIdx;
+    } else {
+      document.getElementById("admModelAns").value = item.ans || "";
+    }
+  }
+
+  function deleteQuestionItem(id) {
+    state.questions = state.questions.filter(x => x.id !== id);
+    persistState();
+    renderAdminQuestionManager();
+  }
+
+  function clearQuestionEditor() {
+    editingQuestionId = null;
+    document.getElementById("admPrompt").value = "";
+    document.getElementById("admChoice0").value = "";
+    document.getElementById("admChoice1").value = "";
+    document.getElementById("admChoice2").value = "";
+    document.getElementById("admChoice3").value = "";
+    document.getElementById("admModelAns").value = "";
+  }
+
+  function renderAdminQuestionManager() {
+    const f = document.getElementById("admListFilter").value;
+    const rows = state.questions.filter(x => f === "ALL" || x.type === f);
+    document.getElementById("adminQuestionManagerList").innerHTML = rows.map((q, idx) => `
+      <div class="q-card" style="padding:10px 12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:220px;">
+          <b>[${q.type}] ${idx + 1}. ${q.q}</b>
+          <div style="font-size:0.84rem; color:#0f766e; margin-top:3px;">
+            ${q.type === "MCQ" ? "Ans: " + (q.options ? q.options[q.ansIdx] : "") : "Ans: " + (q.ans || "")}
+          </div>
+        </div>
         <div>
-          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendSingleStudentWa(${idx})">📲 Paper යවන්න</button>
-          <button class="btn btn-danger" style="margin:0; padding:5px 8px;" onclick="deleteStudent(${s.id})">✖</button>
+          <button class="btn btn-blue" style="margin:0; padding:4px 9px;" onclick="editQuestionItem('${q.id}')">✏️ Edit</button>
+          <button class="btn btn-red" style="margin:0; padding:4px 9px;" onclick="deleteQuestionItem('${q.id}')">🗑️ Delete</button>
         </div>
       </div>
-    `).join('');
+    `).join("");
   }
 
-  function deleteStudent(id) {
-    appData.students = appData.students.filter(s => s.id !== id);
-    saveData();
-    renderStudents();
+  function renderAdminStudentsTable() {
+    document.getElementById("adminStudentsTable").innerHTML = state.students.length === 0
+      ? "<p>ශිෂ්‍යයින් Register කර නැත.</p>"
+      : state.students.map((s, i) => `
+        <div class="result-card">${i + 1}. <b>${s.name}</b> | Set #${s.setNo} | 📞 ${s.phone || "-"} | ${s.submitted ? "Submitted" : "Not Submitted"}</div>
+      `).join("");
   }
 
-  function sendSingleStudentWa(idx) {
-    const s = appData.students[idx];
-    const phone = (s.phone || appData.waNumber).replace(/[^0-9]/g, '');
-    const pData = lastGeneratedPapers[idx % (lastGeneratedPapers.length || 1)];
-    let msg = `*${appData.campusName}*\nශිෂ්‍යයා: ${s.name}\nPaper Set: #${s.paperNo}\n`;
-    if (pData) {
-      msg += `විෂය: ${pData.subject}\nMCQ ගණන: ${pData.sMcq.length} | Essay: ${pData.sE2.length + pData.sE3.length + pData.sE5.length}`;
-    }
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  function renderAdminResultsSummary() {
+    document.getElementById("adminResultsSummary").innerHTML = state.submissions.length === 0
+      ? "<p>ප්‍රතිඵල නොමැත.</p>"
+      : state.submissions.map(r => `
+        <div class="result-card"><b>${r.studentName}</b> (Set #${r.setNo}) — Score: <b>${r.scorePct}%</b> (${r.mcqCorrect}/${r.mcqTotal})</div>
+      `).join("");
   }
 
-  function sendAllStudentsToWhatsApp() {
-    const phone = appData.waNumber.replace(/[^0-9]/g, '');
-    let msg = `*${appData.campusName} - Student & Paper Report*\nමුළු සිසුන් ගණන: ${appData.students.length}\n\n`;
-    appData.students.forEach((s, i) => {
-      msg += `${i+1}. ${s.name} (Paper #${s.paperNo})\n`;
-    });
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  function saveProfileAndWaSettings() {
+    state.campusName = document.getElementById("setCampusName").value.trim() || state.campusName;
+    state.doctorName = document.getElementById("setDoctorName").value.trim() || state.doctorName;
+    state.waNumber = document.getElementById("setWaNumber").value.trim().replace(/[^0-9]/g, "") || state.waNumber;
+    persistState();
+    applyHeaderAndProfile();
+    alert("✅ Settings Save විය!");
   }
 
-  function sendPapersSummaryToWhatsApp() {
-    const phone = appData.waNumber.replace(/[^0-9]/g, '');
-    const count = lastGeneratedPapers.length;
-    const msg = `*${appData.campusName}*\nසකස් කළ Shuffled Papers ගණන: ${count}\nලියාපදිංචි සිසුන් ගණන: ${appData.students.length}`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  // --- PHOTO GALLERY ---
-  function addGalleryPhotos(e) {
-    Array.from(e.target.files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        appData.gallery.push(ev.target.result);
-        saveData();
-        renderGallery();
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function renderGallery() {
-    const grid = document.getElementById('galleryGrid');
-    grid.innerHTML = appData.gallery.map((src, i) => `
-      <div class="gallery-item">
-        <img src="${src}" alt="Gallery Photo">
-        <button class="btn btn-danger" style="position:absolute; top:4px; right:4px; margin:0; padding:2px 6px;" onclick="removeGallery(${i})">✖</button>
-      </div>
-    `).join('');
-  }
-  function removeGallery(i) {
-    appData.gallery.splice(i, 1);
-    saveData();
-    renderGallery();
-  }
-
-  // --- ADMIN & AUTO-LOCK ---
-  function saveAdminProfile() {
-    appData.campusName = document.getElementById('adminCampusInput').value;
-    appData.subTitle = document.getElementById('adminSubInput').value;
-    appData.docName = document.getElementById('adminDocNameInput').value;
-    appData.waNumber = document.getElementById('adminWaInput').value;
-    saveData();
-    initApp();
-    alert("✅ Profile විස්තර Save විය!");
-  }
-
-  function saveSecuritySettings() {
-    appData.autoLock = document.getElementById('autoLockStatus').value;
-    appData.lockSeconds = parseInt(document.getElementById('autoLockSeconds').value) || 180;
-    appData.password = document.getElementById('adminPassInput').value;
-    saveData();
-    setupAutoLock();
-    alert("🔐 Security Settings Save විය!");
-  }
-
-  function resetPermanentUnlock() {
-    appData.permanentlyUnlocked = false;
-    saveData();
-    document.getElementById('lockScreen').style.display = 'flex';
-  }
-
-  let lockTimeout = null;
-  function setupAutoLock() {
-    clearTimeout(lockTimeout);
-    if (appData.autoLock === "ON" && !appData.permanentlyUnlocked) {
-      lockTimeout = setTimeout(() => {
-        document.getElementById('lockScreen').style.display = 'flex';
-      }, appData.lockSeconds * 1000);
-    }
-  }
-
-  function attemptUnlock() {
-    const val = document.getElementById('unlockInput').value;
-    if (val === appData.password) {
-      appData.permanentlyUnlocked = true; // Never locks again once password entered
-      saveData();
-      document.getElementById('lockScreen').style.display = 'none';
-      alert("🔓 සාර්ථකව Unlock විය! මින් පසු නැවත Lock නොවේ.");
-    } else {
-      alert("❌ වැරදි Password එකකි!");
-    }
-  }
-
-  function requestPasswordViaWhatsApp() {
-    const phone = appData.waNumber.replace(/[^0-9]/g, '');
-    const msg = `ITMI Campus System Unlock Password එක ලබා දෙන්න.`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  initApp();
+  initSystem();
 </script>
 </body>
 </html>
