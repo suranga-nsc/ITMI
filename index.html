@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ITMI Campus - Student Exam Paper</title>
+<title>ITMI Campus - Student Portal & Exam</title>
 <style>
   :root {
     --primary: #0b4628;
@@ -22,79 +22,80 @@
     border-bottom: 4px solid var(--gold);
   }
   header h1 { margin: 0; font-size: 1.38rem; color: var(--gold); }
-  header p { margin: 3px 0 0; font-size: 0.86rem; color: #e2e8f0; }
+  header p { margin: 4px 0 0; font-size: 0.88rem; color: #e2e8f0; }
 
-  .tabs-bar {
+  .top-nav {
     display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     max-width: 1150px; margin: 12px auto; padding: 0 12px;
   }
-  .tab-btn {
+  .nav-btn {
     background: #fff; border: 2px solid var(--primary); color: var(--primary);
     padding: 8px 14px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
   }
-  .tab-btn.active, .tab-btn:hover { background: var(--primary); color: #fff; }
+  .nav-btn.active, .nav-btn:hover { background: var(--primary); color: #fff; }
 
   .container { max-width: 1150px; margin: 0 auto; padding: 0 12px; }
-  .panel {
+  .section-box {
     display: none; background: #fff; border-radius: 14px; padding: 20px;
     box-shadow: 0 6px 22px rgba(0,0,0,0.12); border-top: 5px solid var(--gold);
   }
-  .panel.active { display: block; }
+  .section-box.active { display: block; }
 
   h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
   h3 { color: var(--secondary); margin-top: 14px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
 
   label { display: block; font-weight: 600; margin: 8px 0 4px; font-size: 0.88rem; }
-  input, textarea {
-    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;
+  input, select, textarea {
+    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.94rem;
   }
   .btn {
-    background: var(--primary); color: #fff; border: none; padding: 9px 15px;
-    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 8px;
-    display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem;
+    background: var(--primary); color: #fff; border: none; padding: 8px 14px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem;
   }
   .btn-gold { background: var(--gold); color: #111; }
   .btn-blue { background: var(--secondary); color: #fff; }
   .btn-wa { background: #16a34a; color: #fff; }
+  .btn-gray { background: #64748b; color: #fff; }
 
-  .q-box {
+  .card {
     background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
-    padding: 15px; margin-bottom: 14px;
+    padding: 14px; margin-bottom: 12px;
   }
-  .opt-row {
+  .mcq-opt {
     display: flex; align-items: center; gap: 10px; background: #fff;
-    border: 1px solid #cbd5e1; padding: 9px 12px; border-radius: 8px; margin-top: 7px; cursor: pointer;
+    border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; margin-top: 6px; cursor: pointer;
   }
-  .opt-row input[type="radio"] { width: auto; transform: scale(1.2); }
+  .mcq-opt input[type="radio"] { width: auto; transform: scale(1.2); }
 
   .paper-lines {
     margin-top: 10px;
     background: repeating-linear-gradient(to bottom, transparent, transparent 29px, #94a3b8 30px);
-    height: 150px; border: 1px dashed #cbd5e1; border-radius: 6px;
+    height: 140px; border: 1px dashed #cbd5e1; border-radius: 6px;
   }
 
-  .locked-pdf-sheet {
-    background: #ffffff; border: 2px solid #0f172a; border-radius: 10px;
-    padding: 22px; margin-top: 16px; user-select: none; -webkit-user-select: none;
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-top: 12px;
   }
-  .locked-banner {
-    background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b;
-    padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; margin-bottom: 14px;
+  .gallery-tile {
+    border-radius: 10px; overflow: hidden; border: 2px solid var(--gold); height: 150px;
   }
-  .qa-pair-item {
-    border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px;
-    margin-bottom: 14px; background: #f8fafc; page-break-inside: avoid;
-  }
-  .qa-q-line { font-weight: bold; color: #0f172a; margin-bottom: 8px; }
-  .qa-a-line {
-    background: #ffffff; border-left: 4px solid var(--secondary);
-    padding: 10px 12px; color: #1e293b; white-space: pre-wrap; line-height: 1.55;
+  .gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pdf-output-sheet {
+    background: #fff; border: 2px solid #0f172a; border-radius: 10px;
+    padding: 20px; margin-top: 16px; user-select: none; -webkit-user-select: none;
   }
 
-  .score-box {
-    background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px;
-    padding: 16px; margin-top: 16px;
+  #lockOverlay {
+    display: none; position: fixed; inset: 0; background: rgba(127, 29, 29, 0.97);
+    z-index: 9999; color: #fff; align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+  }
+  .lock-box {
+    background: #450a0a; border: 3px solid #fca5a5; padding: 24px;
+    border-radius: 16px; max-width: 440px; width: 100%;
   }
 
   footer {
@@ -104,88 +105,121 @@
   }
 
   @media print {
-    header, .tabs-bar, .no-print, footer { display: none !important; }
-    .panel { box-shadow: none; border: none; padding: 0; }
+    header, .top-nav, .no-print, footer { display: none !important; }
+    .section-box { box-shadow: none; border: none; padding: 0; }
     body { background: #fff; }
-    .locked-pdf-sheet { border: none; padding: 0; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1 id="hdrTitle">ITMI CAMPUS - CEYLON MASSAGE THERAPY</h1>
-  <p id="hdrSub">Director / Senior Lecturer: Prof. (Hon.) Dr. Prasanna Kumara Weerasekara</p>
+  <h1 id="hdrCampusTitle">ITMI CAMPUS - SRI LANKA</h1>
+  <p id="hdrCampusAbout">International Traditional Medical Institute | Ceylon Massage Therapy</p>
 </header>
 
-<div class="tabs-bar no-print">
-  <button class="tab-btn active" id="tabBtnExam" onclick="showPanel('panelExam', this)">📝 Exam Paper</button>
-  <button class="tab-btn" id="tabBtnPdf" onclick="showPanel('panelPdf', this)">📄 Essay PDF / Question Sheet</button>
+<div class="top-nav no-print">
+  <button class="nav-btn active" id="nav-home" onclick="switchSection('sec-home', this)">🏛️ කැම්පස් විස්තර & Gallery</button>
+  <button class="nav-btn" id="nav-apply" onclick="switchSection('sec-apply', this)">📝 විභාග අයදුම් පත්‍රය</button>
+  <button class="nav-btn" id="nav-exam" onclick="switchSection('sec-exam', this)">📄 Exam Paper</button>
 </div>
 
 <div class="container">
 
-  <div id="panelExam" class="panel active">
-    <h2>📝 විභාග ප්‍රශ්න පත්‍රය (MCQ + Essay)</h2>
+  <!-- 1. CAMPUS INFO & GALLERY -->
+  <div id="sec-home" class="section-box active">
+    <h2>🏛️ කැම්පස් විස්තර</h2>
+    <div class="card">
+      <h3 id="homeCampusName" style="margin-top:0; color:var(--primary);">ITMI CAMPUS - SRI LANKA</h3>
+      <p id="homeCampusDetails" style="margin:0; line-height:1.6;">
+        International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level). Conducted by Prof. (Hon.) Dr. Prasanna Kumara Weerasekara.
+      </p>
+    </div>
 
-    <div class="grid-3 no-print" style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0; margin-bottom:14px;">
-      <div>
-        <label>ශිෂ්‍යයාගේ නම:</label>
-        <input type="text" id="stuFullName" placeholder="නම ඇතුළත් කරන්න">
-      </div>
-      <div>
-        <label>Exam Number:</label>
-        <input type="text" id="stuExamNo" placeholder="උදා: ITMI-100-01">
-      </div>
-      <div>
-        <label>MCQ කාලය (මිනිත්තු):</label>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <input type="number" id="mcqMinsSet" value="15" min="1" max="180" style="width:75px;">
-          <button class="btn btn-blue" style="margin:0; padding:7px 10px;" onclick="startMcqTimer()">Start (<span id="mcqTimerLabel">15:00</span>)</button>
+    <h2>🖼️ Gallery</h2>
+    <div id="homeGalleryGrid" class="gallery-grid"></div>
+  </div>
+
+  <!-- 2. EXAM APPLICATION FORM -->
+  <div id="sec-apply" class="section-box">
+    <h2>📝 විභාග සඳහා අයදුම් පත්‍රය</h2>
+    <p style="font-size:0.88rem; color:#475569;">Register වූ ශිෂ්‍යයින් ගණන: <b id="applyStuCount">0</b></p>
+    <div class="card">
+      <div class="grid-2">
+        <div>
+          <label>ශිෂ්‍යයාගේ නම:</label>
+          <input type="text" id="appStuName" placeholder="නම ඇතුළත් කරන්න">
+        </div>
+        <div>
+          <label>WhatsApp අංකය:</label>
+          <input type="tel" id="appStuWa" placeholder="උදා: 94717533483">
         </div>
       </div>
-    </div>
-
-    <div id="mcqSection"></div>
-    <div id="essaySection"></div>
-
-    <div id="mcqResultBox" class="score-box" style="display:none;"></div>
-
-    <div class="no-print" style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-wa" style="padding:11px 20px;" onclick="submitExamPaper()">
-        ✅ Submit කර MCQ Marks බලන්න & PDF සකසන්න
-      </button>
-      <button class="btn btn-blue" onclick="openLockedPdfTab()">
-        📄 Essay PDF / Sheet බලන්න & Download කරන්න
-      </button>
+      <label>විෂය (Subject) තෝරන්න:</label>
+      <select id="appSubjectSelect"></select>
+      <button class="btn btn-wa" onclick="submitApplication()">✅ අයදුම්පත Submit කරන්න</button>
     </div>
   </div>
 
-  <div id="panelPdf" class="panel">
-    <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-      <h2 style="margin:0; border:none;">📄 Essay Sheet (Locked / Read-Only PDF)</h2>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn btn-gold" onclick="downloadLockedPdf()">⬇️ PDF Download / Print</button>
-        <button class="btn btn-wa" onclick="sendMarksAndNoticeToWhatsApp()">📲 WhatsApp වෙත යවන්න</button>
+  <!-- 3. EXAM PAPER -->
+  <div id="sec-exam" class="section-box">
+    <div class="card no-print" style="background:#fef9c3; border-color:var(--gold);">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; align-items:center;">
+        <div>
+          <b id="examPaperTitle">Anatomy Examination Paper</b> |
+          <b>ශිෂ්‍යයා:</b> <span id="examStudentNameDisp">Student</span> |
+          <b>විෂය:</b> <span id="examSubjectDisp">Anatomy</span>
+        </div>
+        <div id="examMcqTimerBox">
+          ⏱️ <b>MCQ Time:</b> <b id="examMcqClock" style="color:#1d4ed8;">10:00</b>
+          <button class="btn btn-blue" style="margin:0; padding:4px 9px;" onclick="startMcqCountdown()">Start MCQ</button>
+          <button class="btn btn-gray" style="margin:0; padding:4px 9px;" onclick="enterEssayPhase()">Next: Essay</button>
+        </div>
+        <div id="examEssayTimerBox" style="display:none;">
+          ⏳ <b>Essay Time:</b> <b id="examEssayClock" style="color:#b91c1c;">20:00</b>
+          <button class="btn btn-gold" style="margin:0; padding:4px 9px;" onclick="startEssayCountdown()">Start Essay</button>
+        </div>
       </div>
+      <div id="touchWarningText" style="margin-top:8px; font-weight:bold; color:#b91c1c;"></div>
     </div>
 
-    <div id="lockedPdfSheet" class="locked-pdf-sheet" oncopy="return false;" oncut="return false;">
-      <div class="locked-banner" id="pdfBannerText">
-        🔒 READ-ONLY / LOCKED SHEET — මෙම පත්‍රයේ පිළිතුරු කිසිම අවස්ථාවක වෙනස් කළ නොහැක.
-      </div>
-      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:10px; margin-bottom:16px;">
-        <h3 id="pdfCampusName" style="margin:0; color:var(--primary);">ITMI CAMPUS - CEYLON MASSAGE THERAPY</h3>
-        <p style="margin:6px 0 0; font-weight:bold;">
-          ශිෂ්‍යයාගේ නම: <span id="pdfStuName">-</span> &nbsp;|&nbsp;
-          Exam Number: <span id="pdfExamNo">-</span> &nbsp;|&nbsp;
-          MCQ Marks: <span id="pdfMcqScore">-</span>
+    <div id="studentMcqArea"></div>
+    <div id="studentEssayArea" style="display:none;"></div>
+
+    <div id="examScoreSummary" class="card" style="display:none; background:#f0fdf4; border-color:#22c55e;"></div>
+
+    <div class="no-print" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-wa" id="btnSubmitExam" onclick="finishExamPaper()">✅ Paper Submit කරන්න</button>
+      <button class="btn btn-gold" onclick="exportStudentEssayPdf()">📄 Essay PDF Download / Print</button>
+      <button class="btn btn-blue" onclick="forwardPdfNoticeWhatsApp()">📲 WhatsApp වෙත යවන්න</button>
+    </div>
+
+    <div id="studentPdfSheet" class="pdf-output-sheet" style="display:none;" oncopy="return false;" oncut="return false;">
+      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:14px;">
+        <h3 id="sheetCampusName" style="margin:0; color:var(--primary);">ITMI CAMPUS - SRI LANKA</h3>
+        <p id="sheetPaperName" style="margin:4px 0; font-weight:bold;">Anatomy Exam Paper</p>
+        <p style="margin:4px 0; font-size:0.9rem;">
+          ශිෂ්‍යයා: <span id="sheetStuName">-</span> | MCQ Marks: <span id="sheetMcqMarks">-</span>
         </p>
       </div>
-      <div id="lockedQaList"></div>
+      <div id="sheetEssayPairs"></div>
     </div>
   </div>
 
+</div>
+
+<div id="lockOverlay">
+  <div class="lock-box">
+    <h2 style="color:#fca5a5; border:none;">🚨 BLOCKED & LOCKED!</h2>
+    <p><b>ශිෂ්‍යයාගේ නම:</b> <span id="lockStuName">-</span></p>
+    <p style="font-size:0.9rem;">3 වතාවක් වෙන තැනක Touch කළ බැවින් Paper එක Lock වී එතෙක් ලියූ ප්‍රශ්න Submit විය.</p>
+    <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendAdminAlertWa()">
+      📲 Admin WhatsApp Alert යවන්න
+    </button>
+    <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="unlockByAdminPin()">
+      🔓 Admin PIN යොදා Unlock කර ඉතිරි ප්‍රශ්න කරන්න
+    </button>
+  </div>
 </div>
 
 <footer>
@@ -193,183 +227,285 @@
 </footer>
 
 <script>
-  const defaultMcqBank = [
-    { id: "M1", q: "1. සම්බාහන ප්‍රතිකාරයක (Massage Therapy) මූලික අරමුණ කුමක්ද?", opts: ["රුධිර සංසරණය වැඩි දියුණු කිරීම", "හිසරදය වැඩි කිරීම", "සන්ධි දැඩි කිරීම", "නිදිමත ඇති කිරීම"], ans: 0 },
-    { id: "M2", q: "2. Ceylon Massage Therapy යනු කුමන ක්ෂේත්‍රයට අයත් ප්‍රතිකාර ක්‍රමයක්ද?", opts: ["දේශීය හා සාම්ප්‍රදායික සුවතා ප්‍රතිකාර", "ශල්‍ය වෛද්‍ය විද්‍යාව", "දන්ත වෛද්‍ය විද්‍යාව", "පශු වෛද්‍ය විද්‍යාව"], ans: 0 },
-    { id: "M3", q: "3. සම්බාහනයට පෙර සේවාදායකයාගේ (Client) කුමක් පරීක්ෂා කළ යුතුද?", opts: ["වෛද්‍ය ඉතිහාසය හා සමේ තත්ත්වය", "ඇඳුමේ වර්ණය", "දුරකථන අංකය", "සපත්තු ප්‍රමාණය"], ans: 0 },
-    { id: "M4", q: "4. සම මත තුවාල, කැපුම් හෝ උග්‍ර ආසාදන ඇති විට සම්බාහනය කළ යුත්තේ කෙසේද?", opts: ["එම ස්ථානය මඟහැර හෝ වෛද්‍ය උපදෙස් මත", "තදින් පිරිමැදීමෙන්", "උණු වතුර වත් කිරීමෙන්", "කිසිදු සැලකිල්ලක් නොදක්වා"], ans: 0 },
-    { id: "M5", q: "5. සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?", opts: ["සමට ගැළපෙන, අසාත්මිකතා ඇති නොකරන බව", "තද සුවඳක් තිබීම", "ඉතා ඝනකම් වීම", "මිල අධික වීම පමණක්"], ans: 0 }
-  ];
+  function buildAnatomySeed() {
+    const list = [];
+    for (let i = 1; i <= 50; i++) {
+      list.push({
+        id: "ANA-M-" + i, subject: "Anatomy", type: "MCQ",
+        q: `Anatomy MCQ ${i}: මානව ශරීරයේ අදාළ ව්‍යුහය හා ක්‍රියාකාරිත්වය පිළිබඳ නිවැරදි ප්‍රකාශය තෝරන්න (${i}).`,
+        opts: ["නිවැරදි ව්‍යුහ විද්‍යාත්මක ප්‍රකාශය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0
+      });
+    }
+    for (let i = 1; i <= 10; i++) {
+      list.push({ id: "ANA-E2-" + i, subject: "Anatomy", type: "ESSAY2", q: `Anatomy ලකුණු 2 ප්‍රශ්නය ${i}: ප්‍රධාන ලක්ෂණ 2ක් ලියන්න.`, ans: "1) ප්‍රධාන ලක්ෂණය.\n2) ක්‍රියාකාරිත්වය." });
+      list.push({ id: "ANA-E3-" + i, subject: "Anatomy", type: "ESSAY3", q: `Anatomy ලකුණු 3 ප්‍රශ්නය ${i}: කරුණු 3කින් පැහැදිලි කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
+      list.push({ id: "ANA-E5-" + i, subject: "Anatomy", type: "ESSAY5", q: `Anatomy ලකුණු 5 ප්‍රශ්නය ${i}: විස්තරාත්මකව ලියන්න.`, ans: "ව්‍යුහය, ක්‍රියාකාරිත්වය සහ වැදගත්කම." });
+    }
+    return list;
+  }
 
-  const defaultEssayBank = [
-    { id: "E1", label: "Essay 1 (ලකුණු 2)", q: "සම්බාහන ප්‍රතිකාරයක (Massage Therapy) ප්‍රධාන අරමුණු 2ක් ලියන්න.", ans: "1) රුධිර සංසරණය වැඩි දියුණු කිරීම.\n2) මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම." },
-    { id: "E2", label: "Essay 2 (ලකුණු 2)", q: "සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", ans: "1) සේවාදායකයාගේ සෞඛ්‍ය/වෛද්‍ය ඉතිහාසය.\n2) සම මත තුවාල හෝ ආසාදන තිබේද යන්න." },
-    { id: "E3", label: "Essay 3 (ලකුණු 3)", q: "Effleurage සහ Petrissage යන සම්බාහන චලන වර්ග 2 අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", ans: "1) Effleurage සැහැල්ලු/මධ්‍යස්ථ පිරිමැදීම වන අතර Petrissage ඇනීම/තෙරපීමයි.\n2) Effleurage සන්සුන් කිරීමට සහ Petrissage ගැඹුරු මාංශ පේශි ලිහිල් කිරීමට යොදා ගනී.\n3) Effleurage පුළුල්වද Petrissage නිශ්චිත මාංශ පේශි මතද කෙරේ." },
-    { id: "E4", label: "Essay 4 (ලකුණු 3)", q: "සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", ans: "1) මාංශ පේශිවල තද ගතිය ලිහිල් වීම.\n2) ස්නායු පද්ධතිය සන්සුන් වී විවේකී තත්ත්වයක් ඇති වීම.\n3) රිද්මයානුකූල ස්පර්ශයෙන් මනසට සැහැල්ලුව ලැබීම." },
-    { id: "E5", label: "Essay 5 (ලකුණු 5)", q: "සම්බාහන ප්‍රතිකාරයක් මගින් රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", ans: "රුධිර වාහිනී පුළුල් වී රුධිර සංසරණය හා ඔක්සිජන් සැපයුම වැඩි දියුණු වේ. ස්නායු පද්ධතිය සන්සුන් වී විවේකී ප්‍රතිචාරය ක්‍රියාත්මක වන අතර වේදනා සංඥා අඩු වේ. මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය හා චලන පරාසය වර්ධනය වේ." }
-  ];
-
-  const stored = JSON.parse(localStorage.getItem("itmi_exam_shared_cfg") || "null");
-  let cfg = {
-    campusName: (stored && stored.campusName) || "ITMI CAMPUS - CEYLON MASSAGE THERAPY",
-    waNumber: (stored && stored.waNumber) || "94717533483",
-    essayMode: (stored && stored.essayMode) || "ONLINE"
+  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v1") || "null") || {
+    campusTitle: "ITMI CAMPUS - SRI LANKA",
+    campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level). Conducted by Prof. (Hon.) Dr. Prasanna Kumara Weerasekara.",
+    phoneWa: "94717533483",
+    unlockPin: "1234",
+    mcqMins: 10,
+    essayMins: 20,
+    essayMode: "ONLINE",
+    subjects: ["Anatomy", "Ceylon Massage Therapy"],
+    questions: buildAnatomySeed(),
+    gallery: [],
+    applicants: [],
+    submissions: [],
+    paperCounts: { mcq: 10, e2: 10, e3: 10, e5: 10 }
   };
-  let mcqBank = (stored && stored.mcqBank && stored.mcqBank.length) ? stored.mcqBank : defaultMcqBank;
-  let essayBank = (stored && stored.essayBank && stored.essayBank.length) ? stored.essayBank : defaultEssayBank;
 
-  document.getElementById("hdrTitle").innerText = cfg.campusName;
-  document.getElementById("pdfCampusName").innerText = cfg.campusName;
+  function persistDb() {
+    localStorage.setItem("itmi_shared_db_v1", JSON.stringify(db));
+  }
 
-  let pickedMcq = {};
-  let typedEssays = {};
-  let lastMcqSummary = `0 / ${mcqBank.length}`;
+  function shuffleArray(arr) {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
 
-  function renderExamUI() {
+  function buildPaperForApplicant(app) {
+    const pool = db.questions.filter(q => q.subject === app.subject);
+    const fMcq = pool.filter(q => q.type === "MCQ").length ? pool.filter(q => q.type === "MCQ") : db.questions.filter(q => q.type === "MCQ");
+    const fE2 = pool.filter(q => q.type === "ESSAY2").length ? pool.filter(q => q.type === "ESSAY2") : db.questions.filter(q => q.type === "ESSAY2");
+    const fE3 = pool.filter(q => q.type === "ESSAY3").length ? pool.filter(q => q.type === "ESSAY3") : db.questions.filter(q => q.type === "ESSAY3");
+    const fE5 = pool.filter(q => q.type === "ESSAY5").length ? pool.filter(q => q.type === "ESSAY5") : db.questions.filter(q => q.type === "ESSAY5");
+    return {
+      studentName: app.name,
+      subject: app.subject,
+      paperName: `${app.subject} Examination Paper`,
+      mcq: shuffleArray(fMcq).slice(0, db.paperCounts.mcq),
+      e2: shuffleArray(fE2).slice(0, db.paperCounts.e2),
+      e3: shuffleArray(fE3).slice(0, db.paperCounts.e3),
+      e5: shuffleArray(fE5).slice(0, db.paperCounts.e5)
+    };
+  }
+
+  let activeSession = buildPaperForApplicant({ name: "Sample Student", subject: "Anatomy" });
+  let pickedMcq = {}, typedEssays = {}, touchWarnings = 0, paperBlocked = false, essayTimeOver = false, lastScoreLabel = "0 / 0";
+
+  function initStudentPage() {
+    document.getElementById("hdrCampusTitle").innerText = db.campusTitle;
+    document.getElementById("hdrCampusAbout").innerText = db.campusAbout;
+    document.getElementById("homeCampusName").innerText = db.campusTitle;
+    document.getElementById("homeCampusDetails").innerText = db.campusAbout;
+    document.getElementById("sheetCampusName").innerText = db.campusTitle;
+    document.getElementById("applyStuCount").innerText = db.applicants.length;
+    document.getElementById("examMcqClock").innerText = String(db.mcqMins).padStart(2, "0") + ":00";
+    document.getElementById("examEssayClock").innerText = String(db.essayMins).padStart(2, "0") + ":00";
+
+    document.getElementById("appSubjectSelect").innerHTML = db.subjects.map(s => `<option value="${s}">${s}</option>`).join("");
+    document.getElementById("homeGalleryGrid").innerHTML = db.gallery.map(src => `<div class="gallery-tile"><img src="${src}" alt="Gallery"></div>`).join("");
+
+    const h = window.location.hash || "";
+    if (h.startsWith("#p=")) {
+      try {
+        activeSession = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(h.replace("#p=", ""))))));
+        resetExamState();
+        renderExamView();
+        switchSection("sec-exam", document.getElementById("nav-exam"));
+        return;
+      } catch (e) {}
+    }
+    resetExamState();
+    renderExamView();
+  }
+
+  function switchSection(secId, btn) {
+    document.querySelectorAll(".section-box").forEach(s => s.classList.remove("active"));
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(secId).classList.add("active");
+    if (btn) btn.classList.add("active");
+  }
+
+  function submitApplication() {
+    const name = document.getElementById("appStuName").value.trim();
+    const wa = document.getElementById("appStuWa").value.trim().replace(/[^0-9]/g, "");
+    const subject = document.getElementById("appSubjectSelect").value;
+    if (!name) return alert("ශිෂ්‍යයාගේ නම ලියන්න.");
+    db.applicants.push({ id: Date.now(), name, whatsapp: wa, subject });
+    persistDb();
+    document.getElementById("appStuName").value = "";
+    document.getElementById("appStuWa").value = "";
+    document.getElementById("applyStuCount").innerText = db.applicants.length;
+    alert("✅ අයදුම්පත Submit විය!");
+  }
+
+  function resetExamState() {
+    pickedMcq = {}; typedEssays = {}; touchWarnings = 0; paperBlocked = false; essayTimeOver = false;
+    document.getElementById("touchWarningText").innerText = "";
+    document.getElementById("studentMcqArea").style.display = "block";
+    document.getElementById("studentEssayArea").style.display = "none";
+    document.getElementById("examMcqTimerBox").style.display = "inline-block";
+    document.getElementById("examEssayTimerBox").style.display = "none";
+    document.getElementById("examScoreSummary").style.display = "none";
+    document.getElementById("studentPdfSheet").style.display = "none";
+  }
+
+  function renderExamView() {
+    document.getElementById("examPaperTitle").innerText = activeSession.paperName;
+    document.getElementById("examStudentNameDisp").innerText = activeSession.studentName;
+    document.getElementById("examSubjectDisp").innerText = activeSession.subject;
+
     const letters = ["A", "B", "C", "D"];
-    document.getElementById("mcqSection").innerHTML = `<h3>කොටස A — MCQ ප්‍රශ්න</h3>` + mcqBank.map(item => `
-      <div class="q-box">
-        <b>${item.q}</b>
-        ${item.opts.map((o, idx) => `
-          <label class="opt-row">
-            <input type="radio" name="mcq_${item.id}" ${pickedMcq[item.id] === idx ? "checked" : ""} onchange="pickedMcq['${item.id}'] = ${idx}">
-            <span><b>(${letters[idx]})</b> ${o}</span>
+    document.getElementById("studentMcqArea").innerHTML = `<h3>කොටස A — MCQ</h3>` + activeSession.mcq.map((q, i) => `
+      <div class="card">
+        <b>${i + 1}. ${q.q}</b>
+        ${q.opts.map((o, oi) => `
+          <label class="mcq-opt">
+            <input type="radio" name="s_mcq_${q.id}" ${pickedMcq[q.id] === oi ? "checked" : ""} onchange="pickedMcq['${q.id}'] = ${oi}">
+            <span><b>(${letters[oi]})</b> ${o}</span>
           </label>
         `).join("")}
       </div>
     `).join("");
 
-    if (cfg.essayMode === "PAPER_SHEET") {
-      document.getElementById("essaySection").innerHTML =
-        `<h3>කොටස B — Essay ප්‍රශ්න (වෙනම කොළයක අතින් ලිවීමට)</h3>
-         <p style="color:#b45309; font-weight:bold;">📄 මෙම Essay ප්‍රශ්න ටික Print/PDF කරගෙන වෙනම කොළයක පිළිතුරු ලියන්න.</p>` +
-        essayBank.map(item => `
-          <div class="q-box">
-            <b>${item.label}: ${item.q}</b>
-            <div class="paper-lines"></div>
-          </div>
-        `).join("");
+    const allEssays = [
+      ...activeSession.e2.map((x, i) => ({ ...x, mLabel: `ලකුණු 2 - ${i + 1}` })),
+      ...activeSession.e3.map((x, i) => ({ ...x, mLabel: `ලකුණු 3 - ${i + 1}` })),
+      ...activeSession.e5.map((x, i) => ({ ...x, mLabel: `ලකුණු 5 - ${i + 1}` }))
+    ];
+
+    if (db.essayMode === "MANUAL_PDF") {
+      document.getElementById("studentEssayArea").innerHTML = `<h3>කොටස B — Essay (වෙනම කොළයක ලියන්න)</h3>` + allEssays.map(e => `
+        <div class="card"><b>[${e.mLabel}] ${e.q}</b><div class="paper-lines"></div></div>
+      `).join("");
     } else {
-      document.getElementById("essaySection").innerHTML =
-        `<h3>කොටස B — Essay ප්‍රශ්න (Type හෝ Voice Typing)</h3>` +
-        essayBank.map(item => `
-          <div class="q-box">
-            <b>${item.label}: ${item.q}</b>
-            <textarea rows="4" spellcheck="false" autocorrect="off"
-              placeholder="පිළිතුර මෙහි Type කරන්න හෝ Voice Typing භාවිතා කරන්න..."
-              oninput="typedEssays['${item.id}'] = this.value">${typedEssays[item.id] || ""}</textarea>
-          </div>
-        `).join("");
+      document.getElementById("studentEssayArea").innerHTML = `<h3>කොටස B — Essay (Type / Voice Typing)</h3>` + allEssays.map(e => `
+        <div class="card">
+          <b>[${e.mLabel}] ${e.q}</b>
+          <textarea rows="4" ${essayTimeOver ? "disabled" : ""} spellcheck="false" autocorrect="off"
+            placeholder="පිළිතුර Type කරන්න හෝ Voice Typing කරන්න..."
+            oninput="typedEssays['${e.id}'] = this.value">${typedEssays[e.id] || ""}</textarea>
+        </div>
+      `).join("");
     }
   }
 
-  let mcqTimerHandle = null;
-  function startMcqTimer() {
-    clearInterval(mcqTimerHandle);
-    let secs = (parseInt(document.getElementById("mcqMinsSet").value) || 15) * 60;
-    mcqTimerHandle = setInterval(() => {
-      if (secs <= 0) {
-        clearInterval(mcqTimerHandle);
-        alert("⏱️ MCQ කාලය අවසන්!");
-      } else {
-        secs--;
-        const m = String(Math.floor(secs / 60)).padStart(2, "0");
-        const s = String(secs % 60).padStart(2, "0");
-        document.getElementById("mcqTimerLabel").innerText = `${m}:${s}`;
-      }
+  let mcqInt = null, essayInt = null;
+  function startMcqCountdown() {
+    clearInterval(mcqInt);
+    let sec = db.mcqMins * 60;
+    mcqInt = setInterval(() => {
+      if (sec <= 0) { clearInterval(mcqInt); enterEssayPhase(); }
+      else { sec--; document.getElementById("examMcqClock").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`; }
     }, 1000);
   }
 
-  function submitExamPaper() {
-    clearInterval(mcqTimerHandle);
-    let rightCount = 0;
-    mcqBank.forEach(item => {
-      if (pickedMcq[item.id] === item.ans) rightCount++;
-    });
-    lastMcqSummary = `${rightCount} / ${mcqBank.length}`;
-
-    const stuName = document.getElementById("stuFullName").value.trim() || "Student";
-    const examNo = document.getElementById("stuExamNo").value.trim() || "N/A";
-
-    const box = document.getElementById("mcqResultBox");
-    box.style.display = "block";
-    box.innerHTML = `
-      <h3 style="margin:0; color:var(--primary);">✅ MCQ Auto Marks</h3>
-      <p style="margin:6px 0 0; font-size:1.05rem;">
-        <b>ශිෂ්‍යයා:</b> ${stuName} | <b>Exam No:</b> ${examNo} | <b>MCQ Score:</b> ${lastMcqSummary}
-      </p>
-    `;
-
-    buildLockedPdfSheet();
+  function enterEssayPhase() {
+    clearInterval(mcqInt);
+    document.getElementById("studentMcqArea").style.display = "none";
+    document.getElementById("studentEssayArea").style.display = "block";
+    document.getElementById("examMcqTimerBox").style.display = "none";
+    document.getElementById("examEssayTimerBox").style.display = "inline-block";
+    startEssayCountdown();
   }
 
-  function buildLockedPdfSheet() {
-    const stuName = document.getElementById("stuFullName").value.trim() || "Student";
-    const examNo = document.getElementById("stuExamNo").value.trim() || "N/A";
+  function startEssayCountdown() {
+    clearInterval(essayInt);
+    let sec = db.essayMins * 60;
+    essayInt = setInterval(() => {
+      if (sec <= 0) { clearInterval(essayInt); essayTimeOver = true; renderExamView(); alert("⏳ Essay කාලය අවසන්! Typing Lock විය."); }
+      else { sec--; document.getElementById("examEssayClock").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`; }
+    }, 1000);
+  }
 
-    document.getElementById("pdfCampusName").innerText = cfg.campusName;
-    document.getElementById("pdfStuName").innerText = stuName;
-    document.getElementById("pdfExamNo").innerText = examNo;
-    document.getElementById("pdfMcqScore").innerText = lastMcqSummary;
+  function playAlarm() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      osc.type = "square"; osc.frequency.setValueAtTime(920, ctx.currentTime);
+      osc.connect(ctx.destination); osc.start();
+      setTimeout(() => osc.stop(), 1500);
+    } catch (e) {}
+  }
 
-    if (cfg.essayMode === "PAPER_SHEET") {
-      document.getElementById("pdfBannerText").innerText =
-        "📄 ESSAY QUESTION SHEET — වෙනම කොළයක පිළිතුරු ලිවීම සඳහා සැකසූ ප්‍රශ්න පත්‍රය.";
-      document.getElementById("lockedQaList").innerHTML = essayBank.map(item => `
-        <div class="qa-pair-item">
-          <div class="qa-q-line">${item.label} — ${item.q}</div>
-          <div class="paper-lines"></div>
-        </div>
-      `).join("");
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden || paperBlocked) return;
+    if (!document.getElementById("sec-exam").classList.contains("active")) return;
+    touchWarnings++;
+    if (touchWarnings < 3) {
+      const m = `⚠️ අවවාදය (${touchWarnings}/3): ${activeSession.studentName} — වෙන තැනකට Touch නොකරන්න!`;
+      document.getElementById("touchWarningText").innerText = m;
+      alert(m);
     } else {
-      document.getElementById("pdfBannerText").innerText =
-        "🔒 READ-ONLY / LOCKED SHEET — මෙම පත්‍රයේ පිළිතුරු කිසිම අවස්ථාවක වෙනස් කළ නොහැක.";
-      document.getElementById("lockedQaList").innerHTML = essayBank.map(item => {
-        const ansTxt = (typedEssays[item.id] || "").trim() || "(පිළිතුරක් ඇතුළත් කර නොමැත)";
-        return `
-          <div class="qa-pair-item">
-            <div class="qa-q-line">${item.label} — ${item.q}</div>
-            <div class="qa-a-line"><b>ශිෂ්‍ය පිළිතුර:</b>\n${ansTxt}</div>
-          </div>
-        `;
-      }).join("");
+      paperBlocked = true;
+      finishExamPaper(true);
+      document.getElementById("lockStuName").innerText = activeSession.studentName;
+      document.getElementById("lockOverlay").style.display = "flex";
+      playAlarm();
     }
+  });
+
+  function sendAdminAlertWa() {
+    const phone = db.phoneWa.replace(/[^0-9]/g, "");
+    const txt = `🚨 *ALERT - ${db.campusTitle}*\nශිෂ්‍යයාගේ නම: *${activeSession.studentName}*\n3 වතාවක් වෙන තැනක Touch කළ බැවින් Block විය.\nMCQ Marks: ${lastScoreLabel}`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(txt)}`, "_blank");
   }
 
-  function openLockedPdfTab() {
-    buildLockedPdfSheet();
-    showPanel("panelPdf", document.getElementById("tabBtnPdf"));
+  function unlockByAdminPin() {
+    const p = prompt("Admin PIN ඇතුළත් කරන්න:");
+    if (p === db.unlockPin) {
+      paperBlocked = false; touchWarnings = 0;
+      document.getElementById("touchWarningText").innerText = "";
+      document.getElementById("lockOverlay").style.display = "none";
+    } else { alert("❌ වැරදි PIN!"); }
   }
 
-  function downloadLockedPdf() {
-    buildLockedPdfSheet();
-    const stuName = (document.getElementById("stuFullName").value.trim() || "Student").replace(/\s+/g, "_");
-    const examNo = (document.getElementById("stuExamNo").value.trim() || "ExamNo").replace(/\s+/g, "_");
-    const prevTitle = document.title;
-    document.title = `${stuName}_${examNo}_Essay_Sheet`;
+  function finishExamPaper(fromBlock = false) {
+    clearInterval(mcqInt); clearInterval(essayInt);
+    let right = 0;
+    activeSession.mcq.forEach(q => { if (pickedMcq[q.id] === q.ans) right++; });
+    lastScoreLabel = `${right} / ${activeSession.mcq.length}`;
+    db.submissions.unshift({ studentName: activeSession.studentName, subject: activeSession.subject, score: lastScoreLabel, status: fromBlock ? "Blocked & Auto-Submitted" : "Submitted", time: new Date().toLocaleString() });
+    persistDb();
+    const sum = document.getElementById("examScoreSummary");
+    sum.style.display = "block";
+    sum.innerHTML = `<b>✅ ${activeSession.studentName}</b> (${activeSession.subject}) — MCQ Marks: <b>${lastScoreLabel}</b>`;
+    prepareSheet();
+  }
+
+  function prepareSheet() {
+    document.getElementById("sheetCampusName").innerText = db.campusTitle;
+    document.getElementById("sheetPaperName").innerText = activeSession.paperName;
+    document.getElementById("sheetStuName").innerText = activeSession.studentName;
+    document.getElementById("sheetMcqMarks").innerText = lastScoreLabel;
+    const allEssays = [
+      ...activeSession.e2.map((x, i) => ({ ...x, mLabel: `ලකුණු 2 - ${i + 1}` })),
+      ...activeSession.e3.map((x, i) => ({ ...x, mLabel: `ලකුණු 3 - ${i + 1}` })),
+      ...activeSession.e5.map((x, i) => ({ ...x, mLabel: `ලකුණු 5 - ${i + 1}` }))
+    ];
+    document.getElementById("sheetEssayPairs").innerHTML = allEssays.map(e => {
+      const val = db.essayMode === "MANUAL_PDF" ? "(වෙනම කොළයක ලියන ලදී)" : ((typedEssays[e.id] || "").trim() || "(පිළිතුරක් ලියා නැත)");
+      return `<div class="card" style="page-break-inside:avoid;"><b>[${e.mLabel}] ${e.q}</b><div style="margin-top:8px; background:#fff; padding:10px; border-left:4px solid var(--secondary); white-space:pre-wrap;">${val}</div></div>`;
+    }).join("");
+    document.getElementById("studentPdfSheet").style.display = "block";
+  }
+
+  function exportStudentEssayPdf() {
+    prepareSheet();
+    const prev = document.title;
+    document.title = `${activeSession.studentName.replace(/\s+/g, "_")}_${activeSession.subject.replace(/\s+/g, "_")}_Paper`;
     window.print();
-    document.title = prevTitle;
+    document.title = prev;
   }
 
-  function sendMarksAndNoticeToWhatsApp() {
-    const stuName = document.getElementById("stuFullName").value.trim() || "Student";
-    const examNo = document.getElementById("stuExamNo").value.trim() || "N/A";
-    const phone = cfg.waNumber.replace(/[^0-9]/g, "");
-    const note = cfg.essayMode === "PAPER_SHEET"
-      ? "(වෙනම කොළයක ලියූ Essay පිළිතුරු පත්‍රයේ Photo/PDF මෙම WhatsApp chat එකට එවන්න.)"
-      : "(Essay PDF එක download කර මෙම WhatsApp chat එකට attach කර එවන්න.)";
-    const msg = `*${cfg.campusName}*\nශිෂ්‍යයා: *${stuName}*\nExam No: *${examNo}*\nMCQ Marks: *${lastMcqSummary}*\n${note}`;
+  function forwardPdfNoticeWhatsApp() {
+    const phone = db.phoneWa.replace(/[^0-9]/g, "");
+    const msg = `*${db.campusTitle}*\nපේපර්: *${activeSession.paperName}*\nශිෂ්‍යයා: *${activeSession.studentName}*\nMCQ Marks: *${lastScoreLabel}*\n(Download වූ PDF එක මෙම WhatsApp වෙත forward කරන්න.)`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
-  function showPanel(panelId, btn) {
-    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.getElementById(panelId).classList.add("active");
-    if (btn) btn.classList.add("active");
-  }
-
-  renderExamUI();
+  initStudentPage();
 </script>
 </body>
 </html>
