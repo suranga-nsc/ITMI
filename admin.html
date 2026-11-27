@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITMI Campus - Admin Panel</title>
+<style>
+  :root {
+    --primary: #0b4628;
+    --secondary: #155e9c;
+    --gold: #d4af37;
+    --bg: linear-gradient(135deg, #dcfce7 0%, #fef9c3 50%, #dbeafe 100%);
+  }
+  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body {
+    margin: 0; padding: 0; background: var(--bg);
+    min-height: 100vh; color: #1e293b; padding-bottom: 65px;
+  }
+  header {
+    background: linear-gradient(90deg, #062817, #0b4628, #103c66);
+    color: #fff; padding: 14px 18px; text-align: center;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 { margin: 0; font-size: 1.38rem; color: var(--gold); }
+  header p { margin: 3px 0 0; font-size: 0.86rem; color: #e2e8f0; }
+
+  .container { max-width: 1100px; margin: 16px auto; padding: 0 12px; }
+  .card {
+    background: #fff; border-radius: 14px; padding: 20px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.12); border-top: 5px solid var(--gold);
+    margin-bottom: 16px;
+  }
+  h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+
+  label { display: block; font-weight: 600; margin: 8px 0 4px; font-size: 0.88rem; }
+  input, select, textarea {
+    width: 100%; padding: 9px 11px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;
+  }
+  .btn {
+    background: var(--primary); color: #fff; border: none; padding: 9px 15px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 8px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; text-decoration: none;
+  }
+  .btn-gold { background: var(--gold); color: #111; }
+  .btn-blue { background: var(--secondary); color: #fff; }
+  .btn-red { background: #dc2626; color: #fff; }
+  .btn-outline { background: #fff; color: #1e293b; border: 2px solid #cbd5e1; }
+  .btn-mode-active { background: var(--secondary); color: #fff; border: 2px solid var(--secondary); }
+
+  .mode-box {
+    background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px;
+    padding: 14px; margin-top: 12px;
+  }
+
+  .item-row {
+    background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 10px 12px; margin-top: 8px; display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 8px; flex-wrap: wrap;
+  }
+  .ans-note {
+    font-size: 0.86rem; color: #0f5132; background: #ecfdf5;
+    padding: 6px 10px; border-radius: 6px; margin-top: 6px; white-space: pre-wrap;
+  }
+
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0; background: #062817;
+    color: var(--gold); text-align: center; padding: 8px; font-size: 0.85rem;
+    border-top: 2px solid var(--gold); z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚙️ ADMIN PANEL — ITMI CAMPUS</h1>
+  <p>ආයතනයේ නම, WhatsApp අංකය, Essay Mode සහ ප්‍රශ්න/පිළිතුරු පාලනය</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>🔧 මූලික සැකසුම් (Campus & WhatsApp)</h2>
+    <div class="grid-2">
+      <div>
+        <label>ආයතනයේ නම:</label>
+        <input type="text" id="admCampusName">
+      </div>
+      <div>
+        <label>WhatsApp අංකය (පිළිතුරු/Marks යවන අංකය):</label>
+        <input type="text" id="admWaNumber">
+      </div>
+    </div>
+
+    <div class="mode-box">
+      <label style="margin-top:0; font-size:0.95rem; color:var(--primary);">
+        ✍️ Essay ප්‍රශ්න ටික යවන ආකාරය තෝරන්න:
+      </label>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+        <button type="button" id="btnModeOnline" class="btn btn-mode-active" onclick="setEssayMode('ONLINE')">
+          💻 එතනම Type / Voice Typing කර ලිවීම
+        </button>
+        <button type="button" id="btnModePaper" class="btn btn-outline" onclick="setEssayMode('PAPER_SHEET')">
+          📄 වෙනම කොළයක අතින් ලිවීමට (Print / Blank Lines)
+        </button>
+      </div>
+      <p id="modeStatusText" style="margin:8px 0 0; font-size:0.86rem; color:#0f5132; font-weight:600;"></p>
+    </div>
+
+    <button class="btn btn-gold" onclick="saveBasicSettings()">💾 Settings Save කරන්න</button>
+    <a class="btn btn-blue" href="index.html">📝 Student Paper Link (`index.html`) බලන්න</a>
+  </div>
+
+  <div class="card">
+    <h2>➕ නව MCQ / Essay ප්‍රශ්නයක් සහ පිළිතුරක් එකතු කිරීම</h2>
+    <label>වර්ගය:</label>
+    <select id="newQKind" onchange="toggleNewQKind()">
+      <option value="MCQ">MCQ</option>
+      <option value="ESSAY">Essay</option>
+    </select>
+    <label>ප්‍රශ්නය:</label>
+    <input type="text" id="newQTitle" placeholder="ප්‍රශ්නය ඇතුළත් කරන්න">
+
+    <div id="newMcqBox">
+      <div class="grid-2" style="gap:8px; margin-top:6px;">
+        <input type="text" id="opt0" placeholder="Option A">
+        <input type="text" id="opt1" placeholder="Option B">
+        <input type="text" id="opt2" placeholder="Option C">
+        <input type="text" id="opt3" placeholder="Option D">
+      </div>
+      <label>හරි පිළිතුර:</label>
+      <select id="rightOpt">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+    </div>
+
+    <div id="newEssayBox" style="display:none;">
+      <label>Essay Label (උදා: Essay 6 (ලකුණු 3)):</label>
+      <input type="text" id="essayLabelInput" placeholder="Essay 6 (ලකුණු 3)">
+      <label>Essay ප්‍රශ්නයේ පිළිතුර (Model Answer):</label>
+      <textarea id="essayAnsInput" rows="3" placeholder="මෙම Essay ප්‍රශ්නයට අදාළ පිළිතුර මෙතන ලියන්න..."></textarea>
+    </div>
+
+    <button class="btn" onclick="addNewQuestion()">➕ ප්‍රශ්නය හා පිළිතුර Save කරන්න</button>
+    <div id="adminQList" style="margin-top:14px;"></div>
+  </div>
+</div>
+
+<footer>
+  Created by <b>M.A. Suranga</b> | ITMI Campus Sri Lanka
+</footer>
+
+<script>
+  const defMcq = [
+    { id: "M1", q: "1. සම්බාහන ප්‍රතිකාරයක (Massage Therapy) මූලික අරමුණ කුමක්ද?", opts: ["රුධිර සංසරණය වැඩි දියුණු කිරීම", "හිසරදය වැඩි කිරීම", "සන්ධි දැඩි කිරීම", "නිදිමත ඇති කිරීම"], ans: 0 },
+    { id: "M2", q: "2. Ceylon Massage Therapy යනු කුමන ක්ෂේත්‍රයට අයත් ප්‍රතිකාර ක්‍රමයක්ද?", opts: ["දේශීය හා සාම්ප්‍රදායික සුවතා ප්‍රතිකාර", "ශල්‍ය වෛද්‍ය විද්‍යාව", "දන්ත වෛද්‍ය විද්‍යාව", "පශු වෛද්‍ය විද්‍යාව"], ans: 0 },
+    { id: "M3", q: "3. සම්බාහනයට පෙර සේවාදායකයාගේ (Client) කුමක් පරීක්ෂා කළ යුතුද?", opts: ["වෛද්‍ය ඉතිහාසය හා සමේ තත්ත්වය", "ඇඳුමේ වර්ණය", "දුරකථන අංකය", "සපත්තු ප්‍රමාණය"], ans: 0 },
+    { id: "M4", q: "4. සම මත තුවාල, කැපුම් හෝ උග්‍ර ආසාදන ඇති විට සම්බාහනය කළ යුත්තේ කෙසේද?", opts: ["එම ස්ථානය මඟහැර හෝ වෛද්‍ය උපදෙස් මත", "තදින් පිරිමැදීමෙන්", "උණු වතුර වත් කිරීමෙන්", "කිසිදු සැලකිල්ලක් නොදක්වා"], ans: 0 },
+    { id: "M5", q: "5. සම්බාහනයේදී භාවිතා කරන තෙල් වර්ගයක් (Massage Oil) තෝරා ගැනීමේදී වැදගත් වන්නේ කුමක්ද?", opts: ["සමට ගැළපෙන, අසාත්මිකතා ඇති නොකරන බව", "තද සුවඳක් තිබීම", "ඉතා ඝනකම් වීම", "මිල අධික වීම පමණක්"], ans: 0 }
+  ];
+
+  const defEssay = [
+    { id: "E1", label: "Essay 1 (ලකුණු 2)", q: "සම්බාහන ප්‍රතිකාරයක (Massage Therapy) ප්‍රධාන අරමුණු 2ක් ලියන්න.", ans: "1) රුධිර සංසරණය වැඩි දියුණු කිරීම.\n2) මාංශ පේශි ආතතිය අඩු කර ශරීරය ලිහිල් කිරීම." },
+    { id: "E2", label: "Essay 2 (ලකුණු 2)", q: "සම්බාහනයකට පෙර සේවාදායකයාගෙන් පරීක්ෂා කළ යුතු කරුණු 2ක් සඳහන් කරන්න.", ans: "1) සේවාදායකයාගේ සෞඛ්‍ය/වෛද්‍ය ඉතිහාසය.\n2) සම මත තුවාල හෝ ආසාදන තිබේද යන්න." },
+    { id: "E3", label: "Essay 3 (ලකුණු 3)", q: "Effleurage සහ Petrissage යන සම්බාහන චලන වර්ග 2 අතර වෙනස කරුණු 3කින් පැහැදිලි කරන්න.", ans: "1) Effleurage සැහැල්ලු/මධ්‍යස්ථ පිරිමැදීම වන අතර Petrissage ඇනීම/තෙරපීමයි.\n2) Effleurage සන්සුන් කිරීමට සහ Petrissage ගැඹුරු මාංශ පේශි ලිහිල් කිරීමට යොදා ගනී.\n3) Effleurage පුළුල්වද Petrissage නිශ්චිත මාංශ පේශි මතද කෙරේ." },
+    { id: "E4", label: "Essay 4 (ලකුණු 3)", q: "සම්බාහනයකින් මානසික ආතතිය (Stress) අඩු වන ආකාරය කරුණු 3කින් විස්තර කරන්න.", ans: "1) මාංශ පේශිවල තද ගතිය ලිහිල් වීම.\n2) ස්නායු පද්ධතිය සන්සුන් වී විවේකී තත්ත්වයක් ඇති වීම.\n3) රිද්මයානුකූල ස්පර්ශයෙන් මනසට සැහැල්ලුව ලැබීම." },
+    { id: "E5", label: "Essay 5 (ලකුණු 5)", q: "සම්බාහන ප්‍රතිකාරයක් මගින් රුධිර සංසරණ, ස්නායු හා මාංශ පේශි පද්ධති වලට සිදුවන බලපෑම් විස්තර කරන්න.", ans: "රුධිර වාහිනී පුළුල් වී රුධිර සංසරණය හා ඔක්සිජන් සැපයුම වැඩි දියුණු වේ. ස්නායු පද්ධතිය සන්සුන් වී විවේකී ප්‍රතිචාරය ක්‍රියාත්මක වන අතර වේදනා සංඥා අඩු වේ. මාංශ පේශි ආතතිය ලිහිල් වී නම්‍යශීලීභාවය හා චලන පරාසය වර්ධනය වේ." }
+  ];
+
+  let store = JSON.parse(localStorage.getItem("itmi_exam_shared_cfg") || "null") || {
+    campusName: "ITMI CAMPUS - CEYLON MASSAGE THERAPY",
+    waNumber: "94717533483",
+    essayMode: "ONLINE",
+    mcqBank: defMcq,
+    essayBank: defEssay
+  };
+
+  if (!store.essayBank || store.essayBank.length === 0) {
+    store.essayBank = defEssay;
+  } else {
+    store.essayBank = store.essayBank.map((item, idx) => ({
+      ...item,
+      ans: item.ans || (defEssay[idx] ? defEssay[idx].ans : "පිළිතුර ඇතුළත් කර නොමැත.")
+    }));
+  }
+
+  function persist() {
+    localStorage.setItem("itmi_exam_shared_cfg", JSON.stringify(store));
+  }
+
+  function setEssayMode(mode) {
+    store.essayMode = mode;
+    persist();
+    updateModeButtonsUI();
+  }
+
+  function updateModeButtonsUI() {
+    const mode = store.essayMode || "ONLINE";
+    const bOn = document.getElementById("btnModeOnline");
+    const bPa = document.getElementById("btnModePaper");
+    const txt = document.getElementById("modeStatusText");
+
+    if (mode === "ONLINE") {
+      bOn.className = "btn btn-mode-active";
+      bPa.className = "btn btn-outline";
+      txt.innerText = "දැනට තෝරා ඇත්තේ: 💻 එතනම Type / Voice Typing කර ලිවීම";
+    } else {
+      bPa.className = "btn btn-mode-active";
+      bOn.className = "btn btn-outline";
+      txt.innerText = "දැනට තෝරා ඇත්තේ: 📄 වෙනම කොළයක අතින් ලිවීමට (Print / Blank Lines)";
+    }
+  }
+
+  function loadAdm() {
+    document.getElementById("admCampusName").value = store.campusName;
+    document.getElementById("admWaNumber").value = store.waNumber;
+    updateModeButtonsUI();
+    renderAdmList();
+  }
+
+  function saveBasicSettings() {
+    store.campusName = document.getElementById("admCampusName").value.trim() || store.campusName;
+    store.waNumber = document.getElementById("admWaNumber").value.trim().replace(/[^0-9]/g, "") || store.waNumber;
+    persist();
+    alert("✅ Settings සහ Essay Mode Save විය!");
+  }
+
+  function toggleNewQKind() {
+    const k = document.getElementById("newQKind").value;
+    document.getElementById("newMcqBox").style.display = k === "MCQ" ? "block" : "none";
+    document.getElementById("newEssayBox").style.display = k === "ESSAY" ? "block" : "none";
+  }
+
+  function addNewQuestion() {
+    const k = document.getElementById("newQKind").value;
+    const title = document.getElementById("newQTitle").value.trim();
+    if (!title) return alert("ප්‍රශ්නය ලියන්න.");
+
+    if (k === "MCQ") {
+      store.mcqBank.push({
+        id: "M-" + Date.now(),
+        q: title,
+        opts: [
+          document.getElementById("opt0").value || "A",
+          document.getElementById("opt1").value || "B",
+          document.getElementById("opt2").value || "C",
+          document.getElementById("opt3").value || "D"
+        ],
+        ans: parseInt(document.getElementById("rightOpt").value) || 0
+      });
+    } else {
+      const eAns = document.getElementById("essayAnsInput").value.trim() || "(පිළිතුර ඇතුළත් කර නොමැත)";
+      store.essayBank.push({
+        id: "E-" + Date.now(),
+        label: document.getElementById("essayLabelInput").value.trim() || "Essay",
+        q: title,
+        ans: eAns
+      });
+    }
+    persist();
+    document.getElementById("newQTitle").value = "";
+    document.getElementById("essayLabelInput").value = "";
+    document.getElementById("essayAnsInput").value = "";
+    renderAdmList();
+  }
+
+  function deleteMcq(idx) {
+    store.mcqBank.splice(idx, 1);
+    persist();
+    renderAdmList();
+  }
+
+  function deleteEssay(idx) {
+    store.essayBank.splice(idx, 1);
+    persist();
+    renderAdmList();
+  }
+
+  function renderAdmList() {
+    let html = "<h3>MCQ (" + store.mcqBank.length + ")</h3>";
+    html += store.mcqBank.map((m, i) => `
+      <div class="item-row">
+        <span>${m.q}</span>
+        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteMcq(${i})">Delete</button>
+      </div>
+    `).join("");
+
+    html += "<h3>Essay ප්‍රශ්න & පිළිතුරු (" + store.essayBank.length + ")</h3>";
+    html += store.essayBank.map((e, i) => `
+      <div class="item-row">
+        <div style="flex:1; min-width:220px;">
+          <div><b>${e.label}:</b> ${e.q}</div>
+          <div class="ans-note"><b>පිළිතුර:</b>\n${e.ans || "(පිළිතුරක් නැත)"}</div>
+        </div>
+        <button class="btn btn-red" style="margin:0; padding:4px 8px;" onclick="deleteEssay(${i})">Delete</button>
+      </div>
+    `).join("");
+
+    document.getElementById("adminQList").innerHTML = html;
+  }
+
+  loadAdm();
+</script>
+</body>
+</html>
