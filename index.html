@@ -63,7 +63,6 @@
     background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
     padding: 15px; margin-bottom: 14px; transition: 0.2s;
   }
-  /* Highlighted MCQ Card when answered */
   .card.mcq-answered {
     background: #ecfdf5; border: 2px solid #10b981;
   }
@@ -71,6 +70,20 @@
     display: inline-block; background: #fef08a; color: #854d0e;
     border: 2px solid #eab308; padding: 6px 12px; border-radius: 999px;
     font-weight: bold; font-size: 0.92rem;
+  }
+
+  .mcq-num-bar {
+    display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px;
+  }
+  .mcq-num-btn {
+    width: 36px; height: 36px; border-radius: 8px; border: 2px solid #94a3b8;
+    background: #fff; color: #1e293b; font-weight: bold; cursor: pointer;
+  }
+  .mcq-num-btn.done {
+    background: #10b981; color: #fff; border-color: #059669;
+  }
+  .mcq-num-btn.current {
+    background: #155e9c; color: #fff; border-color: #0f172a; transform: scale(1.06);
   }
 
   .profile-card {
@@ -93,7 +106,7 @@
 
   .mcq-opt {
     display: flex; align-items: center; gap: 10px; background: #fff;
-    border: 1.5px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; margin-top: 6px; cursor: pointer;
+    border: 1.5px solid #cbd5e1; padding: 9px 12px; border-radius: 8px; margin-top: 6px; cursor: pointer;
   }
   .mcq-opt.ticked {
     background: #d1fae5; border-color: #059669; font-weight: bold; color: #064e3b;
@@ -105,9 +118,11 @@
     background: repeating-linear-gradient(to bottom, transparent, transparent 29px, #94a3b8 30px);
     height: 140px; border: 1px dashed #cbd5e1; border-radius: 6px;
   }
+
+  /* Single A4 Sheet for Online Essay Questions & Answers */
   .pdf-output-sheet {
     background: #fff; border: 2px solid #0f172a; border-radius: 10px;
-    padding: 20px; margin-top: 16px; user-select: none; -webkit-user-select: none;
+    padding: 18px; margin-top: 16px; font-size: 0.9rem; line-height: 1.45;
   }
 
   #lockOverlay {
@@ -126,15 +141,12 @@
     border-top: 2px solid var(--gold); z-index: 100;
   }
 
-  @page {
-    size: A4;
-    margin: 15mm;
-  }
+  @page { size: A4; margin: 12mm; }
   @media print {
-    header, .top-nav, .no-print, footer { display: none !important; }
+    header, .top-nav, .no-print, footer, #mcqStageArea, #essayStageArea, #scoreOutputBox { display: none !important; }
     .section-box { box-shadow: none; border: none; padding: 0; }
-    body { background: #fff; }
-    .pdf-output-sheet { border: none; padding: 0; margin: 0; }
+    body { background: #fff; margin: 0; padding: 0; }
+    .pdf-output-sheet { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; font-size: 0.82rem; }
   }
 </style>
 </head>
@@ -153,10 +165,8 @@
 
 <div class="container">
 
-  <!-- 1. CAMPUS & INSTRUCTOR PROFILE (NO "DOCTOR" LABEL) -->
   <div id="sec-profile" class="section-box active">
     <h2>🏛️ Profile & කැම්පස් විස්තර</h2>
-
     <div class="profile-card">
       <img id="instProfilePhoto" class="profile-photo" src="https://via.placeholder.com/150?text=ITMI" alt="Profile Photo">
       <div style="flex:1; min-width:220px;">
@@ -165,7 +175,6 @@
         <p id="instProfileBio" style="margin:4px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.</p>
       </div>
     </div>
-
     <div class="card">
       <h3 style="margin-top:0; color:var(--primary);">🏛️ කැම්පස් විස්තර</h3>
       <p id="campusDetailsText" style="margin:0; line-height:1.6;">
@@ -174,13 +183,11 @@
     </div>
   </div>
 
-  <!-- 2. GALLERY -->
   <div id="sec-gallery" class="section-box">
     <h2>🖼️ Gallery</h2>
     <div id="publicGalleryGrid" class="gallery-grid"></div>
   </div>
 
-  <!-- 3. EXAM APPLICATION FORM -->
   <div id="sec-apply" class="section-box">
     <h2>📝 විභාග අයදුම්පත්</h2>
     <p style="font-size:0.88rem; color:#475569;">ලියාපදිංචි වූ අයදුම්කරුවන් ගණන: <b id="appCountLabel">0</b></p>
@@ -201,7 +208,6 @@
     </div>
   </div>
 
-  <!-- 4. UNIQUE STUDENT PAPER VIEW (OPENED ONLY VIA SHORT ?paper=CODE LINK) -->
   <div id="sec-paper" class="section-box">
     <div class="card no-print" style="background:#fef9c3; border-color:var(--gold);">
       <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; align-items:center;">
@@ -221,7 +227,6 @@
         </div>
       </div>
 
-      <!-- Highlighted Answered Counter -->
       <div style="margin-top:10px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; align-items:center;">
         <span id="mcqAnsweredCounter" class="answered-counter-pill">✅ පිළිතුරු දුන් MCQ ගණන: 0 / 0</span>
         <span id="alertWarningBanner" style="font-weight:bold; color:#b91c1c;"></span>
@@ -235,20 +240,18 @@
 
     <div class="no-print" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
       <button class="btn btn-wa" onclick="submitStudentPaper()">✅ Paper Submit කරන්න</button>
-      <button class="btn btn-gold" onclick="downloadEssayPdf()">📄 Online Essay PDF Download / Print</button>
+      <button class="btn btn-gold" onclick="downloadEssayPdf()">📄 Essay PDF Download (Single A4)</button>
       <button class="btn btn-blue" onclick="sendWhatsAppForwardNotice()">📲 WhatsApp වෙත යවන්න</button>
     </div>
 
-    <!-- Clean PDF / Print Sheet for Online Essays (Campus Name + Time + Questions & Answers) -->
+    <!-- Single A4 Sheet for Essay Questions + Written Answers Only (No MCQ) -->
     <div id="essayPdfBox" class="pdf-output-sheet" style="display:none;" oncopy="return false;" oncut="return false;">
-      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:14px;">
+      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:6px; margin-bottom:10px;">
         <h3 id="sheetTitleText" style="margin:0; color:var(--primary);">ITMI CAMPUS - SRI LANKA</h3>
-        <p id="sheetPaperSubText" style="margin:4px 0; font-weight:bold;">Examination Paper</p>
-        <p style="margin:4px 0; font-size:0.9rem;">
+        <p style="margin:2px 0; font-size:0.86rem;">
           <b>විෂය:</b> <span id="sheetSubDisp">-</span> |
           <b>කාලය:</b> <span id="sheetTimeDisp">-</span> |
-          <b>ශිෂ්‍යයා:</b> <span id="sheetStudentDisp">-</span> |
-          <b>MCQ Marks:</b> <span id="sheetMcqDisp">-</span>
+          <b>ශිෂ්‍යයා:</b> <span id="sheetStudentDisp">-</span>
         </p>
       </div>
       <div id="sheetPairsList"></div>
@@ -261,12 +264,12 @@
   <div class="lock-box">
     <h2 style="color:#fca5a5; border:none;">🚨 BLOCKED & LOCKED!</h2>
     <p><b>ශිෂ්‍යයාගේ නම:</b> <span id="lockedNameDisp">-</span></p>
-    <p style="font-size:0.9rem;">3 වතාවක් වෙන තැනක Touch කළ බැවින් Paper එක Lock වී එතෙක් ලියූ ප්‍රශ්න Submit විය.</p>
+    <p id="lockStatusText" style="font-size:0.9rem;">3 වතාවක් වෙන තැනක Touch කළ බැවින් Paper එක Lock වී එතෙක් ලියූ ප්‍රශ්න Submit විය.</p>
     <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendLockAlertToAdmin()">
       📲 Admin WhatsApp Alert යවන්න
     </button>
     <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="unlockWithPin()">
-      🔓 Admin PIN යොදා Unlock කරන්න
+      🔓 Admin PIN / Allow යොදා Unlock කරන්න
     </button>
   </div>
 </div>
@@ -278,7 +281,7 @@
 <script>
   const DEFAULT_DRIVE_URL = "https://script.google.com/macros/s/AKfycbwRphHTxZvt1w9NpKDXN_hPU7BAYMFA-1N2JaQde32eZJyjae8ZjfLvJzvsoDgtwVb9/exec";
 
-  const stored = JSON.parse(localStorage.getItem("itmi_shared_db_v4") || "null") || {
+  const stored = JSON.parse(localStorage.getItem("itmi_shared_db_v5") || "null") || {
     campusTitle: "ITMI CAMPUS - SRI LANKA",
     campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
     profileName: "M.A. Suranga",
@@ -295,11 +298,12 @@
     gallery: [],
     applicants: [],
     submissions: [],
-    issuedPapers: {}
+    issuedPapers: {},
+    adminControls: {}
   };
 
   function saveLocal() {
-    localStorage.setItem("itmi_shared_db_v4", JSON.stringify(stored));
+    localStorage.setItem("itmi_shared_db_v5", JSON.stringify(stored));
   }
 
   function normalizeWaPhone(raw) {
@@ -320,12 +324,35 @@
   }
 
   let paperData = null;
+  let currentPaperCode = "";
   let pickedMcq = {}, typedEssay = {}, touchCount = 0, lockedFlag = false, essayExpired = false, mcqScoreStr = "0 / 0";
+  let currentMcqIdx = 0;
+
+  function syncAdminControlState() {
+    if (!currentPaperCode || !stored.adminControls || !stored.adminControls[currentPaperCode]) return;
+    const ctrl = stored.adminControls[currentPaperCode];
+    if (ctrl.allowUnlock && lockedFlag) {
+      lockedFlag = false;
+      touchCount = 0;
+      document.getElementById("lockOverlay").style.display = "none";
+      document.getElementById("alertWarningBanner").innerText = "✅ Admin විසින් Lock එක Allow කරන ලදී.";
+    }
+    if (ctrl.reAttemptGrant) {
+      essayExpired = false;
+      lockedFlag = false;
+      touchCount = 0;
+      document.getElementById("lockOverlay").style.display = "none";
+      document.getElementById("alertWarningBanner").innerText = "✅ Admin විසින් නැවත අවස්ථාව (Re-Attempt) ලබා දී ඇත.";
+      ctrl.reAttemptGrant = false;
+      saveLocal();
+    }
+  }
 
   async function loadPaperFromShortLink() {
     const params = new URLSearchParams(window.location.search);
     const paperCode = params.get("paper");
     if (!paperCode) return;
+    currentPaperCode = paperCode;
 
     if (stored.issuedPapers && stored.issuedPapers[paperCode]) {
       paperData = stored.issuedPapers[paperCode];
@@ -347,6 +374,7 @@
       document.querySelectorAll(".section-box").forEach(b => b.classList.remove("active"));
       document.getElementById("sec-paper").classList.add("active");
       renderPaperOnly();
+      setInterval(syncAdminControlState, 2000);
     }
   }
 
@@ -394,8 +422,16 @@
     alert("✅ ඔබගේ විභාග අයදුම්පත Submit විය!");
   }
 
-  function selectMcqOption(qId, optIdx) {
+  function selectMcqAndAdvance(qId, optIdx, totalMcq) {
     pickedMcq[qId] = optIdx;
+    if (currentMcqIdx < totalMcq - 1) {
+      currentMcqIdx++;
+    }
+    renderPaperOnly();
+  }
+
+  function jumpToMcq(idx) {
+    currentMcqIdx = idx;
     renderPaperOnly();
   }
 
@@ -412,29 +448,47 @@
     document.getElementById("paperSubName").innerText = paperData.subject || "Anatomy";
     updateAnsweredHighlight();
 
-    document.getElementById("mcqStageArea").innerHTML = `<h3>කොටස A — MCQ ප්‍රශ්න (${paperData.subject})</h3>` + (paperData.mcq || []).map((q, i) => {
+    const mcqs = paperData.mcq || [];
+    if (mcqs.length > 0) {
+      if (currentMcqIdx >= mcqs.length) currentMcqIdx = 0;
+      const q = mcqs[currentMcqIdx];
       const isAnswered = pickedMcq[q.id] !== undefined;
-      return `
+
+      const numButtonsHtml = mcqs.map((item, idx) => {
+        const doneCls = pickedMcq[item.id] !== undefined ? "done" : "";
+        const curCls = idx === currentMcqIdx ? "current" : "";
+        return `<button type="button" class="mcq-num-btn ${doneCls} ${curCls}" onclick="jumpToMcq(${idx})">${idx + 1}</button>`;
+      }).join("");
+
+      document.getElementById("mcqStageArea").innerHTML = `
+        <h3>කොටස A — MCQ ප්‍රශ්න (${paperData.subject}) — ප්‍රශ්නය ${currentMcqIdx + 1} / ${mcqs.length}</h3>
+        <div class="mcq-num-bar">${numButtonsHtml}</div>
         <div class="card ${isAnswered ? "mcq-answered" : ""}">
-          <b>${i + 1}. ${q.q}</b>
+          <b>${currentMcqIdx + 1}. ${q.q}</b>
           ${q.opts.map((o, oi) => {
             const isTicked = pickedMcq[q.id] === oi;
             return `
               <label class="mcq-opt ${isTicked ? "ticked" : ""}">
-                <input type="radio" name="pm_${q.id}" ${isTicked ? "checked" : ""} onchange="selectMcqOption('${q.id}',${oi})">
+                <input type="radio" name="pm_${q.id}" ${isTicked ? "checked" : ""} onchange="selectMcqAndAdvance('${q.id}', ${oi},${mcqs.length})">
                 <span><b>${oi + 1}.</b>${o}</span>
               </label>
             `;
           }).join("")}
+          <div style="display:flex; justify-content:space-between; gap:8px; margin-top:12px;">
+            <button type="button" class="btn btn-gray" ${currentMcqIdx === 0 ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx - 1})">⬅️ පෙර ප්‍රශ්නය</button>
+            <button type="button" class="btn btn-blue" ${currentMcqIdx >= mcqs.length - 1 ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx + 1})">ඊළඟ ප්‍රශ්නය ➡️</button>
+          </div>
         </div>
       `;
-    }).join("");
+    } else {
+      document.getElementById("mcqStageArea").innerHTML = "";
+    }
 
     let essayHtml = `<h3>කොටස B — Essay ප්‍රශ්න (${paperData.subject})</h3>`;
     const groups = [
-      { title: "2 Marks Questions (ලකුණු 2 ප්‍රශ්න)", items: paperData.e2 || [], markLabel: "2 Marks" },
-      { title: "3 Marks Questions (ලකුණු 3 ප්‍රශ්න)", items: paperData.e3 || [], markLabel: "3 Marks" },
-      { title: "5 Marks Questions (ලකුණු 5 ප්‍රශ්න)", items: paperData.e5 || [], markLabel: "5 Marks" }
+      { title: "2 Marks Questions", items: paperData.e2 || [], markLabel: "2 Marks" },
+      { title: "3 Marks Questions", items: paperData.e3 || [], markLabel: "3 Marks" },
+      { title: "5 Marks Questions", items: paperData.e5 || [], markLabel: "5 Marks" }
     ];
 
     groups.forEach(grp => {
@@ -447,7 +501,7 @@
           return `
             <div class="card">
               <b>${i + 1}. ${e.q} [${grp.markLabel}]</b>
-              <textarea rows="4" ${essayExpired ? "disabled" : ""} spellcheck="false" autocorrect="off"
+              <textarea rows="3" ${essayExpired ? "disabled" : ""} spellcheck="false" autocorrect="off"
                 placeholder="පිළිතුර Type කරන්න හෝ Voice Typing කරන්න..."
                 oninput="typedEssay['${e.id}'] = this.value; buildPdfSheet();">${typedEssay[e.id] || ""}</textarea>
             </div>
@@ -501,6 +555,8 @@
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden || !paperData || lockedFlag) return;
     if (!document.getElementById("sec-paper").classList.contains("active")) return;
+    if (currentPaperCode && stored.adminControls && stored.adminControls[currentPaperCode] && stored.adminControls[currentPaperCode].allowUnlock) return;
+
     touchCount++;
     if (touchCount < 3) {
       const w = `⚠️ අවවාදය (${touchCount}/3): ${paperData.studentName} — වෙන තැනකට Touch නොකරන්න!`;
@@ -508,6 +564,11 @@
       alert(w);
     } else {
       lockedFlag = true;
+      if (currentPaperCode) {
+        if (!stored.adminControls) stored.adminControls = {};
+        stored.adminControls[currentPaperCode] = { ...(stored.adminControls[currentPaperCode] || {}), isLocked: true, allowUnlock: false };
+        saveLocal();
+      }
       submitStudentPaper(true);
       document.getElementById("lockedNameDisp").innerText = paperData.studentName;
       document.getElementById("lockOverlay").style.display = "flex";
@@ -540,6 +601,7 @@
 
     const record = {
       type: "SUBMISSION",
+      paperCode: currentPaperCode,
       studentName: paperData.studentName,
       subject: paperData.subject,
       paperName: paperData.paperName,
@@ -560,14 +622,13 @@
     buildPdfSheet();
   }
 
+  // Single A4 Essay PDF: Essay Questions + Written Answers Only (No MCQ)
   function buildPdfSheet() {
     if (!paperData) return;
     document.getElementById("sheetTitleText").innerText = stored.campusTitle;
-    document.getElementById("sheetPaperSubText").innerText = paperData.paperName || "Examination Paper";
     document.getElementById("sheetSubDisp").innerText = paperData.subject || "-";
-    document.getElementById("sheetTimeDisp").innerText = `MCQ ${stored.mcqMins}m / Essay ${stored.essayMins}m`;
+    document.getElementById("sheetTimeDisp").innerText = `Essay විනාඩි ${stored.essayMins}`;
     document.getElementById("sheetStudentDisp").innerText = paperData.studentName;
-    document.getElementById("sheetMcqDisp").innerText = mcqScoreStr;
 
     const groups = [
       { title: "2 Marks Questions", items: paperData.e2 || [] },
@@ -578,12 +639,13 @@
     let html = "";
     groups.forEach(grp => {
       if (grp.items.length > 0) {
-        html += `<h4 style="margin:12px 0 6px; color:var(--primary); border-bottom:1px solid #cbd5e1;">${grp.title}</h4>`;
+        html += `<h4 style="margin:8px 0 4px; color:#0f172a; border-bottom:1px solid #94a3b8;">${grp.title}</h4>`;
         html += grp.items.map((e, idx) => {
-          const val = stored.essayMode === "MANUAL_PDF"
-            ? "(වෙනම කොළයක ලියන ලදී)"
-            : ((typedEssay[e.id] || "").trim() || "(පිළිතුරක් ලියා නැත)");
-          return `<div class="card" style="page-break-inside:avoid;"><b>${idx + 1}. ${e.q}</b><div style="margin-top:8px; background:#fff; padding:10px; border-left:4px solid var(--secondary); white-space:pre-wrap;">${val}</div></div>`;
+          const ansText = (typedEssay[e.id] || "").trim();
+          const ansBlock = ansText
+            ? `<div style="margin-top:4px; padding:6px 8px; background:#f8fafc; border-left:3px solid #155e9c; white-space:pre-wrap;"><b>පිළිතුර:</b> ${ansText}</div>`
+            : "";
+          return `<div style="margin-bottom:8px;"><b>${idx + 1}. ${e.q}</b>${ansBlock}</div>`;
         }).join("");
       }
     });
@@ -595,14 +657,16 @@
   function downloadEssayPdf() {
     buildPdfSheet();
     const prev = document.title;
-    document.title = `${(paperData.studentName || "Student").replace(/\s+/g, "_")}_${paperData.subject}_Essay_PDF`;
-    window.print();
-    document.title = prev;
+    document.title = `${(paperData.studentName || "Student").replace(/\s+/g, "_")}_${paperData.subject}_Essay_A4`;
+    setTimeout(() => {
+      window.print();
+      document.title = prev;
+    }, 150);
   }
 
   function sendWhatsAppForwardNotice() {
     const phone = normalizeWaPhone(stored.phoneWa);
-    const msg = `*${stored.campusTitle}*\nවිෂය: *${paperData.subject}*\nපේපර්: *${paperData.paperName}*\nශිෂ්‍යයා: *${paperData.studentName}*\nMCQ Marks: *${mcqScoreStr}*\n(Download වූ PDF එක මෙම WhatsApp වෙත forward කරන්න.)`;
+    const msg = `*${stored.campusTitle}*\nවිෂය: *${paperData.subject}*\nශිෂ්‍යයා: *${paperData.studentName}*\nMCQ Marks: *${mcqScoreStr}*\n(Download වූ Single A4 Essay PDF එක මෙම WhatsApp වෙත forward කරන්න.)`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
