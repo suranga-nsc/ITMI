@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ITMI Campus - Student Portal</title>
+<title>ITMI CAMPUS - Student Portal</title>
 <style>
   :root {
     --primary: #0b4628;
@@ -66,6 +66,9 @@
   .card.mcq-answered {
     background: #ecfdf5; border: 2px solid #10b981;
   }
+  .card.mcq-skipped {
+    background: #fefce8; border: 2px solid #eab308;
+  }
   .answered-counter-pill {
     display: inline-block; background: #fef08a; color: #854d0e;
     border: 2px solid #eab308; padding: 6px 12px; border-radius: 999px;
@@ -81,6 +84,9 @@
   }
   .mcq-num-btn.done {
     background: #10b981; color: #fff; border-color: #059669;
+  }
+  .mcq-num-btn.skipped {
+    background: #facc15; color: #1e293b; border-color: #ca8a04;
   }
   .mcq-num-btn.current {
     box-shadow: 0 0 0 3px #155e9c; border-color: #0f172a; transform: scale(1.05);
@@ -157,7 +163,7 @@
 </header>
 
 <div class="top-nav no-print" id="normalNav">
-  <button class="nav-btn active" id="nav-profile" onclick="switchSection('sec-profile', this)">🏛️ Profile & කැම්පස් විස්තර</button>
+  <button class="nav-btn active" id="nav-profile" onclick="switchSection('sec-profile', this)">🏛️ Profile & ආයතන විස්තර</button>
   <button class="nav-btn" id="nav-gallery" onclick="switchSection('sec-gallery', this)">🖼️ Gallery</button>
   <button class="nav-btn" id="nav-apply" onclick="switchSection('sec-apply', this)">📝 විභාග අයදුම්පත්</button>
 </div>
@@ -165,17 +171,17 @@
 <div class="container">
 
   <div id="sec-profile" class="section-box active">
-    <h2>🏛️ Profile & කැම්පස් විස්තර</h2>
+    <h2>🏛️ Profile & ආයතන විස්තර</h2>
     <div class="profile-card">
-      <img id="instProfilePhoto" class="profile-photo" src="https://via.placeholder.com/150?text=ITMI" alt="Profile Photo">
+      <img id="instProfilePhoto" class="profile-photo" src="https://via.placeholder.com/150?text=ORG" alt="Profile Photo">
       <div style="flex:1; min-width:220px;">
         <h3 id="instProfileName" style="margin:0; color:var(--primary);">M.A. Suranga</h3>
-        <p id="instProfileRole" style="margin:4px 0; font-weight:bold; color:#334155;">Coordinator / Instructor - ITMI Campus</p>
-        <p id="instProfileBio" style="margin:4px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.</p>
+        <p id="instProfileRole" style="margin:4px 0; font-weight:bold; color:#334155;">Coordinator / Instructor</p>
+        <p id="instProfileBio" style="margin:4px 0; font-size:0.9rem;">Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).</p>
       </div>
     </div>
     <div class="card">
-      <h3 style="margin-top:0; color:var(--primary);">🏛️ කැම්පස් විස්තර</h3>
+      <h3 style="margin-top:0; color:var(--primary);">🏛️ ආයතන විස්තර</h3>
       <p id="campusDetailsText" style="margin:0; line-height:1.6;">
         International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).
       </p>
@@ -194,15 +200,23 @@
       <div class="grid-2">
         <div>
           <label>අයදුම්කරුගේ නම:</label>
-          <input type="text" id="applyName" placeholder="M.A. Suranga">
+          <input type="text" id="applyName" placeholder="නම ඇතුළත් කරන්න">
         </div>
         <div>
           <label>WhatsApp අංකය:</label>
           <input type="tel" id="applyWa" placeholder="0784693750">
         </div>
       </div>
-      <label>විෂය (Subject) තෝරන්න:</label>
-      <select id="applySubject"></select>
+      <div class="grid-2">
+        <div>
+          <label>විෂය (Subject) තෝරන්න:</label>
+          <select id="applySubject"></select>
+        </div>
+        <div>
+          <label>අයදුම් කරන දිනය (Date):</label>
+          <input type="date" id="applyDate">
+        </div>
+      </div>
       <button class="btn btn-wa" onclick="submitExamApplication()">✅ අයදුම්පත Submit කරන්න</button>
     </div>
   </div>
@@ -213,7 +227,7 @@
         <div>
           <b id="paperHeading">Examination Paper</b> |
           <b>විෂය:</b> <span id="paperSubName">Anatomy</span> |
-          <b>ශිෂ්‍යයා:</b> <span id="paperStuName">M.A. Suranga</span>
+          <b>ශිෂ්‍යයා:</b> <span id="paperStuName">-</span>
         </div>
         <div id="mcqTimerPanel">
           ⏱️ <b>MCQ Time:</b> <b id="mcqClockText" style="color:#1d4ed8;">10:00</b>
@@ -227,8 +241,12 @@
       </div>
 
       <div style="margin-top:10px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; align-items:center;">
-        <span id="mcqAnsweredCounter" class="answered-counter-pill">✅ පිළිතුරු දුන් MCQ ගණන: 0 / 0</span>
+        <span id="mcqAnsweredCounter" class="answered-counter-pill">🟢 පිළිතුරු දුන් ඒවා: 0 / 0 | 🟡 මගහැරුණු/නොකළ ඒවා: 0</span>
+        <span id="skippedWarningCmd" style="font-weight:bold; color:#b45309;"></span>
         <span id="alertWarningBanner" style="font-weight:bold; color:#b91c1c;"></span>
+      </div>
+      <div id="mcqStartNotice" style="margin-top:8px; font-weight:bold; color:#991b1b;">
+        🔒 MCQ ප්‍රශ්න touch කිරීමට "Start MCQ" බොත්තම ඔබන්න.
       </div>
     </div>
 
@@ -238,7 +256,7 @@
     <div id="scoreOutputBox" class="card" style="display:none; background:#f0fdf4; border-color:#22c55e;"></div>
 
     <div class="no-print" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-wa" onclick="submitStudentPaper()">✅ Paper Submit කරන්න</button>
+      <button class="btn btn-wa" onclick="submitStudentPaper(false, false)">✅ Paper Submit කරන්න</button>
       <button class="btn btn-gold" onclick="downloadEssayPdf()">📄 Essay PDF Download (Single A4)</button>
       <button class="btn btn-blue" onclick="sendWhatsAppForwardNotice()">📲 WhatsApp වෙත යවන්න</button>
     </div>
@@ -258,35 +276,64 @@
 
 </div>
 
-<!-- Lock Overlay: No PIN box for student; blocked until Admin clicks Allow Lock or Re-Attempt -->
 <div id="lockOverlay">
   <div class="lock-box">
-    <h2 style="color:#fca5a5; border:none;">🚨 LINK BLOCKED!</h2>
+    <h2 style="color:#fca5a5; border:none;">🚨 LINK BLOCKED (2/2 TOUCH)!</h2>
     <p><b>ශිෂ්‍යයාගේ නම:</b> <span id="lockedNameDisp">-</span></p>
-    <p id="lockStatusText" style="font-size:0.9rem;">
-      3 වතාවක් වෙන තැනක Touch කළ බැවින් මෙම Link එක Block වී ඇත. Admin විසින් WhatsApp හරහා Allow Lock හෝ Re-Attempt button එක press කරනකම් නැවත open කළ නොහැක.
+    <p style="font-size:0.88rem;">
+      Paper එකෙන් පිට 2 වතාවක් Touch කළ බැවින් Link එක Block වී ඇත.
     </p>
     <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendLockAlertToAdmin()">
       📲 Admin WhatsApp Alert යවන්න
     </button>
+
+    <div style="margin-top:14px; text-align:left; background:#7f1d1d; padding:12px; border-radius:10px;">
+      <label style="color:#fde047; margin-top:0;">WhatsApp හරහා එවූ අංකය ටයිප් කරන්න:</label>
+      <input type="text" id="waUnlockCodeInput" placeholder="Admin එවූ අංකය" style="color:#111; background:#fff;">
+      <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="verifyWaUnlockCode()">
+        ✅ අංකය තහවුරු කර Options ගන්න
+      </button>
+    </div>
+
+    <div id="waTwoOptionsBox" style="display:none; margin-top:12px; background:#064e3b; padding:12px; border-radius:10px;">
+      <p style="margin:0 0 8px; font-weight:bold; color:#a7f3d0;">🔓 විකල්ප දෙකෙන් එකක් තෝරන්න:</p>
+      <button class="btn btn-blue" style="width:100%; justify-content:center;" onclick="chooseUnlockOption('CONTINUE')">
+        ▶️ Option 1: එතැන් සිට ඉදිරියට කරගෙන යන්න
+      </button>
+      <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="chooseUnlockOption('REATTEMPT')">
+        🔁 Option 2: නැවත අවස්ථාව (Re-Attempt) ලබා ගන්න
+      </button>
+    </div>
   </div>
 </div>
 
 <footer>
-  Created by <b>M.A. Suranga</b> | 0784693750 | ITMI Campus Sri Lanka
+  Created by <b>M.A. Suranga</b> | 0784693750
 </footer>
 
 <script>
   const DEFAULT_DRIVE_URL = "https://script.google.com/macros/s/AKfycbwRphHTxZvt1w9NpKDXN_hPU7BAYMFA-1N2JaQde32eZJyjae8ZjfLvJzvsoDgtwVb9/exec";
 
-  function getDb() {
-    return JSON.parse(localStorage.getItem("itmi_shared_db_v5") || "null") || {
-      campusTitle: "ITMI CAMPUS - SRI LANKA",
-      campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
+  function getOrgCode() {
+    const p = new URLSearchParams(window.location.search);
+    const raw = (p.get("org") || "ITMI").trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+    return raw || "ITMI";
+  }
+
+  const ORG_CODE = getOrgCode();
+  const STORAGE_KEY = `itmi_shared_db_v6_${ORG_CODE}`;
+
+  function defaultDb() {
+    return {
+      orgCode: ORG_CODE,
+      campusTitle: ORG_CODE === "ITMI" ? "ITMI CAMPUS - SRI LANKA" : `${ORG_CODE} INSTITUTE`,
+      campusAbout: ORG_CODE === "ITMI"
+        ? "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level)."
+        : `${ORG_CODE} Examination & Training Portal.`,
       profileName: "M.A. Suranga",
-      profileRole: "Coordinator / Instructor - ITMI Campus",
-      profileBio: "Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.",
-      profilePhoto: "https://via.placeholder.com/150?text=ITMI",
+      profileRole: "Coordinator / Instructor",
+      profileBio: "Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
+      profilePhoto: "https://via.placeholder.com/150?text=ORG",
       phoneWa: "0784693750",
       driveScriptUrl: DEFAULT_DRIVE_URL,
       unlockPin: "1234",
@@ -302,10 +349,14 @@
     };
   }
 
+  function getDb() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "null") || defaultDb();
+  }
+
   let stored = getDb();
 
   function saveLocal() {
-    localStorage.setItem("itmi_shared_db_v5", JSON.stringify(stored));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
   }
 
   function normalizeWaPhone(raw) {
@@ -317,23 +368,123 @@
   function syncToGoogleDriveScript(payloadObj) {
     const targetUrl = stored.driveScriptUrl || DEFAULT_DRIVE_URL;
     if (!targetUrl) return;
+    const body = Object.assign({ orgCode: ORG_CODE }, payloadObj);
     fetch(targetUrl, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payloadObj)
+      body: JSON.stringify(body)
     }).catch(() => {});
   }
 
   let paperData = null;
   let currentPaperCode = "";
-  let pickedMcq = {}, typedEssay = {}, touchCount = 0, lockedFlag = false, essayExpired = false, mcqScoreStr = "0 / 0";
+  let pickedMcq = {}, visitedMcq = {}, typedEssay = {}, touchCount = 0, lockedFlag = false, essayExpired = false;
   let currentMcqIdx = 0;
+  let mcqStarted = false;
+  let mcqTimer = null, essayTimer = null;
+
+  function applyProfileToDom() {
+    document.title = `${stored.campusTitle} - Student Portal`;
+    document.getElementById("hdrCampusTitle").innerText = stored.campusTitle;
+    document.getElementById("campusDetailsText").innerText = stored.campusAbout;
+    document.getElementById("sheetTitleText").innerText = stored.campusTitle;
+    document.getElementById("instProfileName").innerText = stored.profileName;
+    document.getElementById("instProfileRole").innerText = stored.profileRole;
+    document.getElementById("instProfileBio").innerText = stored.profileBio;
+    document.getElementById("instProfilePhoto").src = stored.profilePhoto;
+    document.getElementById("appCountLabel").innerText = (stored.applicants || []).length;
+    document.getElementById("applySubject").innerHTML = (stored.subjects || []).map(s => `<option value="${s}">${s}</option>`).join("");
+    document.getElementById("publicGalleryGrid").innerHTML = (stored.gallery || []).map(src => `<div class="gallery-tile"><img src="${src}" alt="Gallery"></div>`).join("");
+  }
+
+  async function pullRemoteOrgData() {
+    const driveUrl = stored.driveScriptUrl || DEFAULT_DRIVE_URL;
+    if (!driveUrl) return;
+    try {
+      const res = await fetch(`${driveUrl}?org=${encodeURIComponent(ORG_CODE)}`);
+      const json = await res.json();
+      if (json && json.ok) {
+        if (json.profile) {
+          stored.campusTitle = json.profile.campusTitle || stored.campusTitle;
+          stored.campusAbout = json.profile.campusAbout || stored.campusAbout;
+          stored.profileName = json.profile.profileName || stored.profileName;
+          stored.profileRole = json.profile.profileRole || stored.profileRole;
+          stored.profileBio = json.profile.profileBio || stored.profileBio;
+          stored.profilePhoto = json.profile.profilePhoto || stored.profilePhoto;
+          stored.phoneWa = json.profile.phoneWa || stored.phoneWa;
+        }
+        if (json.controls && currentPaperCode && json.controls[currentPaperCode]) {
+          stored.adminControls[currentPaperCode] = Object.assign(
+            stored.adminControls[currentPaperCode] || {},
+            json.controls[currentPaperCode]
+          );
+        }
+        saveLocal();
+        applyProfileToDom();
+      }
+    } catch (e) {}
+  }
 
   function showLockScreen() {
     lockedFlag = true;
     document.getElementById("lockedNameDisp").innerText = (paperData && paperData.studentName) || "Student";
+    document.getElementById("waTwoOptionsBox").style.display = "none";
+    document.getElementById("waUnlockCodeInput").value = "";
     document.getElementById("lockOverlay").style.display = "flex";
+  }
+
+  function verifyWaUnlockCode() {
+    stored = getDb();
+    const entered = (document.getElementById("waUnlockCodeInput").value || "").trim();
+    const ctrl = (currentPaperCode && stored.adminControls && stored.adminControls[currentPaperCode]) || {};
+    const expectedCode = String(ctrl.unlockCode || "").trim();
+
+    if (!expectedCode || entered !== expectedCode) {
+      return alert("❌ WhatsApp හරහා එවූ නිවැරදි අංකය ටයිප් කරන්න.");
+    }
+    document.getElementById("waTwoOptionsBox").style.display = "block";
+    alert("✅ අංකය හරි! පහළ ඇති Options දෙකෙන් එකක් තෝරන්න.");
+  }
+
+  function chooseUnlockOption(optType) {
+    stored = getDb();
+    if (optType === "CONTINUE") {
+      lockedFlag = false;
+      touchCount = 0;
+      if (currentPaperCode) {
+        stored.adminControls[currentPaperCode] = Object.assign(stored.adminControls[currentPaperCode] || {}, {
+          isLocked: false,
+          allowUnlock: true,
+          unlockCode: ""
+        });
+      }
+      saveLocal();
+      syncToGoogleDriveScript({ type: "LOCK_STATE", paperCode: currentPaperCode, control: stored.adminControls[currentPaperCode] });
+      document.getElementById("lockOverlay").style.display = "none";
+      document.getElementById("alertWarningBanner").innerText = "✅ Option 1 තෝරා ගන්නා ලදී — ඉදිරියට කරගෙන යන්න.";
+    } else if (optType === "REATTEMPT") {
+      lockedFlag = false;
+      essayExpired = false;
+      touchCount = 0;
+      pickedMcq = {};
+      visitedMcq = {};
+      typedEssay = {};
+      currentMcqIdx = 0;
+      if (currentPaperCode) {
+        stored.adminControls[currentPaperCode] = Object.assign(stored.adminControls[currentPaperCode] || {}, {
+          isLocked: false,
+          allowUnlock: true,
+          reAttemptGrant: true,
+          unlockCode: ""
+        });
+      }
+      saveLocal();
+      syncToGoogleDriveScript({ type: "LOCK_STATE", paperCode: currentPaperCode, control: stored.adminControls[currentPaperCode] });
+      document.getElementById("lockOverlay").style.display = "none";
+      document.getElementById("alertWarningBanner").innerText = "✅ Option 2 (Re-Attempt) ලබා දෙන ලදී.";
+      renderPaperOnly();
+    }
   }
 
   function syncAdminControlState() {
@@ -377,7 +528,7 @@
     const driveUrl = stored.driveScriptUrl || DEFAULT_DRIVE_URL;
     if (!paperData && driveUrl) {
       try {
-        const res = await fetch(`${driveUrl}?paper=${encodeURIComponent(paperCode)}`);
+        const res = await fetch(`${driveUrl}?org=${encodeURIComponent(ORG_CODE)}&paper=${encodeURIComponent(paperCode)}`);
         const json = await res.json();
         if (json && json.paper) {
           paperData = json.paper;
@@ -401,22 +552,14 @@
   }
 
   function initIndex() {
-    document.getElementById("hdrCampusTitle").innerText = stored.campusTitle;
-    document.getElementById("campusDetailsText").innerText = stored.campusAbout;
-    document.getElementById("sheetTitleText").innerText = stored.campusTitle;
+    const dInput = document.getElementById("applyDate");
+    if (dInput) dInput.value = new Date().toISOString().slice(0, 10);
 
-    document.getElementById("instProfileName").innerText = stored.profileName;
-    document.getElementById("instProfileRole").innerText = stored.profileRole;
-    document.getElementById("instProfileBio").innerText = stored.profileBio;
-    document.getElementById("instProfilePhoto").src = stored.profilePhoto;
-
-    document.getElementById("appCountLabel").innerText = stored.applicants.length;
-    document.getElementById("applySubject").innerHTML = stored.subjects.map(s => `<option value="${s}">${s}</option>`).join("");
-    document.getElementById("publicGalleryGrid").innerHTML = stored.gallery.map(src => `<div class="gallery-tile"><img src="${src}" alt="Gallery"></div>`).join("");
-
+    applyProfileToDom();
     document.getElementById("mcqClockText").innerText = String(stored.mcqMins).padStart(2, "0") + ":00";
     document.getElementById("essayClockText").innerText = String(stored.essayMins).padStart(2, "0") + ":00";
 
+    pullRemoteOrgData();
     loadPaperFromShortLink();
   }
 
@@ -431,10 +574,20 @@
     const name = document.getElementById("applyName").value.trim();
     const wa = document.getElementById("applyWa").value.trim();
     const subject = document.getElementById("applySubject").value;
+    const appDate = document.getElementById("applyDate").value || new Date().toISOString().slice(0, 10);
     if (!name) return alert("අයදුම්කරුගේ නම ලියන්න.");
 
     stored = getDb();
-    const appRec = { type: "APPLICATION", id: Date.now(), name, whatsapp: wa, subject, time: new Date().toLocaleString() };
+    const appRec = {
+      type: "APPLICATION",
+      orgCode: ORG_CODE,
+      id: Date.now(),
+      name,
+      whatsapp: wa,
+      subject,
+      applyDate: appDate,
+      time: new Date().toLocaleString()
+    };
     stored.applicants.push(appRec);
     saveLocal();
     syncToGoogleDriveScript(appRec);
@@ -446,60 +599,91 @@
   }
 
   function selectMcqOption(qId, optIdx, totalMcq) {
+    if (!mcqStarted) {
+      return alert("🔒 කරුණාකර පළමුව 'Start MCQ' බොත්තම ඔබා Time ආරම්භ කරන්න.");
+    }
+    visitedMcq[qId] = true;
     pickedMcq[qId] = optIdx;
     if (currentMcqIdx < totalMcq - 1) {
       currentMcqIdx++;
+      const nextQ = (paperData.mcq || [])[currentMcqIdx];
+      if (nextQ) visitedMcq[nextQ.id] = true;
     }
     renderPaperOnly();
   }
 
   function jumpToMcq(idx) {
+    if (!mcqStarted) {
+      return alert("🔒 කරුණාකර පළමුව 'Start MCQ' බොත්තම ඔබා Time ආරම්භ කරන්න.");
+    }
     currentMcqIdx = idx;
+    const q = (paperData.mcq || [])[currentMcqIdx];
+    if (q) visitedMcq[q.id] = true;
     renderPaperOnly();
   }
 
-  function updateAnsweredHighlight() {
-    const total = (paperData && paperData.mcq) ? paperData.mcq.length : 0;
-    const answered = Object.keys(pickedMcq).length;
-    document.getElementById("mcqAnsweredCounter").innerText = `✅ පිළිතුරු දුන් MCQ ගණන: ${answered} / ${total} (ඉතිරි: ${Math.max(0, total - answered)})`;
+  function updateMcqCountsAndCommand() {
+    const mcqs = (paperData && paperData.mcq) ? paperData.mcq : [];
+    const total = mcqs.length;
+    const answered = mcqs.filter(q => pickedMcq[q.id] !== undefined).length;
+    const skippedCount = mcqs.filter(q => pickedMcq[q.id] === undefined && (visitedMcq[q.id] || answered > 0)).length;
+    const remainingUnanswered = Math.max(0, total - answered);
+
+    document.getElementById("mcqAnsweredCounter").innerText =
+      `🟢 පිළිතුරු දුන් ඒවා: ${answered} / ${total} | 🟡 මගහැරුණු/නොකළ ඒවා: ${remainingUnanswered}`;
+
+    const cmdEl = document.getElementById("skippedWarningCmd");
+    if (skippedCount > 0) {
+      cmdEl.innerText = `⚠️ Command: ඔබට MCQ ප්‍රශ්න ${skippedCount} ක් මගඇරී (Skip වී) ඇත! කහ පාට කොටු ඔබා පිළිතුරු දෙන්න.`;
+    } else {
+      cmdEl.innerText = "";
+    }
   }
 
   function renderPaperOnly() {
     if (!paperData) return;
     document.getElementById("paperHeading").innerText = paperData.paperName || "Examination Paper";
-    document.getElementById("paperStuName").innerText = paperData.studentName || "M.A. Suranga";
+    document.getElementById("paperStuName").innerText = paperData.studentName || "-";
     document.getElementById("paperSubName").innerText = paperData.subject || "Anatomy";
-    updateAnsweredHighlight();
+    document.getElementById("mcqStartNotice").style.display = mcqStarted ? "none" : "block";
+    updateMcqCountsAndCommand();
 
     const mcqs = paperData.mcq || [];
     if (mcqs.length > 0) {
       if (currentMcqIdx >= mcqs.length) currentMcqIdx = 0;
       const q = mcqs[currentMcqIdx];
       const isAnswered = pickedMcq[q.id] !== undefined;
+      const isSkipped = !isAnswered && !!visitedMcq[q.id];
 
       const numButtonsHtml = mcqs.map((item, idx) => {
-        const doneCls = pickedMcq[item.id] !== undefined ? "done" : "";
-        const curCls = idx === currentMcqIdx ? "current" : "";
-        return `<button type="button" class="mcq-num-btn ${doneCls} ${curCls}" onclick="jumpToMcq(${idx})">${idx + 1}</button>`;
+        const done = pickedMcq[item.id] !== undefined;
+        const skipped = !done && !!visitedMcq[item.id];
+        const clsList = ["mcq-num-btn"];
+        if (done) clsList.push("done");
+        else if (skipped) clsList.push("skipped");
+        if (idx === currentMcqIdx) clsList.push("current");
+        return `<button type="button" class="${clsList.join(" ")}" ${!mcqStarted ? "disabled" : ""} onclick="jumpToMcq(${idx})">${idx + 1}</button>`;
       }).join("");
+
+      const cardCls = isAnswered ? "mcq-answered" : (isSkipped ? "mcq-skipped" : "");
 
       document.getElementById("mcqStageArea").innerHTML = `
         <h3>කොටස A — MCQ ප්‍රශ්න (${paperData.subject}) — ප්‍රශ්නය ${currentMcqIdx + 1} / ${mcqs.length}</h3>
         <div class="mcq-num-bar">${numButtonsHtml}</div>
-        <div class="card ${isAnswered ? "mcq-answered" : ""}">
+        <div class="card ${cardCls}">
           <b>${currentMcqIdx + 1}. ${q.q}</b>
           ${q.opts.map((o, oi) => {
             const isTicked = pickedMcq[q.id] === oi;
             return `
-              <label class="mcq-opt ${isTicked ? "ticked" : ""}">
-                <input type="radio" name="pm_${q.id}" ${isTicked ? "checked" : ""} onchange="selectMcqOption('${q.id}', ${oi}, ${mcqs.length})">
+              <label class="mcq-opt ${isTicked ? "ticked" : ""}" style="${!mcqStarted ? "opacity:0.65; cursor:not-allowed;" : ""}">
+                <input type="radio" name="pm_${q.id}" ${!mcqStarted ? "disabled" : ""} ${isTicked ? "checked" : ""} onchange="selectMcqOption('${q.id}', ${oi}, ${mcqs.length})">
                 <span><b>${oi + 1}.</b> ${o}</span>
               </label>
             `;
           }).join("")}
           <div style="display:flex; justify-content:space-between; gap:8px; margin-top:12px;">
-            <button type="button" class="btn btn-gray" ${currentMcqIdx === 0 ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx - 1})">⬅️ පෙර ප්‍රශ්නය</button>
-            <button type="button" class="btn btn-blue" ${currentMcqIdx >= mcqs.length - 1 ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx + 1})">ඊළඟ ප්‍රශ්නය ➡️</button>
+            <button type="button" class="btn btn-gray" ${(!mcqStarted || currentMcqIdx === 0) ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx - 1})">⬅️ පෙර ප්‍රශ්නය</button>
+            <button type="button" class="btn btn-blue" ${(!mcqStarted || currentMcqIdx >= mcqs.length - 1) ? "disabled" : ""} onclick="jumpToMcq(${currentMcqIdx + 1})">ඊළඟ ප්‍රශ්නය ➡️</button>
           </div>
         </div>
       `;
@@ -536,13 +720,23 @@
     document.getElementById("essayStageArea").innerHTML = essayHtml;
   }
 
-  let mcqTimer = null, essayTimer = null;
   function runMcqTimer() {
+    mcqStarted = true;
+    const firstQ = (paperData && paperData.mcq && paperData.mcq[currentMcqIdx]) || null;
+    if (firstQ) visitedMcq[firstQ.id] = true;
+    renderPaperOnly();
+
     clearInterval(mcqTimer);
     let sec = (stored.mcqMins || 10) * 60;
     mcqTimer = setInterval(() => {
-      if (sec <= 0) { clearInterval(mcqTimer); openEssayStage(); }
-      else { sec--; document.getElementById("mcqClockText").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`; }
+      if (sec <= 0) {
+        clearInterval(mcqTimer);
+        alert("⏰ MCQ කාලය අවසන් විය! Essay කොටසට යොමු කෙරේ.");
+        openEssayStage();
+      } else {
+        sec--;
+        document.getElementById("mcqClockText").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+      }
     }, 1000);
   }
 
@@ -560,8 +754,16 @@
     clearInterval(essayTimer);
     let sec = (stored.essayMins || 20) * 60;
     essayTimer = setInterval(() => {
-      if (sec <= 0) { clearInterval(essayTimer); essayExpired = true; renderPaperOnly(); alert("⏳ Essay කාලය අවසන්! Typing Lock විය."); }
-      else { sec--; document.getElementById("essayClockText").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`; }
+      if (sec <= 0) {
+        clearInterval(essayTimer);
+        essayExpired = true;
+        renderPaperOnly();
+        alert("⏳ Essay කාලය අවසන්! Paper එක ස්වයංක්‍රීයව Submit වේ.");
+        submitStudentPaper(false, true);
+      } else {
+        sec--;
+        document.getElementById("essayClockText").innerText = `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+      }
     }, 1000);
   }
 
@@ -583,8 +785,8 @@
     if (ctrl.allowUnlock) return;
 
     touchCount++;
-    if (touchCount < 3) {
-      const w = `⚠️ අවවාදය (${touchCount}/3): ${paperData.studentName} — වෙන තැනකට Touch නොකරන්න!`;
+    if (touchCount < 2) {
+      const w = `⚠️ අවවාදය (${touchCount}/2): ${paperData.studentName} — Paper එකෙන් පිට Touch නොකරන්න! (තව එක් වරක් Touch කළහොත් Link එක Block වේ)`;
       document.getElementById("alertWarningBanner").innerText = w;
       alert(w);
     } else {
@@ -598,8 +800,13 @@
           reAttemptGrant: false
         };
         saveLocal();
+        syncToGoogleDriveScript({
+          type: "LOCK_STATE",
+          paperCode: currentPaperCode,
+          control: stored.adminControls[currentPaperCode]
+        });
       }
-      submitStudentPaper(true);
+      submitStudentPaper(true, false);
       showLockScreen();
       triggerAlarmSound();
     }
@@ -607,27 +814,29 @@
 
   function sendLockAlertToAdmin() {
     const phone = normalizeWaPhone(stored.phoneWa);
-    const msg = `🚨 *ALERT - ${stored.campusTitle}*\nශිෂ්‍යයාගේ නම: *${paperData.studentName}*\nLink Code: *${currentPaperCode}*\n3 වතාවක් වෙන තැනක Touch කළ බැවින් Link එක Block විය.\nMCQ Marks: ${mcqScoreStr}`;
+    const msg = `🚨 *ALERT - ${stored.campusTitle} (${ORG_CODE})*\nශිෂ්‍යයාගේ නම: *${paperData.studentName}*\nLink Code: *${currentPaperCode}*\n2 වතාවක් පිට Touch කළ බැවින් Link එක Block විය. Unlock අංකයක් එවන්න.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
-  function submitStudentPaper(autoBlocked = false) {
+  function submitStudentPaper(autoBlocked = false, autoTimeUp = false) {
     if (!paperData) return;
     clearInterval(mcqTimer); clearInterval(essayTimer);
     let right = 0;
     const total = (paperData.mcq || []).length;
     (paperData.mcq || []).forEach(q => { if (pickedMcq[q.id] === q.ans) right++; });
-    mcqScoreStr = `${right} / ${total}`;
+    const scoreStr = `${right} / ${total}`;
 
     stored = getDb();
     const record = {
       type: "SUBMISSION",
+      orgCode: ORG_CODE,
       paperCode: currentPaperCode,
       studentName: paperData.studentName,
       subject: paperData.subject,
       paperName: paperData.paperName,
-      score: mcqScoreStr,
-      status: autoBlocked ? "Blocked & Auto-Submitted" : "Submitted",
+      score: scoreStr,
+      mcqAnswers: pickedMcq,
+      status: autoBlocked ? "Blocked & Auto-Submitted" : (autoTimeUp ? "Time Up Auto-Submitted" : "Submitted"),
       essayMode: stored.essayMode,
       essays: typedEssay,
       time: new Date().toLocaleString()
@@ -640,7 +849,7 @@
 
     const box = document.getElementById("scoreOutputBox");
     box.style.display = "block";
-    box.innerHTML = `<b>✅ ${paperData.studentName}</b> (${paperData.subject}) — MCQ Marks: <b>${mcqScoreStr}</b>`;
+    box.innerHTML = `<b>✅ ${paperData.studentName}</b> (${paperData.subject}) — ඔබගේ පිළිතුරු සාර්ථකව Submit කරන ලදී. ප්‍රතිඵල Admin විසින් පරීක්ෂා කරනු ඇත.`;
     buildPdfSheet();
     renderPaperOnly();
   }
@@ -688,7 +897,7 @@
 
   function sendWhatsAppForwardNotice() {
     const phone = normalizeWaPhone(stored.phoneWa);
-    const msg = `*${stored.campusTitle}*\nවිෂය: *${paperData.subject}*\nශිෂ්‍යයා: *${paperData.studentName}*\nMCQ Marks: *${mcqScoreStr}*\n(Download වූ Single A4 Essay PDF එක මෙම WhatsApp වෙත forward කරන්න.)`;
+    const msg = `*${stored.campusTitle} (${ORG_CODE})*\nවිෂය: *${paperData.subject}*\nශිෂ්‍යයා: *${paperData.studentName}*\nපිළිතුරු Submit කර ඇත.\n(Download වූ Single A4 Essay PDF එක මෙම WhatsApp වෙත forward කරන්න.)`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
