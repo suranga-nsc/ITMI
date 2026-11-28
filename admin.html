@@ -117,10 +117,9 @@
 
 <div id="adminMain" class="container" style="display:none;">
 
-  <!-- Button-Driven Navigation -->
   <div class="menu-grid no-print">
     <button class="menu-btn active" onclick="openAdmSec('adm-sec-profile', this)">🩺 Profile & Settings</button>
-    <button class="menu-btn" onclick="openAdmSec('adm-sec-questions', this)">📚 විෂයයන් & ප්‍රශ්න (Anatomy 80)</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-questions', this)">📚 විෂයයන් & ප්‍රශ්න (MCQ 50 + Essay 30)</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-paper', this)">📝 Paper Check & Mode</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-students', this)">👥 ළමයි & Shuffled Links</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-gallery', this)">🖼️ Gallery</button>
@@ -167,7 +166,7 @@
     </div>
   </div>
 
-  <!-- 2. SUBJECTS, ANATOMY 80 QUESTIONS & ANSWERS, BUTTONS & PDF AUTO GENERATOR -->
+  <!-- 2. SUBJECTS, ANATOMY MCQ 50 + ESSAY 30 & ANSWERS -->
   <div id="adm-sec-questions" class="adm-section">
     <div class="card">
       <h3>📚 විෂයයන්, ප්‍රශ්න & පිළිතුරු + PDF Auto Generator</h3>
@@ -175,7 +174,7 @@
         <div>
           <label>නව විෂයක් එකතු කරන්න:</label>
           <div style="display:flex; gap:8px;">
-            <input type="text" id="newSubInput" placeholder="උදා: Physiology">
+            <input type="text" id="newSubInput" placeholder="M.A. Suranga - Subject">
             <button class="btn" style="margin:0;" onclick="addSubject()">Add</button>
           </div>
           <label>විෂය තෝරන්න:</label>
@@ -183,6 +182,7 @@
           <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
             <button class="btn btn-blue" onclick="switchQPanel('INCLUDED')">📋 ඇතුළත් කළ ප්‍රශ්න</button>
             <button class="btn btn-gold" onclick="switchQPanel('ADD_NEW')">➕ නව ප්‍රශ්න ඇතුළත් කිරීම</button>
+            <button class="btn btn-gray" onclick="seedSelectedSubjectPack()">⚡ තෝරන විෂයට MCQ 50 + Essay 30 පුරවන්න</button>
           </div>
         </div>
 
@@ -253,7 +253,7 @@
     </div>
   </div>
 
-  <!-- 3. TIMERS, ONLINE VS PRINT/PDF MODE & CHECK PAPER BEFORE GENERATING LINK -->
+  <!-- 3. TIMERS, ONLINE VS PRINT/PDF MODE & PAPER CHECK -->
   <div id="adm-sec-paper" class="adm-section">
     <div class="card">
       <h3>⏱️ Timers, Online / Print PDF Mode & Paper Check</h3>
@@ -330,40 +330,76 @@
 <script>
   const DEFAULT_DRIVE_URL = "https://script.google.com/macros/s/AKfycbwRphHTxZvt1w9NpKDXN_hPU7BAYMFA-1N2JaQde32eZJyjae8ZjfLvJzvsoDgtwVb9/exec";
 
-  function seedAnatomy() {
+  function buildSubjectQuestionPack(subjectName) {
     const out = [];
+    const mcqTemplates = [
+      ["මානව ශරීරයේ විශාලතම අවයවය කුමක්ද?", ["සම (Skin)", "අක්මාව", "හෘදය", "පෙනහළු"], 0],
+      ["හෘදයේ කුටීර (Chambers) ගණන කීයද?", ["4", "2", "3", "5"], 0],
+      ["රුධිරය පොම්ප කරන ප්‍රධාන අවයවය කුමක්ද?", ["හෘදය", "වකුගඩුව", "ආමාශය", "මොළය"], 0],
+      ["මධ්‍යම ස්නායු පද්ධතියට අයත් වන්නේ මොනවාද?", ["මොළය සහ සුෂුම්නාව", "හෘදය සහ පෙනහළු", "වකුගඩු සහ මුත්‍රාශය", "අක්මාව සහ පිත්තාශය"], 0],
+      ["ශ්වසන පද්ධතියේ මූලික වායු හුවමාරු ව්‍යුහය කුමක්ද?", ["පෙනහළු (Alveoli)", "ආමාශය", "අග්න්‍යාශය", "ප්ලීහාව"], 0],
+      ["අස්ථි එකිනෙක සම්බන්ධ වන ස්ථානය හඳුන්වන්නේ කුමන නමකින්ද?", ["සන්ධිය (Joint)", "කණ්ඩරාව", "ස්නායුව", "ධමනිය"], 0],
+      ["මාංශ පේශියක් අස්ථියකට සම්බන්ධ කරන තන්තුමය ව්‍යුහය කුමක්ද?", ["කණ්ඩරාව (Tendon)", "ස්නායුව", "කාටිලේජය", "ලසිකා නාලය"], 0],
+      ["අස්ථියක් තවත් අස්ථියකට සම්බන්ධ කරන ව්‍යුහය කුමක්ද?", ["ස්නායු බන්ධනය (Ligament)", "කණ්ඩරාව", "කේශනාලිකා", "අවසාධිකය"], 0],
+      ["ශරීරයේ සමතුලිතතාව පවත්වා ගැනීමට මොළයේ කුමන කොටස උපකාරී වේද?", ["අනුමස්තිෂ්කය (Cerebellum)", "ආමාශය", "පිත්තාශය", "තයිරොයිඩ් ග්‍රන්ථිය"], 0],
+      ["රුධිරය පිරිසිදු කර මුත්‍රා නිපදවන අවයව යුගල කුමක්ද?", ["වකුගඩු (Kidneys)", "පෙනහළු", "මාංශ පේශි", "සම"], 0]
+    ];
+
     for (let i = 1; i <= 50; i++) {
+      const tpl = mcqTemplates[(i - 1) % mcqTemplates.length];
       out.push({
-        id: "AM-" + i,
-        subject: "Anatomy",
+        id: subjectName.slice(0, 3).toUpperCase() + "-M-" + Date.now() + "-" + i,
+        subject: subjectName,
         type: "MCQ",
-        q: `Anatomy MCQ ${i}: මානව ශරීරයේ අදාළ ව්‍යුහය හා ක්‍රියාකාරිත්වය පිළිබඳ නිවැරදි ප්‍රකාශය තෝරන්න (${i}).`,
-        opts: ["නිවැරදි ව්‍යුහ විද්‍යාත්මක ප්‍රකාශය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"],
-        ans: 0
+        q: `${subjectName} MCQ ${i}: ${tpl[0]} (${i})`,
+        opts: tpl[1],
+        ans: tpl[2]
       });
     }
-    for (let i = 1; i <= 10; i++) {
-      out.push({
-        id: "AE2-" + i,
-        subject: "Anatomy",
-        type: "ESSAY2",
-        q: `Anatomy ලකුණු 2 ප්‍රශ්නය ${i}: ප්‍රධාන කරුණු 2ක් ලියන්න.`,
-        ans: "1) ප්‍රධාන ව්‍යුහ විද්‍යාත්මක ලක්ෂණය.\n2) මූලික කායික ක්‍රියාකාරිත්වය."
-      });
-      out.push({
-        id: "AE3-" + i,
-        subject: "Anatomy",
-        type: "ESSAY3",
-        q: `Anatomy ලකුණු 3 ප්‍රශ්නය ${i}: කරුණු 3කින් පැහැදිලි කරන්න.`,
-        ans: "1) ව්‍යුහ විද්‍යාත්මක පිහිටීම.\n2) කායික ක්‍රියාකාරිත්වය.\n3) සායනික වැදගත්කම."
-      });
-      out.push({
-        id: "AE5-" + i,
-        subject: "Anatomy",
-        type: "ESSAY5",
-        q: `Anatomy ලකුණු 5 ප්‍රශ්නය ${i}: විස්තරාත්මකව ලියන්න.`,
-        ans: "1) හැඳින්වීම හා ව්‍යුහය.\n2) රුධිර සැපයුම හා ස්නායු සැපයුම.\n3) ක්‍රියාකාරිත්වය හා සායනික වැදගත්කම."
-      });
+
+    const e2List = [
+      ["ප්‍රධාන කාර්යයන් 2ක් ලියන්න.", "1) මූලික කායික කාර්යය.\n2) ශරීර සමතුලිතතාව රැකීම."],
+      ["ප්‍රධාන වර්ග 2ක් නම් කරන්න.", "1) පළමු වර්ගය.\n2) දෙවන වර්ගය."],
+      ["ප්‍රධාන ලක්ෂණ 2ක් ලියන්න.", "1) ව්‍යුහමය ලක්ෂණය.\n2) ක්‍රියාකාරී ලක්ෂණය."],
+      ["ප්‍රධාන කොටස් 2ක් සඳහන් කරන්න.", "1) ප්‍රධාන කොටස 1.\n2) ප්‍රධාන කොටස 2."],
+      ["ප්‍රධාන අවයව/සංඝටක 2ක් ලියන්න.", "1) සංඝටකය 1.\n2) සංඝටකය 2."],
+      ["ප්‍රධාන ස්ථර/කාණ්ඩ 2ක් නම් කරන්න.", "1) කාණ්ඩය 1.\n2) කාණ්ඩය 2."],
+      ["ආරක්ෂක කාර්යයන් 2ක් ලියන්න.", "1) ආරක්ෂාව 1.\n2) ආරක්ෂාව 2."],
+      ["අතර මූලික වෙනසක් ලියන්න.", "1) පළමු කරුණ.\n2) දෙවන කරුණ."],
+      ["ප්‍රධාන මාර්ග/වර්ග 2ක් නම් කරන්න.", "1) මාර්ගය 1.\n2) මාර්ගය 2."],
+      ["සායනික වැදගත්කම් 2ක් ලියන්න.", "1) වැදගත්කම 1.\n2) වැදගත්කම 2."]
+    ];
+
+    const e3List = [
+      ["ක්‍රියාකාරිත්වය කරුණු 3කින් පැහැදිලි කරන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["ඉටු කරන කාර්යයන් 3ක් විස්තර කරන්න.", "1) කාර්යය 1.\n2) කාර්යය 2.\n3) කාර්යය 3."],
+      ["ප්‍රධාන කාර්යයන් 3ක් ලියන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["ශරීරයට වැදගත් වන ආකාරය කරුණු 3කින් දක්වන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["ක්‍රියාවලියේ වැදගත්කම කරුණු 3කින් ලියන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["ස්ථාවරත්වයට බලපාන සාධක 3ක් ලියන්න.", "1) සාධකය 1.\n2) සාධකය 2.\n3) සාධකය 3."],
+      ["කාර්යය කරුණු 3කින් පැහැදිලි කරන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["වැදගත්කම කරුණු 3කින් ලියන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["ප්‍රධාන කොටස් වල කාර්යයන් කරුණු 3කින් සඳහන් කරන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."],
+      ["සෞඛ්‍යයට වැදගත් වන ආකාරය කරුණු 3කින් ලියන්න.", "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3."]
+    ];
+
+    const e5List = [
+      ["ව්‍යුහය හා ක්‍රියාවලිය විස්තරාත්මකව ලියන්න.", "ව්‍යුහය, සම්බන්ධතා, ක්‍රියාවලිය සහ සායනික වැදගත්කම පිළිවෙලින් දක්වා ඇත."],
+      ["වර්ග හා කාර්යයන් විස්තර කරන්න.", "වර්ගීකරණය සහ එක් එක් වර්ගයේ ප්‍රධාන කාර්යයන් විස්තර කර ඇත."],
+      ["ව්‍යුහය හා ක්‍රියාකාරිත්වය විස්තර කරන්න.", "මධ්‍යම හා පර්යන්ත කොටස්වල ක්‍රියාකාරිත්වය පැහැදිලි කර ඇත."],
+      ["ව්‍යුහය හා හුවමාරුව විස්තර කරන්න.", "අදාළ ව්‍යුහ සහ ක්‍රියාවලිය පිළිවෙලින් විස්තර කර ඇත."],
+      ["ව්‍යුහය හා ප්‍රධාන කාර්යයන් විස්තර කරන්න.", "ප්‍රධාන ව්‍යුහමය ලක්ෂණ සහ කාර්යයන් දක්වා ඇත."],
+      ["වර්ග හා චලන පරාසය පිළිබඳ විස්තර කරන්න.", "වර්ග සහ චලන හැකියාව පිළිබඳ විස්තර කර ඇත."],
+      ["ව්‍යුහය හා ආරක්ෂක ක්‍රියාවලිය විස්තර කරන්න.", "ස්ථර ව්‍යුහය සහ ආරක්ෂක ක්‍රියාවලිය දක්වා ඇත."],
+      ["ප්‍රධාන වාහිනී/සංඝටක විස්තර කරන්න.", "ප්‍රධාන සංඝටක සහ ඒවායේ කාර්යයන් විස්තර කර ඇත."],
+      ["අවයව හා සමතුලිතතා ක්‍රියාවලිය විස්තර කරන්න.", "අදාළ අවයව සහ සමතුලිතතා ක්‍රියාවලිය දක්වා ඇත."],
+      ["ප්‍රතිකාරයකදී අදාළ ව්‍යුහයන් සැලකිල්ලට ගැනීමේ වැදගත්කම විස්තර කරන්න.", "ආරක්ෂිත හා ඵලදායී ප්‍රතිකාරයක් සඳහා අදාළ ව්‍යුහ දැනුමේ වැදගත්කම විස්තර කර ඇත."]
+    ];
+
+    for (let i = 0; i < 10; i++) {
+      out.push({ id: subjectName.slice(0, 3).toUpperCase() + "-E2-" + Date.now() + "-" + (i + 1), subject: subjectName, type: "ESSAY2", q: `${subjectName} ලකුණු 2 ප්‍රශ්නය ${i + 1}: ${e2List[i][0]}`, ans: e2List[i][1] });
+      out.push({ id: subjectName.slice(0, 3).toUpperCase() + "-E3-" + Date.now() + "-" + (i + 1), subject: subjectName, type: "ESSAY3", q: `${subjectName} ලකුණු 3 ප්‍රශ්නය ${i + 1}: ${e3List[i][0]}`, ans: e3List[i][1] });
+      out.push({ id: subjectName.slice(0, 3).toUpperCase() + "-E5-" + Date.now() + "-" + (i + 1), subject: subjectName, type: "ESSAY5", q: `${subjectName} ලකුණු 5 ප්‍රශ්නය ${i + 1}: ${e5List[i][0]}`, ans: e5List[i][1] });
     }
     return out;
   }
@@ -382,15 +418,16 @@
     essayMins: 20,
     essayMode: "ONLINE",
     subjects: ["Anatomy", "Ceylon Massage Therapy"],
-    questions: seedAnatomy(),
+    questions: buildSubjectQuestionPack("Anatomy"),
     gallery: [],
     applicants: [],
     submissions: [],
     paperCounts: { mcq: 10, e2: 10, e3: 10, e5: 10 }
   };
 
-  if (!db.driveScriptUrl) {
-    db.driveScriptUrl = DEFAULT_DRIVE_URL;
+  if (!db.driveScriptUrl) db.driveScriptUrl = DEFAULT_DRIVE_URL;
+  if (!db.questions || db.questions.filter(q => q.subject === "Anatomy").length < 80) {
+    db.questions = [...(db.questions || []).filter(q => q.subject !== "Anatomy"), ...buildSubjectQuestionPack("Anatomy")];
   }
 
   function persist() {
@@ -460,4 +497,258 @@
 
   function saveProfileAll() {
     db.doctorName = document.getElementById("admDocName").value.trim() || db.doctorName;
-    db.doctorRole = document.getElementById
+    db.doctorRole = document.getElementById("admDocRole").value.trim() || db.doctorRole;
+    db.doctorBio = document.getElementById("admDocBio").value.trim() || db.doctorBio;
+    db.campusTitle = document.getElementById("admCampusTitle").value.trim() || db.campusTitle;
+    db.campusAbout = document.getElementById("admCampusAbout").value.trim() || db.campusAbout;
+    db.phoneWa = document.getElementById("admPhoneWa").value.trim() || db.phoneWa;
+    db.driveScriptUrl = document.getElementById("admDriveUrl").value.trim() || DEFAULT_DRIVE_URL;
+    db.unlockPin = document.getElementById("admPin").value.trim() || "1234";
+    persist();
+    alert("✅ Profile & Settings Save විය!");
+  }
+
+  function uploadGallery(e) {
+    Array.from(e.target.files).forEach(file => {
+      const r = new FileReader();
+      r.onload = ev => { db.gallery.push(ev.target.result); persist(); renderGalleryAdm(); };
+      r.readAsDataURL(file);
+    });
+  }
+
+  function renderGalleryAdm() {
+    document.getElementById("admGalleryGrid").innerHTML = db.gallery.map((src, i) => `
+      <div class="gallery-tile">
+        <img src="${src}" alt="Gallery">
+        <button class="btn btn-red" style="position:absolute; top:4px; right:4px; margin:0; padding:2px 6px;" onclick="delGallery(${i})">✖</button>
+      </div>
+    `).join("");
+  }
+
+  function delGallery(i) { db.gallery.splice(i, 1); persist(); renderGalleryAdm(); }
+
+  function addSubject() {
+    const s = document.getElementById("newSubInput").value.trim();
+    if (!s) return;
+    if (!db.subjects.includes(s)) {
+      db.subjects.push(s);
+      db.questions = [...db.questions, ...buildSubjectQuestionPack(s)];
+      persist();
+      document.getElementById("admSubSelect").innerHTML = db.subjects.map(x => `<option value="${x}">${x}</option>`).join("");
+      document.getElementById("admSubSelect").value = s;
+      refreshQuestionsPanel();
+    }
+    document.getElementById("newSubInput").value = "";
+  }
+
+  function seedSelectedSubjectPack() {
+    const sub = document.getElementById("admSubSelect").value;
+    db.questions = [...db.questions.filter(q => q.subject !== sub), ...buildSubjectQuestionPack(sub)];
+    persist();
+    refreshQuestionsPanel();
+    alert(`✅ "${sub}" විෂයට MCQ 50 සහ Essay 30 (2, 3, 5 ලකුණු 10 ගානේ) පුරවන ලදී!`);
+  }
+
+  function switchQPanel(m) {
+    document.getElementById("panelListQ").style.display = m === "INCLUDED" ? "block" : "none";
+    document.getElementById("panelAddQ").style.display = m === "ADD_NEW" ? "block" : "none";
+    refreshQuestionsPanel();
+  }
+
+  function toggleQForm() {
+    const t = document.getElementById("qTypeSel").value;
+    document.getElementById("mcqInputsDiv").style.display = t === "MCQ" ? "block" : "none";
+    document.getElementById("essayAnsDiv").style.display = t !== "MCQ" ? "block" : "none";
+  }
+
+  function saveNewQ() {
+    const sub = document.getElementById("admSubSelect").value;
+    const type = document.getElementById("qTypeSel").value;
+    const qText = document.getElementById("qTextInp").value.trim();
+    if (!qText) return alert("ප්‍රශ්නය ලියන්න.");
+
+    if (type === "MCQ") {
+      db.questions.push({
+        id: "Q-" + Date.now(), subject: sub, type: "MCQ", q: qText,
+        opts: [document.getElementById("o0").value || "A", document.getElementById("o1").value || "B", document.getElementById("o2").value || "C", document.getElementById("o3").value || "D"],
+        ans: parseInt(document.getElementById("rightIdxSel").value) || 0
+      });
+    } else {
+      db.questions.push({
+        id: "Q-" + Date.now(), subject: sub, type, q: qText,
+        ans: document.getElementById("essayAnsInp").value.trim() || "(පිළිතුරක් නැත)"
+      });
+    }
+    persist();
+    document.getElementById("qTextInp").value = "";
+    document.getElementById("essayAnsInp").value = "";
+    refreshQuestionsPanel();
+    alert("✅ ප්‍රශ්නය Save විය!");
+  }
+
+  function refreshQuestionsPanel() {
+    const sub = document.getElementById("admSubSelect").value;
+    document.getElementById("lblAddSub").innerText = sub;
+    document.getElementById("lblListSub").innerText = sub;
+    const items = db.questions.filter(q => q.subject === sub);
+    const mcqs = items.filter(q => q.type === "MCQ");
+    const essays = items.filter(q => q.type !== "MCQ");
+    document.getElementById("cntMcq").innerText = mcqs.length;
+    document.getElementById("cntEssay").innerText = essays.length;
+
+    const letters = ["A", "B", "C", "D"];
+    document.getElementById("listMcqBox").innerHTML = mcqs.map((q, i) => `
+      <div class="sub-item">
+        <div style="display:flex; justify-content:space-between; gap:6px;">
+          <span style="font-size:0.85rem;"><b>${i + 1}.</b> ${q.q}</span>
+          <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="delQ('${q.id}')">✖</button>
+        </div>
+        <div class="ans-box"><b>හරි පිළිතුර:</b> (${letters[q.ans || 0]}) ${(q.opts && q.opts[q.ans || 0]) || ""}</div>
+      </div>
+    `).join("");
+
+    document.getElementById("listEssayBox").innerHTML = essays.map((q, i) => `
+      <div class="sub-item">
+        <div style="display:flex; justify-content:space-between; gap:6px;">
+          <span style="font-size:0.85rem;"><b>[${q.type}] ${i + 1}.</b> ${q.q}</span>
+          <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="delQ('${q.id}')">✖</button>
+        </div>
+        <div class="ans-box"><b>පිළිතුර:</b>\n${q.ans || "(පිළිතුරක් නැත)"}</div>
+      </div>
+    `).join("");
+  }
+
+  function delQ(id) { db.questions = db.questions.filter(q => q.id !== id); persist(); refreshQuestionsPanel(); }
+
+  async function autoGenFromPdf() {
+    const file = document.getElementById("pdfFileInput").files[0];
+    if (!file) return alert("PDF file එකක් තෝරන්න.");
+    const sub = document.getElementById("admSubSelect").value;
+    const wantMcq = Math.min(100, Math.max(0, parseInt(document.getElementById("pdfMcqCount").value) || 0));
+    const wantEssay = Math.max(0, parseInt(document.getElementById("pdfEssayCount").value) || 0);
+    try {
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      let txt = "";
+      for (let p = 1; p <= pdf.numPages; p++) {
+        const pg = await pdf.getPage(p);
+        const c = await pg.getTextContent();
+        txt += c.items.map(it => it.str).join(" ") + "\n";
+      }
+      const lines = txt.split(/[.!?。\n]+/).map(s => s.trim()).filter(s => s.length > 15);
+      for (let m = 0; m < wantMcq; m++) {
+        const sn = lines[m % (lines.length || 1)] || `PDF Topic ${m + 1}`;
+        db.questions.push({ id: "PM-" + Date.now() + "-" + m, subject: sub, type: "MCQ", q: `(${sub}) ${sn.slice(0, 90)} — නිවැරදි ප්‍රකාශය කුමක්ද?`, opts: ["නිවැරදි පිළිතුර (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0 });
+      }
+      for (let e = 0; e < wantEssay; e++) {
+        const sn = lines[(wantMcq + e) % (lines.length || 1)] || `PDF Topic ${e + 1}`;
+        db.questions.push({ id: "PE-" + Date.now() + "-" + e, subject: sub, type: "ESSAY3", q: `(${sub}) "${sn.slice(0, 80)}" කරුණු 3කින් විස්තර කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
+      }
+      persist(); refreshQuestionsPanel();
+      document.getElementById("pdfStatusMsg").innerText = `✅ Auto MCQ ${wantMcq} සහ Essay ${wantEssay} (${sub}) සාදන ලදී!`;
+    } catch (err) { alert("PDF කියවීමේදී ගැටලුවක් ඇති විය."); }
+  }
+
+  function pickMode(mode) {
+    db.essayMode = mode; persist();
+    document.getElementById("bModeOnline").className = mode === "ONLINE" ? "btn btn-blue" : "btn btn-gray";
+    document.getElementById("bModeManual").className = mode === "MANUAL_PDF" ? "btn btn-blue" : "btn btn-gray";
+  }
+
+  function saveExamRules() {
+    db.mcqMins = parseInt(document.getElementById("inpMcqMins").value) || 10;
+    db.essayMins = parseInt(document.getElementById("inpEssayMins").value) || 20;
+    db.paperCounts = {
+      mcq: Math.min(100, parseInt(document.getElementById("pMcq").value) || 0),
+      e2: Math.min(10, parseInt(document.getElementById("pE2").value) || 0),
+      e3: Math.min(10, parseInt(document.getElementById("pE3").value) || 0),
+      e5: Math.min(10, parseInt(document.getElementById("pE5").value) || 0)
+    };
+    persist(); updateMarksLine(); renderApplicantsAdm();
+    alert("✅ Timers, Mode & Counts Save විය!");
+  }
+
+  function updateMarksLine() {
+    const c = db.paperCounts;
+    const eMarks = (c.e2 * 2) + (c.e3 * 3) + (c.e5 * 5);
+    document.getElementById("marksInfoLine").innerText = `MCQ: ${c.mcq} | Essay ලකුණු: ${eMarks} (2×${c.e2} + 3×${c.e3} + 5×${c.e5})`;
+  }
+
+  function shuffleArr(arr) {
+    const c = [...arr];
+    for (let i = c.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [c[i], c[j]] = [c[j], c[i]]; }
+    return c;
+  }
+
+  function buildPaperPayload(studentName, subject) {
+    const pool = db.questions.filter(q => q.subject === subject);
+    const fMcq = pool.filter(q => q.type === "MCQ").length ? pool.filter(q => q.type === "MCQ") : db.questions.filter(q => q.type === "MCQ");
+    const fE2 = pool.filter(q => q.type === "ESSAY2").length ? pool.filter(q => q.type === "ESSAY2") : db.questions.filter(q => q.type === "ESSAY2");
+    const fE3 = pool.filter(q => q.type === "ESSAY3").length ? pool.filter(q => q.type === "ESSAY3") : db.questions.filter(q => q.type === "ESSAY3");
+    const fE5 = pool.filter(q => q.type === "ESSAY5").length ? pool.filter(q => q.type === "ESSAY5") : db.questions.filter(q => q.type === "ESSAY5");
+    return {
+      studentName,
+      subject,
+      paperName: `${subject} Examination Paper`,
+      mcq: shuffleArr(fMcq).slice(0, db.paperCounts.mcq),
+      e2: shuffleArr(fE2).slice(0, db.paperCounts.e2),
+      e3: shuffleArr(fE3).slice(0, db.paperCounts.e3),
+      e5: shuffleArr(fE5).slice(0, db.paperCounts.e5)
+    };
+  }
+
+  function previewPaperBeforeLink() {
+    const sub = document.getElementById("admSubSelect").value || "Anatomy";
+    const sample = buildPaperPayload("M.A. Suranga", sub);
+    const box = document.getElementById("adminPaperCheckBox");
+    box.style.display = "block";
+
+    let html = `<h4>🔍 Paper Check Preview (${sub} - Shuffled Order)</h4>`;
+    html += `<h5>1. MCQ ප්‍රශ්න (${sample.mcq.length})</h5>`;
+    html += sample.mcq.map((q, i) => `<p style="margin:4px 0;"><b>${i + 1}.</b> ${q.q}</p>`).join("");
+
+    html += `<h5>2. ලකුණු 2 Essay (${sample.e2.length})</h5>`;
+    html += sample.e2.map((q, i) => `<p style="margin:4px 0;"><b>${i + 1}.</b> ${q.q}</p>`).join("");
+
+    html += `<h5>3. ලකුණු 3 Essay (${sample.e3.length})</h5>`;
+    html += sample.e3.map((q, i) => `<p style="margin:4px 0;"><b>${i + 1}.</b> ${q.q}</p>`).join("");
+
+    html += `<h5>4. ලකුණු 5 Essay (${sample.e5.length})</h5>`;
+    html += sample.e5.map((q, i) => `<p style="margin:4px 0;"><b>${i + 1}.</b> ${q.q}</p>`).join("");
+
+    box.innerHTML = html;
+  }
+
+  function makeStudentLink(app) {
+    const obj = buildPaperPayload(app.name, app.subject);
+    const base = window.location.href.replace(/admin\.html.*$/i, "index.html").split("#")[0];
+    return `${base}#p=${encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(obj)))))}`;
+  }
+
+  function renderApplicantsAdm() {
+    document.getElementById("applicantsListBox").innerHTML = db.applicants.map((app, i) => {
+      const link = makeStudentLink(app);
+      return `
+        <div class="sub-item" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div><b>${i + 1}. ${app.name}</b> | විෂය: <b>${app.subject}</b> | 📞 ${app.whatsapp || "-"}</div>
+          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendWa('${app.whatsapp}', '${app.name}', '${encodeURIComponent(link)}')">📲 WhatsApp Link යවන්න</button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function sendWa(wa, name, enc) {
+    const url = decodeURIComponent(enc);
+    const target = normalizeWaPhone(wa || db.phoneWa);
+    const msg = `*${db.campusTitle}*\nආයුබෝවන් *${name}*,\nඔබගේ Exam Paper Link එක:\n${url}`;
+    window.open(`https://wa.me/${target}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  function renderResultsAdm() {
+    document.getElementById("resultsListBox").innerHTML = db.submissions.length === 0
+      ? "<p>ප්‍රතිඵල නැත.</p>"
+      : db.submissions.map(s => `<div class="sub-item"><b>${s.studentName}</b> (${s.subject}) — MCQ: <b>${s.score}</b> | ${s.status} (${s.time})</div>`).join("");
+  }
+</script>
+</body>
+</html>
