@@ -25,13 +25,25 @@
   header h1 { margin: 0; font-size: 1.38rem; color: var(--gold); }
   header p { margin: 4px 0 0; font-size: 0.88rem; color: #e2e8f0; }
 
-  .container { max-width: 1200px; margin: 16px auto; padding: 0 12px; }
+  .container { max-width: 1200px; margin: 14px auto; padding: 0 12px; }
+  .menu-grid {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px;
+  }
+  .menu-btn {
+    background: #fff; border: 2px solid var(--primary); color: var(--primary);
+    padding: 8px 13px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.88rem;
+  }
+  .menu-btn.active, .menu-btn:hover { background: var(--primary); color: #fff; }
+
+  .adm-section { display: none; }
+  .adm-section.active { display: block; }
+
   .card {
     background: #fff; border-radius: 14px; padding: 18px;
     box-shadow: 0 6px 22px rgba(0,0,0,0.12); border-top: 5px solid var(--gold);
     margin-bottom: 16px;
   }
-  h2, h3, h4 { color: var(--primary); margin-top: 0; }
+  h2, h3, h4, h5 { color: var(--primary); margin-top: 0; }
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
   .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 
@@ -54,6 +66,14 @@
     background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px;
     padding: 10px 12px; margin-bottom: 10px;
   }
+  .ans-box {
+    background: #ecfdf5; border-left: 3px solid #10b981; padding: 6px 8px;
+    margin-top: 6px; font-size: 0.83rem; color: #065f46; white-space: pre-wrap;
+  }
+  .doc-mini {
+    width: 75px; height: 75px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--gold); background: #e2e8f0;
+  }
   .gallery-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; margin-top: 10px;
   }
@@ -62,10 +82,21 @@
   }
   .gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
 
+  .check-paper-box {
+    background: #fff; border: 2px solid var(--secondary); border-radius: 12px;
+    padding: 16px; margin-top: 12px;
+  }
+
   footer {
     position: fixed; bottom: 0; left: 0; right: 0; background: #062817;
     color: var(--gold); text-align: center; padding: 8px; font-size: 0.85rem;
     border-top: 2px solid var(--gold); z-index: 100;
+  }
+
+  @media print {
+    header, .menu-grid, .no-print, footer { display: none !important; }
+    .card { box-shadow: none; border: none; }
+    body { background: #fff; }
   }
 </style>
 </head>
@@ -73,472 +104,360 @@
 
 <header>
   <h1>⚙️ ADMIN PANEL — ITMI CAMPUS</h1>
-  <p>Default Admin PIN: <b>1234</b> | Student Link: <a href="index.html" style="color:#fde047;">index.html</a></p>
+  <p>Admin: <b>M.A. Suranga</b> | <b>0784693750</b> | PIN: <b>1234</b> | <a href="index.html" style="color:#fde047;">index.html</a></p>
 </header>
 
-<div id="adminGate" class="container">
+<div id="pinGate" class="container">
   <div class="card" style="max-width:420px; margin:40px auto; text-align:center;">
     <h3>🔐 Admin PIN ඇතුළත් කරන්න</h3>
-    <input type="password" id="gatePinInput" placeholder="PIN (Default: 1234)" style="text-align:center;">
-    <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="verifyGatePin()">🔓 ඇතුළු වන්න</button>
+    <input type="password" id="pinInput" placeholder="1234" style="text-align:center;">
+    <button class="btn btn-gold" style="width:100%; justify-content:center;" onclick="checkPin()">🔓 ඇතුළු වන්න</button>
   </div>
 </div>
 
-<div id="adminWorkspace" class="container" style="display:none;">
+<div id="adminMain" class="container" style="display:none;">
 
-  <!-- Profile, WhatsApp & PIN -->
-  <div class="card">
-    <h3>🔧 Profile, Phone/WhatsApp & Unlock PIN</h3>
-    <div class="grid-2">
-      <div>
-        <label>කැම්පස් එකේ නම:</label>
-        <input type="text" id="admCampusTitle">
-        <label>කැම්පස් විස්තර:</label>
-        <textarea id="admCampusAbout" rows="2"></textarea>
-      </div>
-      <div>
-        <label>Alert & Results Phone / WhatsApp Number:</label>
-        <input type="text" id="admPhoneWa">
-        <label>Admin Unlock PIN:</label>
-        <input type="text" id="admUnlockPin">
-      </div>
-    </div>
-    <button class="btn btn-gold" onclick="saveProfileSettings()">💾 Profile & Settings Save කරන්න</button>
-    <a class="btn btn-blue" href="index.html">📄 Student Link (`index.html`) බලන්න</a>
+  <!-- Button-Driven Navigation -->
+  <div class="menu-grid no-print">
+    <button class="menu-btn active" onclick="openAdmSec('adm-sec-profile', this)">🩺 Profile & Settings</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-questions', this)">📚 විෂයයන් & ප්‍රශ්න (Anatomy 80)</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-paper', this)">📝 Paper Check & Mode</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-students', this)">👥 ළමයි & Shuffled Links</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-gallery', this)">🖼️ Gallery</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-results', this)">📊 Results</button>
   </div>
 
-  <!-- Gallery -->
-  <div class="card">
-    <h3>🖼️ Gallery Add / Delete</h3>
-    <input type="file" accept="image/*" multiple onchange="addGalleryImages(event)">
-    <div id="admGalleryGrid" class="gallery-grid"></div>
-  </div>
-
-  <!-- Subjects + Buttons + PDF Auto Generator -->
-  <div class="card">
-    <h3>📚 විෂයයන්, ප්‍රශ්න & PDF Auto Question Generator</h3>
-    <div class="grid-2">
-      <div>
-        <label>නව විෂයක් (Subject) එකතු කරන්න:</label>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="newSubjectName" placeholder="උදා: Physiology">
-          <button class="btn" style="margin:0;" onclick="addNewSubject()">Add</button>
-        </div>
-        <label>විෂය තෝරන්න:</label>
-        <select id="admSelectedSubject" onchange="refreshSubjectView()"></select>
-
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
-          <button class="btn btn-blue" onclick="toggleSubjectSubView('INCLUDED')">📋 ඇතුළත් කළ ප්‍රශ්න</button>
-          <button class="btn btn-gold" onclick="toggleSubjectSubView('ADD_NEW')">➕ නව ප්‍රශ්න ඇතුළත් කිරීම</button>
-        </div>
+  <!-- 1. PROFILE, PHONE/WHATSAPP, DRIVE SCRIPT LINK & PIN -->
+  <div id="adm-sec-profile" class="adm-section active">
+    <div class="card">
+      <h3>🩺 Doctor Profile, කැම්පස් විස්තර & Google Drive Sync</h3>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+        <img id="admDocPreview" class="doc-mini" src="https://via.placeholder.com/150?text=Doctor" alt="Doctor">
+        <label class="btn btn-blue" style="margin:0; cursor:pointer;">
+          📷 Doctor Photo මාරු කරන්න
+          <input type="file" accept="image/*" style="display:none;" onchange="updateAdmDocPhoto(event)">
+        </label>
       </div>
 
-      <div style="background:#eff6ff; padding:12px; border-radius:10px; border:1px solid #bfdbfe;">
-        <label style="margin-top:0;">📄 PDF Upload කර Auto ප්‍රශ්න සැකසීම:</label>
-        <input type="file" accept="application/pdf" id="pdfUploadInput">
-        <div class="grid-2" style="gap:8px; margin-top:6px;">
-          <div>
-            <label>Auto MCQ ගණන (Max 100):</label>
-            <input type="number" id="autoPdfMcqCount" value="10" min="0" max="100">
-          </div>
-          <div>
-            <label>Auto Essay ගණන:</label>
-            <input type="number" id="autoPdfEssayCount" value="10" min="0" max="50">
-          </div>
-        </div>
-        <button class="btn btn-blue" onclick="generateQuestionsFromPdf()">⚡ PDF වලින් Auto ප්‍රශ්න සාදන්න</button>
-        <div id="pdfGenStatus" style="font-size:0.84rem; color:#1e3a8a; margin-top:6px;"></div>
-      </div>
-    </div>
-
-    <div id="subViewAddNew" class="sub-item" style="display:none; margin-top:12px; background:#fffbeb;">
-      <h4>➕ නව ප්‍රශ්න ඇතුළත් කිරීම (<span id="addSubLabel">Anatomy</span>)</h4>
-      <label>ප්‍රශ්න වර්ගය:</label>
-      <select id="newQType" onchange="toggleNewQOptions()">
-        <option value="MCQ">MCQ</option>
-        <option value="ESSAY2">ලකුණු 2 Essay</option>
-        <option value="ESSAY3">ලකුණු 3 Essay</option>
-        <option value="ESSAY5">ලකුණු 5 Essay</option>
-      </select>
-      <label>ප්‍රශ්නය:</label>
-      <input type="text" id="newQPrompt" placeholder="ප්‍රශ්නය ලියන්න...">
-      <div id="newMcqFields">
-        <div class="grid-2" style="gap:6px; margin-top:6px;">
-          <input type="text" id="qOpt0" placeholder="Option A">
-          <input type="text" id="qOpt1" placeholder="Option B">
-          <input type="text" id="qOpt2" placeholder="Option C">
-          <input type="text" id="qOpt3" placeholder="Option D">
-        </div>
-        <label>හරි පිළිතුර:</label>
-        <select id="qAnsIdx">
-          <option value="0">A</option>
-          <option value="1">B</option>
-          <option value="2">C</option>
-          <option value="3">D</option>
-        </select>
-      </div>
-      <div id="newEssayAnsField" style="display:none;">
-        <label>පිළිතුර:</label>
-        <textarea id="qEssayAns" rows="2" placeholder="පිළිතුර ලියන්න..."></textarea>
-      </div>
-      <button class="btn" onclick="saveNewQuestionToSubject()">💾 ප්‍රශ්නය Save කරන්න</button>
-    </div>
-
-    <div id="subViewIncluded" style="margin-top:12px;">
-      <h4>📋 ඇතුළත් කළ ප්‍රශ්න (<span id="incSubLabel">Anatomy</span>)</h4>
       <div class="grid-2">
         <div>
-          <h5>MCQ ප්‍රශ්න (<span id="incMcqTotal">0</span>)</h5>
-          <div id="incMcqList"></div>
+          <label>Doctor ගේ නම:</label>
+          <input type="text" id="admDocName">
+          <label>Doctor ගේ තනතුර:</label>
+          <input type="text" id="admDocRole">
+          <label>Doctor විස්තර:</label>
+          <textarea id="admDocBio" rows="2"></textarea>
         </div>
         <div>
-          <h5>රචනා / Essay ප්‍රශ්න (2, 3, 5) (<span id="incEssayTotal">0</span>)</h5>
-          <div id="incEssayList"></div>
+          <label>කැම්පස් එකේ නම:</label>
+          <input type="text" id="admCampusTitle">
+          <label>කැම්පස් විස්තර:</label>
+          <textarea id="admCampusAbout" rows="2"></textarea>
+          <label>Phone / WhatsApp Number:</label>
+          <input type="text" id="admPhoneWa">
+          <label>Admin PIN:</label>
+          <input type="text" id="admPin">
+        </div>
+      </div>
+
+      <label>Google Drive / Apps Script Web App URL:</label>
+      <input type="text" id="admDriveUrl">
+
+      <button class="btn btn-gold" onclick="saveProfileAll()">💾 Save Profile & Settings</button>
+    </div>
+  </div>
+
+  <!-- 2. SUBJECTS, ANATOMY 80 QUESTIONS & ANSWERS, BUTTONS & PDF AUTO GENERATOR -->
+  <div id="adm-sec-questions" class="adm-section">
+    <div class="card">
+      <h3>📚 විෂයයන්, ප්‍රශ්න & පිළිතුරු + PDF Auto Generator</h3>
+      <div class="grid-2">
+        <div>
+          <label>නව විෂයක් එකතු කරන්න:</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="newSubInput" placeholder="උදා: Physiology">
+            <button class="btn" style="margin:0;" onclick="addSubject()">Add</button>
+          </div>
+          <label>විෂය තෝරන්න:</label>
+          <select id="admSubSelect" onchange="refreshQuestionsPanel()"></select>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+            <button class="btn btn-blue" onclick="switchQPanel('INCLUDED')">📋 ඇතුළත් කළ ප්‍රශ්න</button>
+            <button class="btn btn-gold" onclick="switchQPanel('ADD_NEW')">➕ නව ප්‍රශ්න ඇතුළත් කිරීම</button>
+          </div>
+        </div>
+
+        <div style="background:#eff6ff; padding:12px; border-radius:10px; border:1px solid #bfdbfe;">
+          <label style="margin-top:0;">📄 PDF Upload -> Auto ප්‍රශ්න:</label>
+          <input type="file" accept="application/pdf" id="pdfFileInput">
+          <div class="grid-2" style="gap:8px; margin-top:6px;">
+            <div>
+              <label>MCQ ගණන (Max 100):</label>
+              <input type="number" id="pdfMcqCount" value="10" min="0" max="100">
+            </div>
+            <div>
+              <label>Essay ගණන:</label>
+              <input type="number" id="pdfEssayCount" value="10" min="0" max="50">
+            </div>
+          </div>
+          <button class="btn btn-blue" onclick="autoGenFromPdf()">⚡ Auto ප්‍රශ්න සාදන්න</button>
+          <div id="pdfStatusMsg" style="font-size:0.84rem; color:#1e3a8a; margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <div id="panelAddQ" class="sub-item" style="display:none; margin-top:12px; background:#fffbeb;">
+        <h4>➕ නව ප්‍රශ්න ඇතුළත් කිරීම (<span id="lblAddSub">Anatomy</span>)</h4>
+        <label>වර්ගය:</label>
+        <select id="qTypeSel" onchange="toggleQForm()">
+          <option value="MCQ">MCQ</option>
+          <option value="ESSAY2">ලකුණු 2 Essay</option>
+          <option value="ESSAY3">ලකුණු 3 Essay</option>
+          <option value="ESSAY5">ලකුණු 5 Essay</option>
+        </select>
+        <label>ප්‍රශ්නය:</label>
+        <input type="text" id="qTextInp" placeholder="ප්‍රශ්නය ලියන්න...">
+        <div id="mcqInputsDiv">
+          <div class="grid-2" style="gap:6px; margin-top:6px;">
+            <input type="text" id="o0" placeholder="Option A">
+            <input type="text" id="o1" placeholder="Option B">
+            <input type="text" id="o2" placeholder="Option C">
+            <input type="text" id="o3" placeholder="Option D">
+          </div>
+          <label>හරි පිළිතුර:</label>
+          <select id="rightIdxSel">
+            <option value="0">A</option>
+            <option value="1">B</option>
+            <option value="2">C</option>
+            <option value="3">D</option>
+          </select>
+        </div>
+        <div id="essayAnsDiv" style="display:none;">
+          <label>පිළිතුර:</label>
+          <textarea id="essayAnsInp" rows="2" placeholder="පිළිතුර ලියන්න..."></textarea>
+        </div>
+        <button class="btn" onclick="saveNewQ()">💾 ප්‍රශ්නය Save කරන්න</button>
+      </div>
+
+      <div id="panelListQ" style="margin-top:12px;">
+        <h4>📋 ඇතුළත් කළ ප්‍රශ්න & පිළිතුරු (<span id="lblListSub">Anatomy</span>)</h4>
+        <div class="grid-2">
+          <div>
+            <h5>MCQ ප්‍රශ්න (<span id="cntMcq">0</span>)</h5>
+            <div id="listMcqBox"></div>
+          </div>
+          <div>
+            <h5>රචනා / Essay ප්‍රශ්න (2, 3, 5) (<span id="cntEssay">0</span>)</h5>
+            <div id="listEssayBox"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Timers & Essay Mode Buttons -->
-  <div class="card">
-    <h3>⏱️ Timers & Essay ලියන ආකාරය</h3>
-    <div class="grid-2">
-      <div>
-        <label>MCQ කාලය (විනාඩි):</label>
-        <input type="number" id="cfgMcqMins" value="10" min="1" max="180">
+  <!-- 3. TIMERS, ONLINE VS PRINT/PDF MODE & CHECK PAPER BEFORE GENERATING LINK -->
+  <div id="adm-sec-paper" class="adm-section">
+    <div class="card">
+      <h3>⏱️ Timers, Online / Print PDF Mode & Paper Check</h3>
+      <div class="grid-2">
+        <div>
+          <label>MCQ කාලය (විනාඩි):</label>
+          <input type="number" id="inpMcqMins" value="10" min="1" max="180">
+        </div>
+        <div>
+          <label>Essay කාලය (විනාඩි):</label>
+          <input type="number" id="inpEssayMins" value="20" min="1" max="300">
+        </div>
       </div>
-      <div>
-        <label>Essay කාලය (විනාඩි):</label>
-        <input type="number" id="cfgEssayMins" value="20" min="1" max="300">
+
+      <div style="margin-top:10px;">
+        <label>යවන ආකාරය තෝරන්න (Online Link ද / Print PDF ද):</label>
+        <button type="button" class="btn btn-blue" id="bModeOnline" onclick="pickMode('ONLINE')">
+          🌐 Online (Link එකෙන් යවන්න)
+        </button>
+        <button type="button" class="btn btn-gray" id="bModeManual" onclick="pickMode('MANUAL_PDF')">
+          🖨️ Print PDF (කොළයක ලියන්න Print/PDF දෙන්න)
+        </button>
       </div>
+
+      <div class="grid-4" style="margin-top:12px;">
+        <div><label>MCQ ගණන:</label><input type="number" id="pMcq" value="10" min="0" max="100"></div>
+        <div><label>ලකුණු 2 Essay:</label><input type="number" id="pE2" value="10" min="0" max="10"></div>
+        <div><label>ලකුණු 3 Essay:</label><input type="number" id="pE3" value="10" min="0" max="10"></div>
+        <div><label>ලකුණු 5 Essay:</label><input type="number" id="pE5" value="10" min="0" max="10"></div>
+      </div>
+      <p id="marksInfoLine" style="font-weight:bold; color:var(--primary);"></p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-gold" onclick="saveExamRules()">💾 Save Rules</button>
+        <button class="btn btn-blue" onclick="previewPaperBeforeLink()">🔍 Link Generate කරන්න කලින් Paper Check කරන්න</button>
+        <button class="btn btn-gray" onclick="window.print()">🖨️ Print Paper</button>
+      </div>
+
+      <div id="adminPaperCheckBox" class="check-paper-box" style="display:none;"></div>
     </div>
-    <div style="margin-top:10px;">
-      <label>Essay යවන ආකාරය:</label>
-      <button type="button" class="btn btn-blue" id="btnModeOnline" onclick="chooseEssayMode('ONLINE')">
-        💻 Online (Phone එකෙන් ටයිප් කර ලියන්න)
-      </button>
-      <button type="button" class="btn btn-gray" id="btnModeManual" onclick="chooseEssayMode('MANUAL_PDF')">
-        📄 Manual / Print PDF (පරතරයක් ඇතුව වෙනම කොළයක ලියන්න)
-      </button>
-    </div>
-    <button class="btn btn-gold" onclick="saveTimersAndMode()">💾 Timer & Mode Save කරන්න</button>
   </div>
 
-  <!-- Registered Applicants & Shuffled Links -->
-  <div class="card">
-    <h3>👥 Register වූ ළමයි & Shuffled Paper Links</h3>
-    <div class="grid-4" style="margin-bottom:10px;">
-      <div>
-        <label>MCQ ගණන (Max 100):</label>
-        <input type="number" id="setPaperMcq" value="10" min="0" max="100">
-      </div>
-      <div>
-        <label>ලකුණු 2 Essay:</label>
-        <input type="number" id="setPaperE2" value="10" min="0" max="10">
-      </div>
-      <div>
-        <label>ලකුණු 3 Essay:</label>
-        <input type="number" id="setPaperE3" value="10" min="0" max="10">
-      </div>
-      <div>
-        <label>ලකුණු 5 Essay:</label>
-        <input type="number" id="setPaperE5" value="10" min="0" max="10">
-      </div>
+  <!-- 4. REGISTERED STUDENTS & UNIQUE SHUFFLED LINKS -->
+  <div id="adm-sec-students" class="adm-section">
+    <div class="card">
+      <h3>👥 Register වූ ළමයි & Shuffled WhatsApp Links</h3>
+      <div id="applicantsListBox"></div>
     </div>
-    <p id="totalMarksCalc" style="font-weight:bold; color:var(--primary);"></p>
-    <div id="adminRegisteredList"></div>
   </div>
 
-  <!-- Results -->
-  <div class="card">
-    <h3>📊 ශිෂ්‍යයින්ගේ ප්‍රතිඵල</h3>
-    <div id="adminResultsBox"></div>
+  <!-- 5. GALLERY -->
+  <div id="adm-sec-gallery" class="adm-section">
+    <div class="card">
+      <h3>🖼️ Gallery Photos Add / Delete</h3>
+      <input type="file" accept="image/*" multiple onchange="uploadGallery(event)">
+      <div id="admGalleryGrid" class="gallery-grid"></div>
+    </div>
+  </div>
+
+  <!-- 6. RESULTS -->
+  <div id="adm-sec-results" class="adm-section">
+    <div class="card">
+      <h3>📊 ප්‍රතිඵල</h3>
+      <div id="resultsListBox"></div>
+    </div>
   </div>
 
 </div>
 
 <footer>
-  Created by <b>M.A. Suranga</b> | ITMI Campus Sri Lanka
+  Created by <b>M.A. Suranga</b> | 0784693750 | ITMI Campus Sri Lanka
 </footer>
 
 <script>
-  function buildAnatomySeed() {
-    const list = [];
+  const DEFAULT_DRIVE_URL = "https://script.google.com/macros/s/AKfycbwRphHTxZvt1w9NpKDXN_hPU7BAYMFA-1N2JaQde32eZJyjae8ZjfLvJzvsoDgtwVb9/exec";
+
+  function seedAnatomy() {
+    const out = [];
     for (let i = 1; i <= 50; i++) {
-      list.push({
-        id: "ANA-M-" + i, subject: "Anatomy", type: "MCQ",
+      out.push({
+        id: "AM-" + i,
+        subject: "Anatomy",
+        type: "MCQ",
         q: `Anatomy MCQ ${i}: මානව ශරීරයේ අදාළ ව්‍යුහය හා ක්‍රියාකාරිත්වය පිළිබඳ නිවැරදි ප්‍රකාශය තෝරන්න (${i}).`,
-        opts: ["නිවැරදි ව්‍යුහ විද්‍යාත්මක ප්‍රකාශය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0
+        opts: ["නිවැරදි ව්‍යුහ විද්‍යාත්මක ප්‍රකාශය (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"],
+        ans: 0
       });
     }
     for (let i = 1; i <= 10; i++) {
-      list.push({ id: "ANA-E2-" + i, subject: "Anatomy", type: "ESSAY2", q: `Anatomy ලකුණු 2 ප්‍රශ්නය ${i}: ප්‍රධාන ලක්ෂණ 2ක් ලියන්න.`, ans: "1) ප්‍රධාන ලක්ෂණය.\n2) ක්‍රියාකාරිත්වය." });
-      list.push({ id: "ANA-E3-" + i, subject: "Anatomy", type: "ESSAY3", q: `Anatomy ලකුණු 3 ප්‍රශ්නය ${i}: කරුණු 3කින් පැහැදිලි කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
-      list.push({ id: "ANA-E5-" + i, subject: "Anatomy", type: "ESSAY5", q: `Anatomy ලකුණු 5 ප්‍රශ්නය ${i}: විස්තරාත්මකව ලියන්න.`, ans: "ව්‍යුහය, ක්‍රියාකාරිත්වය සහ වැදගත්කම." });
+      out.push({
+        id: "AE2-" + i,
+        subject: "Anatomy",
+        type: "ESSAY2",
+        q: `Anatomy ලකුණු 2 ප්‍රශ්නය ${i}: ප්‍රධාන කරුණු 2ක් ලියන්න.`,
+        ans: "1) ප්‍රධාන ව්‍යුහ විද්‍යාත්මක ලක්ෂණය.\n2) මූලික කායික ක්‍රියාකාරිත්වය."
+      });
+      out.push({
+        id: "AE3-" + i,
+        subject: "Anatomy",
+        type: "ESSAY3",
+        q: `Anatomy ලකුණු 3 ප්‍රශ්නය ${i}: කරුණු 3කින් පැහැදිලි කරන්න.`,
+        ans: "1) ව්‍යුහ විද්‍යාත්මක පිහිටීම.\n2) කායික ක්‍රියාකාරිත්වය.\n3) සායනික වැදගත්කම."
+      });
+      out.push({
+        id: "AE5-" + i,
+        subject: "Anatomy",
+        type: "ESSAY5",
+        q: `Anatomy ලකුණු 5 ප්‍රශ්නය ${i}: විස්තරාත්මකව ලියන්න.`,
+        ans: "1) හැඳින්වීම හා ව්‍යුහය.\n2) රුධිර සැපයුම හා ස්නායු සැපයුම.\n3) ක්‍රියාකාරිත්වය හා සායනික වැදගත්කම."
+      });
     }
-    return list;
+    return out;
   }
 
-  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v1") || "null") || {
+  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v2") || "null") || {
     campusTitle: "ITMI CAMPUS - SRI LANKA",
-    campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level). Conducted by Prof. (Hon.) Dr. Prasanna Kumara Weerasekara.",
-    phoneWa: "94717533483",
+    campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
+    doctorName: "Prof. (Hon.) Dr. Prasanna Kumara Weerasekara",
+    doctorRole: "Director / Senior Lecturer - ITMI Campus & CTMC",
+    doctorBio: "Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.",
+    doctorPhoto: "https://via.placeholder.com/150?text=Doctor",
+    phoneWa: "0784693750",
+    driveScriptUrl: DEFAULT_DRIVE_URL,
     unlockPin: "1234",
     mcqMins: 10,
     essayMins: 20,
     essayMode: "ONLINE",
     subjects: ["Anatomy", "Ceylon Massage Therapy"],
-    questions: buildAnatomySeed(),
+    questions: seedAnatomy(),
     gallery: [],
     applicants: [],
     submissions: [],
     paperCounts: { mcq: 10, e2: 10, e3: 10, e5: 10 }
   };
 
-  function persistDb() {
-    localStorage.setItem("itmi_shared_db_v1", JSON.stringify(db));
+  if (!db.driveScriptUrl) {
+    db.driveScriptUrl = DEFAULT_DRIVE_URL;
   }
 
-  function verifyGatePin() {
-    const val = document.getElementById("gatePinInput").value.trim();
-    if (val === db.unlockPin) {
-      document.getElementById("adminGate").style.display = "none";
-      document.getElementById("adminWorkspace").style.display = "block";
-      initAdmin();
+  function persist() {
+    localStorage.setItem("itmi_shared_db_v2", JSON.stringify(db));
+  }
+
+  function normalizeWaPhone(raw) {
+    let digits = (raw || "0784693750").replace(/[^0-9]/g, "");
+    if (digits.startsWith("0")) digits = "94" + digits.slice(1);
+    return digits;
+  }
+
+  function openAdmSec(secId, btn) {
+    document.querySelectorAll(".adm-section").forEach(s => s.classList.remove("active"));
+    document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(secId).classList.add("active");
+    if (btn) btn.classList.add("active");
+    renderApplicantsAdm();
+    renderResultsAdm();
+  }
+
+  function checkPin() {
+    if (document.getElementById("pinInput").value.trim() === (db.unlockPin || "1234")) {
+      document.getElementById("pinGate").style.display = "none";
+      document.getElementById("adminMain").style.display = "block";
+      initAdminUI();
     } else {
-      alert("❌ වැරදි PIN එකකි! (Default: 1234)");
+      alert("❌ වැරදි PIN! (Default: 1234)");
     }
   }
 
-  function initAdmin() {
+  function initAdminUI() {
+    document.getElementById("admDocName").value = db.doctorName || "";
+    document.getElementById("admDocRole").value = db.doctorRole || "";
+    document.getElementById("admDocBio").value = db.doctorBio || "";
+    document.getElementById("admDocPreview").src = db.doctorPhoto || "https://via.placeholder.com/150?text=Doctor";
+
     document.getElementById("admCampusTitle").value = db.campusTitle;
     document.getElementById("admCampusAbout").value = db.campusAbout;
     document.getElementById("admPhoneWa").value = db.phoneWa;
-    document.getElementById("admUnlockPin").value = db.unlockPin;
-    document.getElementById("cfgMcqMins").value = db.mcqMins;
-    document.getElementById("cfgEssayMins").value = db.essayMins;
-    document.getElementById("setPaperMcq").value = db.paperCounts.mcq;
-    document.getElementById("setPaperE2").value = db.paperCounts.e2;
-    document.getElementById("setPaperE3").value = db.paperCounts.e3;
-    document.getElementById("setPaperE5").value = db.paperCounts.e5;
+    document.getElementById("admDriveUrl").value = db.driveScriptUrl || DEFAULT_DRIVE_URL;
+    document.getElementById("admPin").value = db.unlockPin;
 
-    document.getElementById("admSelectedSubject").innerHTML = db.subjects.map(s => `<option value="${s}">${s}</option>`).join("");
-    renderGallery();
-    refreshSubjectView();
-    renderApplicants();
-    renderResults();
-    updateMarksCalc();
+    document.getElementById("inpMcqMins").value = db.mcqMins;
+    document.getElementById("inpEssayMins").value = db.essayMins;
+    document.getElementById("pMcq").value = db.paperCounts.mcq;
+    document.getElementById("pE2").value = db.paperCounts.e2;
+    document.getElementById("pE3").value = db.paperCounts.e3;
+    document.getElementById("pE5").value = db.paperCounts.e5;
+
+    document.getElementById("admSubSelect").innerHTML = db.subjects.map(s => `<option value="${s}">${s}</option>`).join("");
+    pickMode(db.essayMode || "ONLINE");
+    renderGalleryAdm();
+    refreshQuestionsPanel();
+    updateMarksLine();
+    renderApplicantsAdm();
+    renderResultsAdm();
   }
 
-  function saveProfileSettings() {
-    db.campusTitle = document.getElementById("admCampusTitle").value.trim() || db.campusTitle;
-    db.campusAbout = document.getElementById("admCampusAbout").value.trim() || db.campusAbout;
-    db.phoneWa = document.getElementById("admPhoneWa").value.trim().replace(/[^0-9]/g, "") || db.phoneWa;
-    db.unlockPin = document.getElementById("admUnlockPin").value.trim() || "1234";
-    persistDb();
-    alert("✅ Profile & Settings Save විය!");
+  function updateAdmDocPhoto(e) {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => { db.doctorPhoto = ev.target.result; document.getElementById("admDocPreview").src = db.doctorPhoto; persist(); };
+    r.readAsDataURL(f);
   }
 
-  function addGalleryImages(e) {
-    Array.from(e.target.files).forEach(file => {
-      const r = new FileReader();
-      r.onload = ev => { db.gallery.push(ev.target.result); persistDb(); renderGallery(); };
-      r.readAsDataURL(file);
-    });
-  }
-
-  function renderGallery() {
-    document.getElementById("admGalleryGrid").innerHTML = db.gallery.map((src, i) => `
-      <div class="gallery-tile">
-        <img src="${src}" alt="Gallery">
-        <button class="btn btn-red" style="position:absolute; top:4px; right:4px; margin:0; padding:2px 6px;" onclick="deleteGalleryImg(${i})">✖</button>
-      </div>
-    `).join("");
-  }
-
-  function deleteGalleryImg(i) {
-    db.gallery.splice(i, 1); persistDb(); renderGallery();
-  }
-
-  function addNewSubject() {
-    const s = document.getElementById("newSubjectName").value.trim();
-    if (!s) return;
-    if (!db.subjects.includes(s)) {
-      db.subjects.push(s); persistDb();
-      document.getElementById("admSelectedSubject").innerHTML = db.subjects.map(x => `<option value="${x}">${x}</option>`).join("");
-    }
-    document.getElementById("newSubjectName").value = "";
-  }
-
-  function toggleSubjectSubView(m) {
-    document.getElementById("subViewIncluded").style.display = m === "INCLUDED" ? "block" : "none";
-    document.getElementById("subViewAddNew").style.display = m === "ADD_NEW" ? "block" : "none";
-    refreshSubjectView();
-  }
-
-  function toggleNewQOptions() {
-    const t = document.getElementById("newQType").value;
-    document.getElementById("newMcqFields").style.display = t === "MCQ" ? "block" : "none";
-    document.getElementById("newEssayAnsField").style.display = t !== "MCQ" ? "block" : "none";
-  }
-
-  function saveNewQuestionToSubject() {
-    const sub = document.getElementById("admSelectedSubject").value;
-    const type = document.getElementById("newQType").value;
-    const qText = document.getElementById("newQPrompt").value.trim();
-    if (!qText) return alert("ප්‍රශ්නය ලියන්න.");
-
-    if (type === "MCQ") {
-      db.questions.push({
-        id: "Q-" + Date.now(), subject: sub, type: "MCQ", q: qText,
-        opts: [document.getElementById("qOpt0").value || "A", document.getElementById("qOpt1").value || "B", document.getElementById("qOpt2").value || "C", document.getElementById("qOpt3").value || "D"],
-        ans: parseInt(document.getElementById("qAnsIdx").value) || 0
-      });
-    } else {
-      db.questions.push({ id: "Q-" + Date.now(), subject: sub, type, q: qText, ans: document.getElementById("qEssayAns").value.trim() || "(පිළිතුරක් නැත)" });
-    }
-    persistDb();
-    document.getElementById("newQPrompt").value = "";
-    refreshSubjectView();
-    alert("✅ ප්‍රශ්නය Save විය!");
-  }
-
-  function refreshSubjectView() {
-    const sub = document.getElementById("admSelectedSubject").value;
-    document.getElementById("addSubLabel").innerText = sub;
-    document.getElementById("incSubLabel").innerText = sub;
-
-    const list = db.questions.filter(q => q.subject === sub);
-    const mcqs = list.filter(q => q.type === "MCQ");
-    const essays = list.filter(q => q.type !== "MCQ");
-
-    document.getElementById("incMcqTotal").innerText = mcqs.length;
-    document.getElementById("incEssayTotal").innerText = essays.length;
-
-    document.getElementById("incMcqList").innerHTML = mcqs.map((q, i) => `
-      <div class="sub-item" style="display:flex; justify-content:space-between; gap:6px;">
-        <span style="font-size:0.86rem;"><b>${i + 1}.</b> ${q.q}</span>
-        <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="deleteQ('${q.id}')">✖</button>
-      </div>
-    `).join("");
-
-    document.getElementById("incEssayList").innerHTML = essays.map((q, i) => `
-      <div class="sub-item" style="display:flex; justify-content:space-between; gap:6px;">
-        <span style="font-size:0.86rem;"><b>[${q.type}] ${i + 1}.</b> ${q.q}</span>
-        <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="deleteQ('${q.id}')">✖</button>
-      </div>
-    `).join("");
-  }
-
-  function deleteQ(id) {
-    db.questions = db.questions.filter(q => q.id !== id);
-    persistDb(); refreshSubjectView();
-  }
-
-  async function generateQuestionsFromPdf() {
-    const file = document.getElementById("pdfUploadInput").files[0];
-    if (!file) return alert("PDF file එකක් තෝරන්න.");
-    const sub = document.getElementById("admSelectedSubject").value;
-    const wantMcq = Math.min(100, Math.max(0, parseInt(document.getElementById("autoPdfMcqCount").value) || 0));
-    const wantEssay = Math.max(0, parseInt(document.getElementById("autoPdfEssayCount").value) || 0);
-    try {
-      const buf = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-      let txt = "";
-      for (let p = 1; p <= pdf.numPages; p++) {
-        const pg = await pdf.getPage(p);
-        const c = await pg.getTextContent();
-        txt += c.items.map(it => it.str).join(" ") + "\n";
-      }
-      const lines = txt.split(/[.!?。\n]+/).map(s => s.trim()).filter(s => s.length > 15);
-      for (let m = 0; m < wantMcq; m++) {
-        const sn = lines[m % (lines.length || 1)] || `PDF Topic ${m + 1}`;
-        db.questions.push({ id: "PDF-M-" + Date.now() + "-" + m, subject: sub, type: "MCQ", q: `(${sub}) ${sn.slice(0, 90)} — නිවැරදි ප්‍රකාශය කුමක්ද?`, opts: ["නිවැරදි පිළිතුර (A)", "විකල්පය B", "විකල්පය C", "විකල්පය D"], ans: 0 });
-      }
-      for (let e = 0; e < wantEssay; e++) {
-        const sn = lines[(wantMcq + e) % (lines.length || 1)] || `PDF Topic ${e + 1}`;
-        db.questions.push({ id: "PDF-E-" + Date.now() + "-" + e, subject: sub, type: "ESSAY3", q: `(${sub}) "${sn.slice(0, 80)}" කරුණු 3කින් විස්තර කරන්න.`, ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." });
-      }
-      persistDb(); refreshSubjectView();
-      document.getElementById("pdfGenStatus").innerText = `✅ Auto MCQ ${wantMcq} සහ Essay ${wantEssay} (${sub}) සාදන ලදී!`;
-    } catch (err) { alert("PDF කියවීමේදී ගැටලුවක් ඇති විය."); }
-  }
-
-  function chooseEssayMode(mode) {
-    db.essayMode = mode; persistDb();
-    document.getElementById("btnModeOnline").className = mode === "ONLINE" ? "btn btn-blue" : "btn btn-gray";
-    document.getElementById("btnModeManual").className = mode === "MANUAL_PDF" ? "btn btn-blue" : "btn btn-gray";
-  }
-
-  function saveTimersAndMode() {
-    db.mcqMins = parseInt(document.getElementById("cfgMcqMins").value) || 10;
-    db.essayMins = parseInt(document.getElementById("cfgEssayMins").value) || 20;
-    db.paperCounts = {
-      mcq: Math.min(100, parseInt(document.getElementById("setPaperMcq").value) || 0),
-      e2: Math.min(10, parseInt(document.getElementById("setPaperE2").value) || 0),
-      e3: Math.min(10, parseInt(document.getElementById("setPaperE3").value) || 0),
-      e5: Math.min(10, parseInt(document.getElementById("setPaperE5").value) || 0)
-    };
-    persistDb(); updateMarksCalc(); renderApplicants();
-    alert("✅ Timers, Mode & Paper Counts Save විය!");
-  }
-
-  function updateMarksCalc() {
-    const c = db.paperCounts;
-    const totalEssayMarks = (c.e2 * 2) + (c.e3 * 3) + (c.e5 * 5);
-    document.getElementById("totalMarksCalc").innerText = `MCQ: ${c.mcq} | Essay ලකුණු: ${totalEssayMarks} (2×${c.e2} + 3×${c.e3} + 5×${c.e5})`;
-  }
-
-  function shuffleArray(arr) {
-    const c = [...arr];
-    for (let i = c.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [c[i], c[j]] = [c[j], c[i]]; }
-    return c;
-  }
-
-  function makeLinkForApplicant(app) {
-    const pool = db.questions.filter(q => q.subject === app.subject);
-    const fMcq = pool.filter(q => q.type === "MCQ").length ? pool.filter(q => q.type === "MCQ") : db.questions.filter(q => q.type === "MCQ");
-    const fE2 = pool.filter(q => q.type === "ESSAY2").length ? pool.filter(q => q.type === "ESSAY2") : db.questions.filter(q => q.type === "ESSAY2");
-    const fE3 = pool.filter(q => q.type === "ESSAY3").length ? pool.filter(q => q.type === "ESSAY3") : db.questions.filter(q => q.type === "ESSAY3");
-    const fE5 = pool.filter(q => q.type === "ESSAY5").length ? pool.filter(q => q.type === "ESSAY5") : db.questions.filter(q => q.type === "ESSAY5");
-    const obj = {
-      studentName: app.name, subject: app.subject, paperName: `${app.subject} Examination Paper`,
-      mcq: shuffleArray(fMcq).slice(0, db.paperCounts.mcq),
-      e2: shuffleArray(fE2).slice(0, db.paperCounts.e2),
-      e3: shuffleArray(fE3).slice(0, db.paperCounts.e3),
-      e5: shuffleArray(fE5).slice(0, db.paperCounts.e5)
-    };
-    const base = window.location.href.replace(/admin\.html.*$/i, "index.html").split("#")[0];
-    return `${base}#p=${encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(obj)))))}`;
-  }
-
-  function renderApplicants() {
-    document.getElementById("adminRegisteredList").innerHTML = db.applicants.map((app, i) => {
-      const link = makeLinkForApplicant(app);
-      return `
-        <div class="sub-item" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <div><b>${i + 1}. ${app.name}</b> | විෂය: <b>${app.subject}</b> | 📞 ${app.whatsapp || "-"}</div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendWaLink('${app.whatsapp}', '${app.name}', '${encodeURIComponent(link)}')">📲 WhatsApp Link</button>
-            <a class="btn btn-blue" style="margin:0; padding:5px 10px;" href="${link}" target="_blank">Open Paper</a>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  function sendWaLink(wa, name, enc) {
-    const url = decodeURIComponent(enc);
-    const target = wa || db.phoneWa.replace(/[^0-9]/g, "");
-    const msg = `*${db.campusTitle}*\nආයුබෝවන් *${name}*,\nඔබගේ Exam Paper Link එක:\n${url}`;
-    window.open(`https://wa.me/${target}?text=${encodeURIComponent(msg)}`, "_blank");
-  }
-
-  function renderResults() {
-    document.getElementById("adminResultsBox").innerHTML = db.submissions.length === 0
-      ? "<p>ප්‍රතිඵල නැත.</p>"
-      : db.submissions.map(s => `<div class="sub-item"><b>${s.studentName}</b> (${s.subject}) — MCQ: <b>${s.score}</b> | ${s.status} (${s.time})</div>`).join("");
-  }
-</script>
-</body>
-</html>
+  function saveProfileAll() {
+    db.doctorName = document.getElementById("admDocName").value.trim() || db.doctorName;
+    db.doctorRole = document.getElementById
