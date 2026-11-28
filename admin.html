@@ -84,10 +84,10 @@
 
   #printableExamPaper {
     display: none; background: #fff; border: 2px solid #0f172a;
-    border-radius: 10px; padding: 24px; margin-top: 14px; line-height: 1.55;
+    border-radius: 10px; padding: 18px; margin-top: 14px; line-height: 1.45; font-size: 0.88rem;
   }
-  .paper-q-block { margin-bottom: 12px; page-break-inside: avoid; }
-  .paper-mcq-opts { margin: 4px 0 0 22px; padding: 0; list-style-type: decimal; }
+  .paper-q-block { margin-bottom: 8px; page-break-inside: avoid; }
+  .paper-mcq-opts { margin: 3px 0 0 20px; padding: 0; list-style-type: decimal; }
 
   footer {
     position: fixed; bottom: 0; left: 0; right: 0; background: #062817;
@@ -95,13 +95,13 @@
     border-top: 2px solid var(--gold); z-index: 100;
   }
 
-  @page { size: A4; margin: 15mm; }
+  @page { size: A4; margin: 12mm; }
   @media print {
     header, .menu-grid, .no-print, footer { display: none !important; }
     .adm-section:not(.active) { display: none !important; }
     .card { box-shadow: none; border: none; padding: 0; }
-    body { background: #fff; margin: 0; }
-    #printableExamPaper { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+    body { background: #fff; margin: 0; padding: 0; }
+    #printableExamPaper { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; font-size: 0.8rem; }
   }
 </style>
 </head>
@@ -124,7 +124,7 @@
 
   <div class="menu-grid no-print">
     <button class="menu-btn active" onclick="openAdmSec('adm-sec-profile', this)">🏛️ Profile & Settings</button>
-    <button class="menu-btn" onclick="openAdmSec('adm-sec-questions', this)">📚 විෂයයන් & PDF Auto Gen (Up to 500)</button>
+    <button class="menu-btn" onclick="openAdmSec('adm-sec-questions', this)">📚 විෂයයන් & PDF Auto Gen</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-paper', this)">📝 Question Paper PDF & Mode</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-students', this)">👥 ළමයි & Short Links</button>
     <button class="menu-btn" onclick="openAdmSec('adm-sec-gallery', this)">🖼️ Gallery</button>
@@ -177,7 +177,7 @@
         <div>
           <label>නව විෂයක් (Subject) එකතු කරන්න:</label>
           <div style="display:flex; gap:8px;">
-            <input type="text" id="newSubInput" placeholder="M.A. Suranga - Subject">
+            <input type="text" id="newSubInput" placeholder="නව විෂය නම">
             <button class="btn" style="margin:0;" onclick="addSubject()">Add</button>
           </div>
           <label>විෂය තෝරන්න:</label>
@@ -212,6 +212,15 @@
           <button class="btn btn-blue" onclick="autoGenFromPdfForSubject()">⚡ මෙම විෂය ඇතුළත Auto ප්‍රශ්න සාදන්න</button>
           <div id="pdfStatusMsg" style="font-size:0.84rem; color:#1e3a8a; margin-top:6px;"></div>
         </div>
+      </div>
+
+      <!-- Check & Delete Auto-Generated PDF Questions -->
+      <div id="pdfAutoReviewBox" class="sub-item" style="display:none; margin-top:12px; background:#f0f9ff; border-color:#7dd3fc;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <h4 style="margin:0;">🔎 Auto හැදුණු PDF ප්‍රශ්න Check & Delete (<span id="pdfReviewSubName">-</span>)</h4>
+          <button class="btn btn-red" style="margin:0; padding:4px 10px;" onclick="clearAutoPdfBatch()">🗑️ මේ Batch එක Delete කරන්න</button>
+        </div>
+        <div id="pdfAutoReviewList" style="margin-top:8px;"></div>
       </div>
 
       <div id="panelAddQ" class="sub-item" style="display:none; margin-top:12px; background:#fffbeb;">
@@ -267,7 +276,7 @@
 
   <div id="adm-sec-paper" class="adm-section">
     <div class="card no-print">
-      <h3>⏱️ Timers, Mode & Question Paper PDF (Answers නැතුව)</h3>
+      <h3>⏱️ Timers, Mode & Single A4 Question Paper PDF (Answers නැතුව)</h3>
       <div class="grid-2">
         <div>
           <label>MCQ කාලය (විනාඩි):</label>
@@ -297,7 +306,7 @@
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
         <button class="btn btn-gold" onclick="saveExamRules()">💾 Save Rules</button>
         <button class="btn btn-blue" onclick="previewPaperBeforeLink()">🔍 Question Paper Preview (Answers නැතුව)</button>
-        <button class="btn btn-wa" onclick="downloadQuestionPaperPdf()">📄 Question Paper PDF Download / Print</button>
+        <button class="btn btn-wa" onclick="downloadQuestionPaperPdf()">📄 Question Paper PDF Download (Single A4)</button>
       </div>
     </div>
 
@@ -306,7 +315,7 @@
 
   <div id="adm-sec-students" class="adm-section">
     <div class="card">
-      <h3>👥 Register වූ ළමයි & Short Shuffled WhatsApp Links</h3>
+      <h3>👥 Register වූ ළමයි, Lock Control & Short Shuffled WhatsApp Links</h3>
       <div id="applicantsListBox"></div>
     </div>
   </div>
@@ -409,7 +418,7 @@
     return out;
   }
 
-  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v4") || "null") || {
+  let db = JSON.parse(localStorage.getItem("itmi_shared_db_v5") || "null") || {
     campusTitle: "ITMI CAMPUS - SRI LANKA",
     campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
     profileName: "M.A. Suranga",
@@ -428,16 +437,20 @@
     applicants: [],
     submissions: [],
     issuedPapers: {},
+    adminControls: {},
     paperCounts: { mcq: 10, e2: 10, e3: 10, e5: 10 }
   };
 
   if (!db.driveScriptUrl) db.driveScriptUrl = DEFAULT_DRIVE_URL;
   if (!db.issuedPapers) db.issuedPapers = {};
+  if (!db.adminControls) db.adminControls = {};
   if (!db.questions || db.questions.filter(q => q.subject === "Anatomy").length < 80) {
     db.questions = [...(db.questions || []).filter(q => q.subject !== "Anatomy"), ...buildSubjectQuestionPack("Anatomy")];
   }
 
-  function persist() { localStorage.setItem("itmi_shared_db_v4", JSON.stringify(db)); }
+  let latestPdfBatchIds = [];
+
+  function persist() { localStorage.setItem("itmi_shared_db_v5", JSON.stringify(db)); }
 
   function syncToGoogleDriveScript(payloadObj) {
     const targetUrl = db.driveScriptUrl || DEFAULT_DRIVE_URL;
@@ -642,6 +655,7 @@
     const sub = document.getElementById("admSubSelect").value;
     document.getElementById("lblAddSub").innerText = sub;
     document.getElementById("lblListSub").innerText = sub;
+
     const items = db.questions.filter(q => q.subject === sub);
     const mcqs = items.filter(q => q.type === "MCQ");
     const essays = items.filter(q => q.type !== "MCQ");
@@ -673,9 +687,41 @@
         <div class="ans-box"><b>පිළිතුර:</b>\n${q.ans || "(පිළිතුරක් නැත)"}</div>
       </div>
     `).join("");
+
+    renderPdfAutoReviewBox();
   }
 
-  function delQ(id) { db.questions = db.questions.filter(q => q.id !== id); persist(); refreshQuestionsPanel(); }
+  function delQ(id) {
+    db.questions = db.questions.filter(q => q.id !== id);
+    latestPdfBatchIds = latestPdfBatchIds.filter(x => x !== id);
+    persist();
+    refreshQuestionsPanel();
+  }
+
+  function renderPdfAutoReviewBox() {
+    const sub = document.getElementById("admSubSelect").value;
+    const batchItems = db.questions.filter(q => q.subject === sub && latestPdfBatchIds.includes(q.id));
+    const box = document.getElementById("pdfAutoReviewBox");
+    if (!batchItems.length) {
+      box.style.display = "none";
+      return;
+    }
+    box.style.display = "block";
+    document.getElementById("pdfReviewSubName").innerText = `${sub} (${batchItems.length} ප්‍රශ්න)`;
+    document.getElementById("pdfAutoReviewList").innerHTML = batchItems.map((q, idx) => `
+      <div class="sub-item" style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <span style="font-size:0.84rem;"><b>${idx + 1}. [${q.type}]</b> ${q.q}</span>
+        <button class="btn btn-red" style="margin:0; padding:2px 7px;" onclick="delQ('${q.id}')">✖ Delete</button>
+      </div>
+    `).join("");
+  }
+
+  function clearAutoPdfBatch() {
+    db.questions = db.questions.filter(q => !latestPdfBatchIds.includes(q.id));
+    latestPdfBatchIds = [];
+    persist();
+    refreshQuestionsPanel();
+  }
 
   async function autoGenFromPdfForSubject() {
     const file = document.getElementById("pdfFileInput").files[0];
@@ -695,13 +741,16 @@
         const c = await pg.getTextContent();
         txt += c.items.map(it => it.str).join(" ") + "\n";
       }
-      const lines = txt.split(/[.!?。\n]+/).map(s => s.trim()).filter(s => s.length > 12);
-      const basePool = lines.length ? lines : [`${sub} PDF Section`];
+      const lines = txt.split(/[.!?。\n]+/).map(s => s.trim()).filter(s => s.length > 10);
+      const basePool = lines.length ? lines : [`${sub} PDF Topic`];
+      latestPdfBatchIds = [];
 
       for (let m = 0; m < wantMcq; m++) {
         const sn = basePool[m % basePool.length];
+        const qId = "PM-" + Date.now() + "-" + m;
+        latestPdfBatchIds.push(qId);
         db.questions.push({
-          id: "PM-" + Date.now() + "-" + m,
+          id: qId,
           subject: sub,
           type: "MCQ",
           q: `"${sn.slice(0, 85)}" පිළිබඳ නිවැරදි ප්‍රකාශය කුමක්ද?`,
@@ -711,16 +760,18 @@
       }
 
       const essaySpecs = [
-        { count: wantE2, type: "ESSAY2", label: "2 Marks", ans: "1) ප්‍රධාන කරුණ 1.\n2) ප්‍රධාන කරුණ 2." },
-        { count: wantE3, type: "ESSAY3", label: "3 Marks", ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." },
-        { count: wantE5, type: "ESSAY5", label: "5 Marks", ans: "විස්තරාත්මක පිළිතුර." }
+        { count: wantE2, type: "ESSAY2", ans: "1) ප්‍රධාන කරුණ 1.\n2) ප්‍රධාන කරුණ 2." },
+        { count: wantE3, type: "ESSAY3", ans: "1) කරුණ 1.\n2) කරුණ 2.\n3) කරුණ 3." },
+        { count: wantE5, type: "ESSAY5", ans: "විස්තරාත්මක පිළිතුර." }
       ];
 
       essaySpecs.forEach(sp => {
         for (let e = 0; e < sp.count; e++) {
           const sn = basePool[(wantMcq + e) % basePool.length];
+          const qId = "PE-" + sp.type + "-" + Date.now() + "-" + e;
+          latestPdfBatchIds.push(qId);
           db.questions.push({
-            id: "PE-" + sp.type + "-" + Date.now() + "-" + e,
+            id: qId,
             subject: sub,
             type: sp.type,
             q: `"${sn.slice(0, 80)}" පිළිබඳව පිළිතුරු ලියන්න.`,
@@ -731,7 +782,7 @@
 
       persist();
       refreshQuestionsPanel();
-      document.getElementById("pdfStatusMsg").innerText = `✅ "${sub}" විෂය ඇතුළත Auto MCQ ${wantMcq} සහ Essay ${wantE2 + wantE3 + wantE5} සාදන ලදී!`;
+      document.getElementById("pdfStatusMsg").innerText = `✅ "${sub}" විෂය ඇතුළත Auto MCQ ${wantMcq} සහ Essay ${wantE2 + wantE3 + wantE5} සාදන ලදී! පහළින් Check/Delete කරන්න.`;
     } catch (err) {
       alert("PDF කියවීමේදී ගැටලුවක් ඇති විය.");
     }
@@ -784,31 +835,36 @@
 
   function renderCleanPaperHtml(sample) {
     let html = `
-      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:10px; margin-bottom:16px;">
+      <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:6px; margin-bottom:10px;">
         <h2 style="margin:0; color:#0f172a;">${db.campusTitle}</h2>
-        <p style="margin:4px 0; font-weight:bold;">${sample.subject} — ${sample.paperName}</p>
-        <p style="margin:2px 0; font-size:0.9rem;"><b>කාලය (Time):</b> MCQ විනාඩි ${db.mcqMins} | Essay විනාඩි ${db.essayMins}</p>
+        <p style="margin:2px 0; font-weight:bold;">${sample.subject} — ${sample.paperName}</p>
+        <p style="margin:2px 0; font-size:0.84rem;"><b>කාලය (Time):</b> MCQ විනාඩි ${db.mcqMins} | Essay විනාඩි ${db.essayMins}</p>
       </div>
     `;
 
-    html += `<h3 style="color:#0f172a; border-bottom:1px solid #94a3b8; padding-bottom:4px;">2 Marks Questions</h3>`;
-    html += sample.e2.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
-
-    html += `<h3 style="color:#0f172a; border-bottom:1px solid #94a3b8; padding-bottom:4px;">3 Marks Questions</h3>`;
-    html += sample.e3.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
-
-    html += `<h3 style="color:#0f172a; border-bottom:1px solid #94a3b8; padding-bottom:4px;">5 Marks Questions</h3>`;
-    html += sample.e5.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
-
-    html += `<h3 style="color:#0f172a; border-bottom:1px solid #94a3b8; padding-bottom:4px;">MCQ Questions</h3>`;
-    html += sample.mcq.map((q, i) => `
-      <div class="paper-q-block">
-        <b>${i + 1}.</b> ${q.q}
-        <ol class="paper-mcq-opts">
-          ${(q.opts || []).map(o => `<li>${o}</li>`).join("")}
-        </ol>
-      </div>
-    `).join("");
+    if (sample.e2.length) {
+      html += `<h4 style="margin:8px 0 4px; color:#0f172a; border-bottom:1px solid #94a3b8;">2 Marks Questions</h4>`;
+      html += sample.e2.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
+    }
+    if (sample.e3.length) {
+      html += `<h4 style="margin:8px 0 4px; color:#0f172a; border-bottom:1px solid #94a3b8;">3 Marks Questions</h4>`;
+      html += sample.e3.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
+    }
+    if (sample.e5.length) {
+      html += `<h4 style="margin:8px 0 4px; color:#0f172a; border-bottom:1px solid #94a3b8;">5 Marks Questions</h4>`;
+      html += sample.e5.map((q, i) => `<div class="paper-q-block"><b>${i + 1}.</b> ${q.q}</div>`).join("");
+    }
+    if (sample.mcq.length) {
+      html += `<h4 style="margin:8px 0 4px; color:#0f172a; border-bottom:1px solid #94a3b8;">MCQ Questions</h4>`;
+      html += sample.mcq.map((q, i) => `
+        <div class="paper-q-block">
+          <b>${i + 1}.</b> ${q.q}
+          <ol class="paper-mcq-opts">
+            ${(q.opts || []).map(o => `<li>${o}</li>`).join("")}
+          </ol>
+        </div>
+      `).join("");
+    }
 
     return html;
   }
@@ -825,31 +881,60 @@
     previewPaperBeforeLink();
     const prevTitle = document.title;
     const sub = document.getElementById("admSubSelect").value || "Anatomy";
-    document.title = `${db.campusTitle.replace(/\s+/g, "_")}_${sub}_Question_Paper`;
+    document.title = `${db.campusTitle.replace(/\s+/g, "_")}_${sub}_Paper_A4`;
     setTimeout(() => {
       window.print();
       document.title = prevTitle;
-    }, 200);
+    }, 150);
   }
 
-  function makeShortStudentLink(app) {
-    const code = "P" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
-    const obj = buildPaperPayload(app.name, app.subject);
-    db.issuedPapers[code] = obj;
-    persist();
-    syncToGoogleDriveScript({ type: "PAPER_LINK", paperCode: code, paper: obj });
-
+  function getOrCreateShortLink(app) {
+    const existingCode = Object.keys(db.issuedPapers).find(k =>
+      db.issuedPapers[k].studentName === app.name && db.issuedPapers[k].subject === app.subject
+    );
+    const code = existingCode || ("P" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase());
+    if (!existingCode) {
+      const obj = buildPaperPayload(app.name, app.subject);
+      db.issuedPapers[code] = obj;
+      persist();
+      syncToGoogleDriveScript({ type: "PAPER_LINK", paperCode: code, paper: obj });
+    }
     const base = window.location.href.replace(/admin\.html.*$/i, "index.html").split("?")[0].split("#")[0];
-    return `${base}?paper=${code}`;
+    return { code, url: `${base}?paper=${code}` };
+  }
+
+  function adminAllowLock(code) {
+    if (!db.adminControls[code]) db.adminControls[code] = {};
+    db.adminControls[code].isLocked = false;
+    db.adminControls[code].allowUnlock = true;
+    persist();
+    renderApplicantsAdm();
+    alert("✅ Lock එක Allow කරන ලදී!");
+  }
+
+  function adminGrantReAttempt(code) {
+    if (!db.adminControls[code]) db.adminControls[code] = {};
+    db.adminControls[code].isLocked = false;
+    db.adminControls[code].allowUnlock = true;
+    db.adminControls[code].reAttemptGrant = true;
+    persist();
+    renderApplicantsAdm();
+    alert("✅ නැවත අවස්ථාව (Re-Attempt) ලබා දෙන ලදී!");
   }
 
   function renderApplicantsAdm() {
     document.getElementById("applicantsListBox").innerHTML = db.applicants.map((app, i) => {
-      const link = makeShortStudentLink(app);
+      const { code, url } = getOrCreateShortLink(app);
+      const ctrl = db.adminControls[code] || {};
+      const statusBadge = ctrl.isLocked ? `<span style="color:#dc2626; font-weight:bold;">🚨 LOCKED</span>` : `<span style="color:#059669; font-weight:bold;">Active</span>`;
       return `
         <div class="sub-item" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <div><b>${i + 1}. ${app.name}</b> | විෂය: <b>${app.subject}</b> | 📞 ${app.whatsapp || "-"}</div>
-          <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendWa('${app.whatsapp}', '${app.name}', '${encodeURIComponent(link)}')">📲 WhatsApp Short Link</button>
+          <div><b>${i + 1}. ${app.name}</b> | විෂය: <b>${app.subject}</b> | 📞 ${app.whatsapp || "-"} | ${statusBadge}</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-wa" style="margin:0; padding:5px 10px;" onclick="sendWa('${app.whatsapp}', '${app.name}', '${encodeURIComponent(url)}')">📲 WhatsApp Short Link</button>
+            <button class="btn btn-blue" style="margin:0; padding:5px 10px;" onclick="adminAllowLock('${code}')">🔓 Allow Lock</button>
+            <button class="btn btn-gold" style="margin:0; padding:5px 10px;" onclick="adminGrantReAttempt('${code}')">🔁 Re-Attempt</button>
+          </div>
         </div>
       `;
     }).join("");
