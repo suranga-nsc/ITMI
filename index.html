@@ -83,7 +83,7 @@
     background: #10b981; color: #fff; border-color: #059669;
   }
   .mcq-num-btn.current {
-    background: #155e9c; color: #fff; border-color: #0f172a; transform: scale(1.06);
+    box-shadow: 0 0 0 3px #155e9c; border-color: #0f172a; transform: scale(1.05);
   }
 
   .profile-card {
@@ -119,14 +119,13 @@
     height: 140px; border: 1px dashed #cbd5e1; border-radius: 6px;
   }
 
-  /* Single A4 Sheet for Online Essay Questions & Answers */
   .pdf-output-sheet {
     background: #fff; border: 2px solid #0f172a; border-radius: 10px;
     padding: 18px; margin-top: 16px; font-size: 0.9rem; line-height: 1.45;
   }
 
   #lockOverlay {
-    display: none; position: fixed; inset: 0; background: rgba(127, 29, 29, 0.97);
+    display: none; position: fixed; inset: 0; background: rgba(127, 29, 29, 0.98);
     z-index: 9999; color: #fff; align-items: center; justify-content: center;
     padding: 20px; text-align: center;
   }
@@ -244,7 +243,6 @@
       <button class="btn btn-blue" onclick="sendWhatsAppForwardNotice()">📲 WhatsApp වෙත යවන්න</button>
     </div>
 
-    <!-- Single A4 Sheet for Essay Questions + Written Answers Only (No MCQ) -->
     <div id="essayPdfBox" class="pdf-output-sheet" style="display:none;" oncopy="return false;" oncut="return false;">
       <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:6px; margin-bottom:10px;">
         <h3 id="sheetTitleText" style="margin:0; color:var(--primary);">ITMI CAMPUS - SRI LANKA</h3>
@@ -260,16 +258,16 @@
 
 </div>
 
+<!-- Lock Overlay: No PIN box for student; blocked until Admin clicks Allow Lock or Re-Attempt -->
 <div id="lockOverlay">
   <div class="lock-box">
-    <h2 style="color:#fca5a5; border:none;">🚨 BLOCKED & LOCKED!</h2>
+    <h2 style="color:#fca5a5; border:none;">🚨 LINK BLOCKED!</h2>
     <p><b>ශිෂ්‍යයාගේ නම:</b> <span id="lockedNameDisp">-</span></p>
-    <p id="lockStatusText" style="font-size:0.9rem;">3 වතාවක් වෙන තැනක Touch කළ බැවින් Paper එක Lock වී එතෙක් ලියූ ප්‍රශ්න Submit විය.</p>
+    <p id="lockStatusText" style="font-size:0.9rem;">
+      3 වතාවක් වෙන තැනක Touch කළ බැවින් මෙම Link එක Block වී ඇත. Admin විසින් WhatsApp හරහා Allow Lock හෝ Re-Attempt button එක press කරනකම් නැවත open කළ නොහැක.
+    </p>
     <button class="btn btn-wa" style="width:100%; justify-content:center;" onclick="sendLockAlertToAdmin()">
       📲 Admin WhatsApp Alert යවන්න
-    </button>
-    <button class="btn btn-gold" style="width:100%; justify-content:center; margin-top:10px;" onclick="unlockWithPin()">
-      🔓 Admin PIN / Allow යොදා Unlock කරන්න
     </button>
   </div>
 </div>
@@ -281,26 +279,30 @@
 <script>
   const DEFAULT_DRIVE_URL = "https://script.google.com/macros/s/AKfycbwRphHTxZvt1w9NpKDXN_hPU7BAYMFA-1N2JaQde32eZJyjae8ZjfLvJzvsoDgtwVb9/exec";
 
-  const stored = JSON.parse(localStorage.getItem("itmi_shared_db_v5") || "null") || {
-    campusTitle: "ITMI CAMPUS - SRI LANKA",
-    campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
-    profileName: "M.A. Suranga",
-    profileRole: "Coordinator / Instructor - ITMI Campus",
-    profileBio: "Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.",
-    profilePhoto: "https://via.placeholder.com/150?text=ITMI",
-    phoneWa: "0784693750",
-    driveScriptUrl: DEFAULT_DRIVE_URL,
-    unlockPin: "1234",
-    mcqMins: 10,
-    essayMins: 20,
-    essayMode: "ONLINE",
-    subjects: ["Anatomy", "Ceylon Massage Therapy"],
-    gallery: [],
-    applicants: [],
-    submissions: [],
-    issuedPapers: {},
-    adminControls: {}
-  };
+  function getDb() {
+    return JSON.parse(localStorage.getItem("itmi_shared_db_v5") || "null") || {
+      campusTitle: "ITMI CAMPUS - SRI LANKA",
+      campusAbout: "International Traditional Medical Institute (CTMC Reg: GA 00291335) — Diploma in Ceylon Massage Therapy (Fellowship Diploma Level).",
+      profileName: "M.A. Suranga",
+      profileRole: "Coordinator / Instructor - ITMI Campus",
+      profileBio: "Diploma in Ceylon Massage Therapy (Fellowship Diploma Level) - ජාත්‍යන්තරව පිළිගත් වෘත්තීය තෙරපි පාඨමාලාව.",
+      profilePhoto: "https://via.placeholder.com/150?text=ITMI",
+      phoneWa: "0784693750",
+      driveScriptUrl: DEFAULT_DRIVE_URL,
+      unlockPin: "1234",
+      mcqMins: 10,
+      essayMins: 20,
+      essayMode: "ONLINE",
+      subjects: ["Anatomy", "Ceylon Massage Therapy"],
+      gallery: [],
+      applicants: [],
+      submissions: [],
+      issuedPapers: {},
+      adminControls: {}
+    };
+  }
+
+  let stored = getDb();
 
   function saveLocal() {
     localStorage.setItem("itmi_shared_db_v5", JSON.stringify(stored));
@@ -328,22 +330,36 @@
   let pickedMcq = {}, typedEssay = {}, touchCount = 0, lockedFlag = false, essayExpired = false, mcqScoreStr = "0 / 0";
   let currentMcqIdx = 0;
 
+  function showLockScreen() {
+    lockedFlag = true;
+    document.getElementById("lockedNameDisp").innerText = (paperData && paperData.studentName) || "Student";
+    document.getElementById("lockOverlay").style.display = "flex";
+  }
+
   function syncAdminControlState() {
-    if (!currentPaperCode || !stored.adminControls || !stored.adminControls[currentPaperCode]) return;
-    const ctrl = stored.adminControls[currentPaperCode];
+    stored = getDb();
+    if (!currentPaperCode) return;
+    const ctrl = (stored.adminControls && stored.adminControls[currentPaperCode]) || {};
+
+    if (ctrl.isLocked && !ctrl.allowUnlock && !ctrl.reAttemptGrant) {
+      showLockScreen();
+      return;
+    }
+
     if (ctrl.allowUnlock && lockedFlag) {
       lockedFlag = false;
       touchCount = 0;
       document.getElementById("lockOverlay").style.display = "none";
       document.getElementById("alertWarningBanner").innerText = "✅ Admin විසින් Lock එක Allow කරන ලදී.";
     }
+
     if (ctrl.reAttemptGrant) {
       essayExpired = false;
       lockedFlag = false;
       touchCount = 0;
       document.getElementById("lockOverlay").style.display = "none";
       document.getElementById("alertWarningBanner").innerText = "✅ Admin විසින් නැවත අවස්ථාව (Re-Attempt) ලබා දී ඇත.";
-      ctrl.reAttemptGrant = false;
+      stored.adminControls[currentPaperCode].reAttemptGrant = false;
       saveLocal();
     }
   }
@@ -374,7 +390,13 @@
       document.querySelectorAll(".section-box").forEach(b => b.classList.remove("active"));
       document.getElementById("sec-paper").classList.add("active");
       renderPaperOnly();
-      setInterval(syncAdminControlState, 2000);
+
+      const ctrl = (stored.adminControls && stored.adminControls[currentPaperCode]) || {};
+      if (ctrl.isLocked && !ctrl.allowUnlock && !ctrl.reAttemptGrant) {
+        showLockScreen();
+      }
+
+      setInterval(syncAdminControlState, 1500);
     }
   }
 
@@ -411,6 +433,7 @@
     const subject = document.getElementById("applySubject").value;
     if (!name) return alert("අයදුම්කරුගේ නම ලියන්න.");
 
+    stored = getDb();
     const appRec = { type: "APPLICATION", id: Date.now(), name, whatsapp: wa, subject, time: new Date().toLocaleString() };
     stored.applicants.push(appRec);
     saveLocal();
@@ -422,7 +445,7 @@
     alert("✅ ඔබගේ විභාග අයදුම්පත Submit විය!");
   }
 
-  function selectMcqAndAdvance(qId, optIdx, totalMcq) {
+  function selectMcqOption(qId, optIdx, totalMcq) {
     pickedMcq[qId] = optIdx;
     if (currentMcqIdx < totalMcq - 1) {
       currentMcqIdx++;
@@ -469,8 +492,8 @@
             const isTicked = pickedMcq[q.id] === oi;
             return `
               <label class="mcq-opt ${isTicked ? "ticked" : ""}">
-                <input type="radio" name="pm_${q.id}" ${isTicked ? "checked" : ""} onchange="selectMcqAndAdvance('${q.id}', ${oi},${mcqs.length})">
-                <span><b>${oi + 1}.</b>${o}</span>
+                <input type="radio" name="pm_${q.id}" ${isTicked ? "checked" : ""} onchange="selectMcqOption('${q.id}', ${oi}, ${mcqs.length})">
+                <span><b>${oi + 1}.</b> ${o}</span>
               </label>
             `;
           }).join("")}
@@ -555,7 +578,9 @@
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden || !paperData || lockedFlag) return;
     if (!document.getElementById("sec-paper").classList.contains("active")) return;
-    if (currentPaperCode && stored.adminControls && stored.adminControls[currentPaperCode] && stored.adminControls[currentPaperCode].allowUnlock) return;
+    stored = getDb();
+    const ctrl = (currentPaperCode && stored.adminControls && stored.adminControls[currentPaperCode]) || {};
+    if (ctrl.allowUnlock) return;
 
     touchCount++;
     if (touchCount < 3) {
@@ -566,29 +591,24 @@
       lockedFlag = true;
       if (currentPaperCode) {
         if (!stored.adminControls) stored.adminControls = {};
-        stored.adminControls[currentPaperCode] = { ...(stored.adminControls[currentPaperCode] || {}), isLocked: true, allowUnlock: false };
+        stored.adminControls[currentPaperCode] = {
+          ...(stored.adminControls[currentPaperCode] || {}),
+          isLocked: true,
+          allowUnlock: false,
+          reAttemptGrant: false
+        };
         saveLocal();
       }
       submitStudentPaper(true);
-      document.getElementById("lockedNameDisp").innerText = paperData.studentName;
-      document.getElementById("lockOverlay").style.display = "flex";
+      showLockScreen();
       triggerAlarmSound();
     }
   });
 
   function sendLockAlertToAdmin() {
     const phone = normalizeWaPhone(stored.phoneWa);
-    const msg = `🚨 *ALERT - ${stored.campusTitle}*\nශිෂ්‍යයාගේ නම: *${paperData.studentName}*\n3 වතාවක් වෙන තැනක Touch කළ බැවින් Block විය.\nMCQ Marks: ${mcqScoreStr}`;
+    const msg = `🚨 *ALERT - ${stored.campusTitle}*\nශිෂ්‍යයාගේ නම: *${paperData.studentName}*\nLink Code: *${currentPaperCode}*\n3 වතාවක් වෙන තැනක Touch කළ බැවින් Link එක Block විය.\nMCQ Marks: ${mcqScoreStr}`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
-  }
-
-  function unlockWithPin() {
-    const p = prompt("Admin PIN ඇතුළත් කරන්න:");
-    if (p === (stored.unlockPin || "1234")) {
-      lockedFlag = false; touchCount = 0;
-      document.getElementById("alertWarningBanner").innerText = "";
-      document.getElementById("lockOverlay").style.display = "none";
-    } else { alert("❌ වැරදි PIN!"); }
   }
 
   function submitStudentPaper(autoBlocked = false) {
@@ -599,6 +619,7 @@
     (paperData.mcq || []).forEach(q => { if (pickedMcq[q.id] === q.ans) right++; });
     mcqScoreStr = `${right} / ${total}`;
 
+    stored = getDb();
     const record = {
       type: "SUBMISSION",
       paperCode: currentPaperCode,
@@ -612,6 +633,7 @@
       time: new Date().toLocaleString()
     };
 
+    if (!Array.isArray(stored.submissions)) stored.submissions = [];
     stored.submissions.unshift(record);
     saveLocal();
     syncToGoogleDriveScript(record);
@@ -620,9 +642,9 @@
     box.style.display = "block";
     box.innerHTML = `<b>✅ ${paperData.studentName}</b> (${paperData.subject}) — MCQ Marks: <b>${mcqScoreStr}</b>`;
     buildPdfSheet();
+    renderPaperOnly();
   }
 
-  // Single A4 Essay PDF: Essay Questions + Written Answers Only (No MCQ)
   function buildPdfSheet() {
     if (!paperData) return;
     document.getElementById("sheetTitleText").innerText = stored.campusTitle;
